@@ -1,0 +1,9 @@
+# Formulación de objetivos {#sec-objetivos}
+
+## Objetivo general {#sec-objetivo-general}
+
+<!-- Pendiente: issue #31. -->
+
+## Objetivos específicos {#sec-objetivos-especificos}
+
+<!-- Pendiente: issue #31. -->

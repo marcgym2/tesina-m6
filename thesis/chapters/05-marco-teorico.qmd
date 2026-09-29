@@ -1,0 +1,3 @@
+# Marco teórico {#sec-marco-teorico}
+
+<!-- Pendiente: issue #32. -->

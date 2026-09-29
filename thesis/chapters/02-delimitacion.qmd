@@ -1,0 +1,9 @@
+# Delimitación y planteamiento del problema de investigación {#sec-delimitacion}
+
+## Delimitación del problema {#sec-delimitacion-problema}
+
+<!-- Pendiente: issue #31. -->
+
+## Planteamiento del problema {#sec-planteamiento}
+
+<!-- Pendiente: issue #31. -->
