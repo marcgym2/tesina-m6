@@ -104,14 +104,18 @@ def rank(table: pd.DataFrame) -> pd.DataFrame:
     return out.sort_values(["position", "team"]).reset_index(drop=True)
 
 
-def leaderboard(scores: Scores, level: str, zero_variance: float = 1.0) -> pd.DataFrame:
-    """Ranked leaderboard for ``level`` in {"month", "quarter", "global"}.
+def leaderboard(
+    scores: Scores, level: str, zero_variance: float = 1.0, ranked: bool = True
+) -> pd.DataFrame:
+    """Leaderboard for ``level`` in {"month", "quarter", "global"}.
 
-    ``zero_variance=1.0`` reproduces the official leaderboard (decision D1). Month and
+    ``zero_variance=1.0`` reproduces the official leaderboard (decision D1); with
+    ``np.nan`` (published code) some IR are NaN, so use ``ranked=False``. Month and
     quarter tables carry a ``period`` column (1-12 or 1-4).
     """
+    finish = rank if ranked else (lambda table: table)
     if level == "global":
-        return rank(summarize(scores, MONTHS, zero_variance))
+        return finish(summarize(scores, MONTHS, zero_variance))
     if level == "month":
         groups = {i: [e] for i, e in enumerate(MONTHS, start=1)}
     elif level == "quarter":
@@ -119,7 +123,7 @@ def leaderboard(scores: Scores, level: str, zero_variance: float = 1.0) -> pd.Da
     else:
         raise ValueError(f"unknown level {level!r}")
     tables = [
-        rank(summarize(scores, evals, zero_variance)).assign(period=period)
+        finish(summarize(scores, evals, zero_variance)).assign(period=period)
         for period, evals in groups.items()
     ]
     return pd.concat(tables, ignore_index=True)

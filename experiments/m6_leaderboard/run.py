@@ -29,7 +29,7 @@ RANKS = ["rps_rank", "ir_rank", "overall_rank", "position"]
 
 def compare(level: str, scores: lb.Scores, zero_variance: float) -> tuple[pd.DataFrame, dict]:
     mine = lb.leaderboard(scores, level, zero_variance=zero_variance)
-    code = lb.leaderboard(scores, level, zero_variance=float("nan"))
+    code = lb.leaderboard(scores, level, zero_variance=float("nan"), ranked=False)
     keys = ["team"] if level == "global" else ["team", "period"]
     mine = mine.merge(code[[*keys, "ir"]].rename(columns={"ir": "ir_code"}), on=keys)
     official = m6.load_leaderboard(level)
