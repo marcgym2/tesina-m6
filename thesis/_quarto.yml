@@ -10,8 +10,8 @@ lang: es-MX
 number-sections: true
 number-depth: 5
 
-# Enable once thesis/references.bib exists (issue #5, maintained by Marco with Zotero).
-# bibliography: references.bib
+# Maintained by Marco with Zotero + Better BibTeX (auto-export). Do not edit by hand.
+bibliography: references.bib
 csl: apa.csl
 link-citations: true
 
