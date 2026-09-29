@@ -7,10 +7,14 @@ authors = [
     { name = "Marco Antonio Obregón Flores", email = "marcoobregonfl@gmail.com" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pandas>=3.0.6",
+    "pyarrow>=25.0.1",
+]
 
 [dependency-groups]
 dev = [
+    "openpyxl>=3.1.5",
     "pre-commit>=4.6",
     "pytest>=9.1",
     "ruff>=0.16",
