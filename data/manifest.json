@@ -1,0 +1,68 @@
+{
+  "snapshots": [
+    {
+      "name": "m6_official",
+      "downloaded": "2026-09-28",
+      "source": "https://github.com/Mcompetitions/M6-methods",
+      "commit": "10c553f7a5ffbaf53971ca48ea982b2c0dd952ed",
+      "license": "none declared upstream (see data/raw/m6_official/README.md)",
+      "files": [
+        {
+          "path": "data/raw/m6_official/assets_m6_2026-09-28.parquet",
+          "sha256": "09e090926f4b43916555e9f945c8464768c9633efef640e070bb8467178704a3",
+          "bytes": 137305,
+          "in_git": true,
+          "format": "CSV -> parquet, all columns str",
+          "upstream_path": "assets_m6.csv",
+          "upstream_sha256": "48c67aa0976ae63de3a6d7a42228ef374d39221734a433c9391572d01e85b20a",
+          "upstream_git_blob": "2a48aae4403eb6923d8d4d76dee2cc5e0403273b",
+          "upstream_bytes": 590752
+        },
+        {
+          "path": "data/raw/m6_official/submissions_2026-09-28.parquet",
+          "sha256": "62abafbb198c0281f2de2d0029f9e37a97212b6ac06163e756bcc9a0bf3e04ba",
+          "bytes": 2214555,
+          "in_git": true,
+          "format": "CSV -> parquet, all columns str",
+          "upstream_path": "IJF paper/submissions.csv",
+          "upstream_sha256": "2615d352d04b19b99c0bba91da9bb835403580b5253b539ca75f429ea0408001",
+          "upstream_git_blob": "b96489b9d58501ee61f505adcf974af379651d23",
+          "upstream_bytes": 22218846
+        },
+        {
+          "path": "data/raw/m6_official/template_2026-09-28.parquet",
+          "sha256": "ca0a1827b1b69f1ce9357c1dd4c38cda0271660cedf37c66c259e10877962439",
+          "bytes": 4543,
+          "in_git": true,
+          "format": "CSV -> parquet, all columns str",
+          "upstream_path": "template.csv",
+          "upstream_sha256": "32c30eaa630088c976e1e9790758ad78bf2242366dbf8cf79ea0b2d8d0864a4b",
+          "upstream_git_blob": "e1ebb810abd85a8ab8f0e561a5adaeab853f1b2f",
+          "upstream_bytes": 3082
+        },
+        {
+          "path": "data/raw/m6_official/evaluation_example_2026-09-28.xlsx",
+          "sha256": "2c18d8545e9a54904a4e970676ab67aabde06df64aae7415d2194fb15e7bfe64",
+          "bytes": 2639932,
+          "in_git": true,
+          "format": "verbatim",
+          "upstream_path": "Evaluation - example.xlsx",
+          "upstream_sha256": "2c18d8545e9a54904a4e970676ab67aabde06df64aae7415d2194fb15e7bfe64",
+          "upstream_git_blob": "24cdec3434aaca193024e483ab4a9202638eb4a4",
+          "upstream_bytes": 2639932
+        },
+        {
+          "path": "data/raw/m6_official/summary_leaderboard_2026-09-28.xlsx",
+          "sha256": "8d35b66b476be7587e574a08bfa83f550778639b0c69ff1bc790ccfde15f9bf4",
+          "bytes": 17195878,
+          "in_git": true,
+          "format": "verbatim",
+          "upstream_path": "IJF paper/summary_leaderboard.xlsx",
+          "upstream_sha256": "8d35b66b476be7587e574a08bfa83f550778639b0c69ff1bc790ccfde15f9bf4",
+          "upstream_git_blob": "df05f2247df211248f9c4bbcefcb48d13a39a90c",
+          "upstream_bytes": 17195878
+        }
+      ]
+    }
+  ]
+}
