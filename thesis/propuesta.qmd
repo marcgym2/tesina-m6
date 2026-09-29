@@ -1,0 +1,35 @@
+---
+title: "¿Cuánto del alfa es ilusión?"
+subtitle: "Evaluación honesta de pronósticos probabilísticos de rendimiento relativo con aprendizaje automático: réplica y extensión de la competencia M6"
+author: "Marco Antonio Obregón Flores · Maestría en Ciencia de Datos, FCFM, UANL"
+date: 2026-09-29
+date-format: "[Propuesta de tesina ·] D [de] MMMM [de] YYYY"
+number-sections: false
+---
+
+## Propósito
+
+Medir qué queda del "alfa" de estrategias de aprendizaje automático cuando se evalúan de forma honesta: sin fuga de información, fuera de la muestra en que se diseñaron, con pruebas de significancia y con costos. La base es la competencia M6, que evaluó a la vez pronósticos probabilísticos y decisiones de inversión [@makridakis2025]. El desempeño en estas competencias puede deberse en buena medida a la suerte [@stanek2024]. Un resultado negativo bien documentado es válido; no se persigue un Sharpe alto.
+
+## Preguntas de investigación
+
+- **RQ1. Persistencia:** ¿los ganadores del M6 siguen superando al benchmark uniforme después de la competencia?
+- **RQ2. Evaluación limpia:** sin fuga de información, ¿algún modelo supera al benchmark en RPS de forma significativa?
+- **RQ3. Pronóstico vs. decisión:** ¿un mejor RPS se traduce en un mejor índice de información (IR)?
+- **RQ4. Cascada de sesgos:** ¿cuánto del desempeño de un pipeline ingenuo desaparece al corregir fuga, split no temporal, sesgo de supervivencia y costos?
+- **RQ5 (opcional):** ¿los picos de atención en Wikipedia anticipan peores rendimientos relativos?
+
+## Diseño
+
+- **Universo:** los 100 activos del M6, en periodos de cuatro semanas.
+- **Periodo 1 (mar. 2022 – feb. 2023):** modelos propios contra las submissions reales de los equipos.
+- **Periodo 2 (mar. 2023 – fecha de corte):** código de los ganadores y modelos propios sobre datos que nadie vio en la competencia.
+- **Métricas:** RPS e IR según el código oficial, validados contra el leaderboard publicado.
+- **Modelos:** baselines, ganadores del M6, gradient boosting, simulación desde covarianzas y un modelo fundacional.
+- **Rigor:** splits temporales, pruebas pareadas con ajuste por comparaciones múltiples, resultados con y sin costos, y búsquedas reportadas completas.
+- **Fuera de alcance:** operar con dinero real, dar recomendaciones de inversión y ajustar la evaluación, el periodo o el universo para mejorar resultados.
+
+## Referencias
+
+::: {#refs}
+:::

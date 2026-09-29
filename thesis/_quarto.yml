@@ -3,6 +3,7 @@ project:
   output-dir: _output
   render:
     - tesina.qmd
+    - propuesta.qmd
   post-render:
     - _scripts/postrender.sh
 
