@@ -16,7 +16,19 @@ Autor: Marco Antonio Obregón Flores.
 uv sync                      # instala dependencias (incluye el grupo dev)
 uv run pre-commit install    # activa los hooks
 uv run pytest                # corre los tests
+uv run python scripts/check_citations.py   # verifica @claves contra thesis/references.bib
 ```
+
+## Tesina
+
+```bash
+quarto render thesis         # genera thesis/_output/tesina.docx
+```
+
+- Capítulos en `thesis/chapters/*.qmd`, incluidos desde `thesis/tesina.qmd`.
+- Portada, hoja de firmas, dedicatoria y agradecimientos se configuran en la clave `uanl` de `thesis/_quarto.yml`.
+- `thesis/templates/reference.docx` se deriva de la plantilla oficial con `uv run python scripts/build_reference_docx.py`.
+- El post-render (`scripts/postprocess_docx.py`) agrega portada, firmas, índices y etiquetas "CAPÍTULO N". Al abrir el docx, Word pide actualizar los campos; hay que aceptar para que se llenen los índices.
 
 ## Estructura
 

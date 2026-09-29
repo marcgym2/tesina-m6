@@ -23,3 +23,9 @@ repos:
         entry: PDFs must not be committed
         language: fail
         files: '(?i)\.pdf$'
+      - id: check-citations
+        name: check citation keys against thesis/references.bib
+        entry: python scripts/check_citations.py
+        language: python
+        files: ^(thesis/|scripts/check_citations\.py$)
+        pass_filenames: false

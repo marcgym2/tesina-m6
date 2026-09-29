@@ -1,0 +1,44 @@
+project:
+  type: default
+  output-dir: _output
+  render:
+    - tesina.qmd
+  post-render:
+    - _scripts/postrender.sh
+
+lang: es-MX
+number-sections: true
+number-depth: 5
+
+# Maintained by Marco with Zotero + Better BibTeX (auto-export). Do not edit by hand.
+bibliography: references.bib
+csl: apa.csl
+link-citations: true
+
+crossref:
+  fig-title: Figura
+  tbl-title: Tabla
+  title-delim: "."
+
+format:
+  docx:
+    reference-doc: templates/reference.docx
+    toc: false
+    fig-align: center
+
+# Front matter (cover, signature page, dedication, acknowledgements).
+# Inserted by scripts/postprocess_docx.py. Empty values keep the template placeholder.
+uanl:
+  title: "¿Cuánto del alfa es ilusión? Evaluación honesta de pronósticos probabilísticos de rendimiento relativo con aprendizaje automático: réplica y extensión de la competencia M6"
+  author: "Marco Antonio Obregón Flores"
+  student: "el alumno"
+  student-id: ""
+  degree: "Maestría en Ciencia de Datos"
+  month: ""
+  year: "2026"
+  director: ""
+  reviewers: ["", ""]
+  coordinator: "Dra. Azucena Yoloxóchitl Ríos Mercado"
+  coordinator-role: "Coordinadora de la Maestría en Ciencia de Datos"
+  dedication: ""
+  acknowledgements: ""
