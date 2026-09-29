@@ -1,0 +1,3 @@
+# Metodología {#sec-metodologia}
+
+<!-- Pendiente: issue #33. -->
