@@ -1,0 +1,22 @@
+---
+# Front matter and metadata live in _quarto.yml (key `uanl`).
+# Chapter order follows the UANL template.
+---
+
+{{< include chapters/01-introduccion.qmd >}}
+
+{{< include chapters/02-delimitacion.qmd >}}
+
+{{< include chapters/03-justificacion.qmd >}}
+
+{{< include chapters/04-objetivos.qmd >}}
+
+{{< include chapters/05-marco-teorico.qmd >}}
+
+{{< include chapters/06-metodologia.qmd >}}
+
+{{< include chapters/07-resultados.qmd >}}
+
+{{< include chapters/anexos.qmd >}}
+
+{{< include chapters/referencias.qmd >}}
