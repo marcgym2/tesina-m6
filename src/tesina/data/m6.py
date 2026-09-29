@@ -131,32 +131,45 @@ def load_period1_calendar(downloaded: str | None = None) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def load_leaderboard(downloaded: str | None = None) -> pd.DataFrame:
-    """Official per-team scores by evaluation from ``summary_leaderboard.xlsx``.
+def load_leaderboard(level: str = "month", downloaded: str | None = None) -> pd.DataFrame:
+    """Official leaderboard from ``summary_leaderboard.xlsx``.
 
-    One row per team and evaluation: ``team`` (8-character id, as in
-    ``submissions.Team``), ``team_name``, ``evaluation`` (as in
-    ``submissions.Evaluation``), ``rps`` and ``ir`` (rounded to 5 decimals upstream).
-    Sheets "Trial" (pilot) and "Month" (months 1-12).
+    ``level``: ``"month"`` (sheets "Trial" and "Month"; column ``evaluation`` as in
+    ``submissions.Evaluation``), ``"quarter"`` (column ``period`` 1-4) or ``"global"``.
+    Columns: ``team`` (8-character id, as in ``submissions.Team``), ``team_name``,
+    ``rps`` and ``ir`` (rounded to 5 decimals upstream), ``rps_rank``, ``ir_rank``,
+    ``overall_rank`` and ``position``.
     """
     import openpyxl
 
+    sheets = {"month": ("Trial", "Month"), "quarter": ("Quarter",), "global": ("Global",)}
+    if level not in sheets:
+        raise ValueError(f"unknown level {level!r}")
     wb = openpyxl.load_workbook(path("summary_leaderboard", downloaded), read_only=True)
     rows = []
-    for sheet in ("Trial", "Month"):
+    for sheet in sheets[level]:
+        # Every sheet but "Global" starts with a formula "Key" column.
+        o = 0 if sheet == "Global" else 1
         for r in wb[sheet].iter_rows(min_row=2, values_only=True):
-            if r[2] is None:
+            if r[o + 1] is None:
                 continue
-            team_id, _, name = str(r[2]).partition("\xa0")
-            month = 0 if sheet == "Trial" else int(r[8])
-            rows.append(
-                {
-                    "team": team_id,
-                    "team_name": name,
-                    "evaluation": EVALUATIONS[month],
-                    "rps": float(r[4]),
-                    "ir": float(r[6]),
-                }
-            )
+            team_id, _, name = str(r[o + 1]).partition("\xa0")
+            row = {
+                "team": team_id,
+                "team_name": name,
+                "rps": float(r[o + 3]),
+                "ir": float(r[o + 5]),
+                "rps_rank": float(r[o + 4]),
+                "ir_rank": float(r[o + 6]),
+                "overall_rank": float(r[o + 2]),
+                "position": int(r[o]),
+            }
+            if sheet == "Trial":
+                row["evaluation"] = EVALUATIONS[0]
+            elif sheet == "Month":
+                row["evaluation"] = EVALUATIONS[int(r[8])]
+            elif sheet == "Quarter":
+                row["period"] = int(r[8])
+            rows.append(row)
     wb.close()
     return pd.DataFrame(rows)
