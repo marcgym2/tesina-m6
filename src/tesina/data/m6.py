@@ -85,9 +85,78 @@ def load_submissions(downloaded: str | None = None) -> pd.DataFrame:
 
 
 def load_template(downloaded: str | None = None) -> pd.DataFrame:
-    """Official submission template: uniform probabilities and equal weights (0.01)."""
+    """Official submission template: uniform probabilities and equal weights (0.01).
+
+    The template predates Facebook's ticker change and lists ``FB``; prices and
+    submissions use ``META`` for the whole period, so it is renamed here.
+    """
     df = pd.read_parquet(path("template", downloaded))
-    out = df[["ID"]].astype(str).copy()
+    out = df[["ID"]].astype(str).replace({"ID": {"FB": "META"}}).copy()
     for col in [*RANK_COLUMNS, "Decision"]:
         out[col] = df[col].astype(float)
     return out
+
+
+def load_period1_calendar(downloaded: str | None = None) -> pd.DataFrame:
+    """Evaluation windows of period 1, read from the official worked example.
+
+    Each sheet of ``Evaluation - example.xlsx`` (Pilot, Month1..Month12) lists, in
+    row 4 from column B, the base date (last close before the period) followed by the
+    eligible days of the period. Returns one row per evaluation with ``evaluation``
+    (as in ``submissions.Evaluation``), ``sheet``, ``base_date``, ``end_date`` and
+    ``n_days`` (eligible days, base date excluded).
+    """
+    import openpyxl
+
+    wb = openpyxl.load_workbook(path("evaluation_example", downloaded), read_only=True)
+    sheets = ["Pilot"] + [f"Month{n}" for n in range(1, 13)]
+    rows = []
+    for evaluation, sheet in zip(EVALUATIONS, sheets, strict=True):
+        header = next(wb[sheet].iter_rows(min_row=4, max_row=4, values_only=True))
+        dates = []
+        for value in header[1:]:
+            if not hasattr(value, "year"):
+                break
+            dates.append(pd.Timestamp(value))
+        rows.append(
+            {
+                "evaluation": evaluation,
+                "sheet": sheet,
+                "base_date": dates[0],
+                "end_date": dates[-1],
+                "n_days": len(dates) - 1,
+            }
+        )
+    wb.close()
+    return pd.DataFrame(rows)
+
+
+def load_leaderboard(downloaded: str | None = None) -> pd.DataFrame:
+    """Official per-team scores by evaluation from ``summary_leaderboard.xlsx``.
+
+    One row per team and evaluation: ``team`` (8-character id, as in
+    ``submissions.Team``), ``team_name``, ``evaluation`` (as in
+    ``submissions.Evaluation``), ``rps`` and ``ir`` (rounded to 5 decimals upstream).
+    Sheets "Trial" (pilot) and "Month" (months 1-12).
+    """
+    import openpyxl
+
+    wb = openpyxl.load_workbook(path("summary_leaderboard", downloaded), read_only=True)
+    rows = []
+    for sheet in ("Trial", "Month"):
+        for r in wb[sheet].iter_rows(min_row=2, values_only=True):
+            if r[2] is None:
+                continue
+            team_id, _, name = str(r[2]).partition("\xa0")
+            month = 0 if sheet == "Trial" else int(r[8])
+            rows.append(
+                {
+                    "team": team_id,
+                    "team_name": name,
+                    "evaluation": EVALUATIONS[month],
+                    "rps": float(r[4]),
+                    "ir": float(r[6]),
+                }
+            )
+    wb.close()
+    return pd.DataFrame(rows)
