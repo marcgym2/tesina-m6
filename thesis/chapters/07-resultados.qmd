@@ -1,0 +1,3 @@
+# Resultados y conclusiones {#sec-resultados}
+
+<!-- Pendiente: issue #34. Todos los números se inyectan desde results/. -->
