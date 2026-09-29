@@ -442,13 +442,13 @@ name = "tesina"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "openpyxl" },
     { name = "pandas" },
     { name = "pyarrow" },
 ]
 
 [package.dev-dependencies]
 dev = [
-    { name = "openpyxl" },
     { name = "pre-commit" },
     { name = "pytest" },
     { name = "ruff" },
@@ -456,13 +456,13 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "openpyxl", specifier = ">=3.1.5" },
     { name = "pandas", specifier = ">=3.0.6" },
     { name = "pyarrow", specifier = ">=25.0.1" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "openpyxl", specifier = ">=3.1.5" },
     { name = "pre-commit", specifier = ">=4.6" },
     { name = "pytest", specifier = ">=9.1" },
     { name = "ruff", specifier = ">=0.16" },
