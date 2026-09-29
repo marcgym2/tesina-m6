@@ -1,1 +1,39 @@
+# OS / editors
 .DS_Store
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+*.egg-info/
+build/
+dist/
+
+# Papers: never commit PDFs
+*.pdf
+*.PDF
+
+# Word lock files
+~$*.docx
+
+# Quarto
+/.quarto/
+thesis/.quarto/
+thesis/_output/
+*_files/
+
+# R (renv libraries live per vendor/<method>/)
+.Rhistory
+.RData
+.Rproj.user/
+vendor/*/renv/library/
+vendor/*/renv/staging/
+
+# Large data snapshots are tracked through data/manifest.json
+data/cache/
