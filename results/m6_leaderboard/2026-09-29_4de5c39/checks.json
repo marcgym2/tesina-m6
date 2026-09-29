@@ -1,0 +1,55 @@
+{
+  "month": {
+    "rows": 2423,
+    "missing_in_reproduction": 0,
+    "missing_in_official": 0,
+    "max_abs_diff_rps": 5.488587399987699e-06,
+    "max_abs_diff_ir": 5.498089292732544e-06,
+    "mismatches_rps_rank": 0,
+    "mismatches_ir_rank": 0,
+    "mismatches_overall_rank": 0,
+    "mismatches_position": 0
+  },
+  "quarter": {
+    "rows": 791,
+    "missing_in_reproduction": 0,
+    "missing_in_official": 0,
+    "max_abs_diff_rps": 5.4895243333241694e-06,
+    "max_abs_diff_ir": 5.46973536463824e-06,
+    "mismatches_rps_rank": 0,
+    "mismatches_ir_rank": 0,
+    "mismatches_overall_rank": 0,
+    "mismatches_position": 0
+  },
+  "global": {
+    "rows": 163,
+    "missing_in_reproduction": 0,
+    "missing_in_official": 0,
+    "max_abs_diff_rps": 5.3479133333145246e-06,
+    "max_abs_diff_ir": 5.417630503767867e-06,
+    "mismatches_rps_rank": 0,
+    "mismatches_ir_rank": 0,
+    "mismatches_overall_rank": 0,
+    "mismatches_position": 0
+  },
+  "paper_text": {
+    "source": "arXiv:2310.13357v1, section on global performance",
+    "published": {
+      "teams": 163,
+      "better_rps": 38,
+      "better_ir": 47,
+      "both": 11
+    },
+    "reproduced": {
+      "teams": 163,
+      "better_rps": 38,
+      "better_ir": 47,
+      "both": 11
+    }
+  },
+  "paper_table4": {
+    "source": "arXiv:2310.13357v1, Table 4",
+    "max_abs_diff_pct_rounded_2": 0.0,
+    "max_abs_diff_other_rounded_3": 0.0
+  }
+}

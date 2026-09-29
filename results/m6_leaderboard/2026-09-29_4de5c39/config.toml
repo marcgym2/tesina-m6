@@ -1,0 +1,9 @@
+# Issue #10: reproduce the official M6 leaderboard (period 1) and the paper's figures.
+[data]
+snapshot = "2026-09-28"  # data/raw/m6_official
+
+[evaluation]
+# Decision D1 (docs/decisions.md): the official leaderboard shows IR = 1.0 for
+# zero-variance portfolios; the published code returns NaN. Both are reported.
+zero_variance_leaderboard = 1.0
+benchmark_team = "32cdcc24"
