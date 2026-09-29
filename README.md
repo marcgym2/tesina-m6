@@ -16,6 +16,7 @@ Autor: Marco Antonio Obregón Flores.
 uv sync                      # instala dependencias (incluye el grupo dev)
 uv run pre-commit install    # activa los hooks
 uv run pytest                # corre los tests
+uv run python scripts/check_citations.py   # verifica @claves contra thesis/references.bib
 ```
 
 ## Estructura
