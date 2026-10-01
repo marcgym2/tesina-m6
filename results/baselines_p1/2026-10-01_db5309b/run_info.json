@@ -1,0 +1,12 @@
+{
+  "experiment": "baselines_p1",
+  "commit": "db5309b724d85de1a0abf54c17f92e083415a6fc",
+  "dirty": false,
+  "started_utc": "2026-10-01T23:23:52+00:00",
+  "python": "3.12.7",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "pyarrow": "25.0.1"
+  }
+}
