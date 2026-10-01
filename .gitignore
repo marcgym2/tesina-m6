@@ -37,3 +37,7 @@ vendor/*/renv/staging/
 
 # Large data snapshots are tracked through data/manifest.json
 data/cache/
+
+# Secrets (API keys): never commit
+.env
+.env.*
