@@ -1,0 +1,12 @@
+{
+  "experiment": "m6_leaderboard",
+  "commit": "4de5c39affe3b1b06fcf180c3c53d43f1b852142",
+  "dirty": false,
+  "started_utc": "2026-09-29T15:21:49+00:00",
+  "python": "3.12.7",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "pyarrow": "25.0.1"
+  }
+}
