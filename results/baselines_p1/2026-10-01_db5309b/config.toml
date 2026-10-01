@@ -1,0 +1,12 @@
+# Issue #16: baselines on period 1 (M6 competition, 12 four-week periods).
+[data]
+snapshot = "2026-09-28"  # data/raw/m6_official
+
+[evaluation]
+universe_policy = "official"  # period 1 follows the M6 (DRE held at its last price)
+cost_bps = 10.0  # charged on turnover at each origin; results reported gross and net
+
+[models.historical_frequency]
+# Fixed a priori; no search was run.
+lookback = "expanding"
+alpha = 1.0
