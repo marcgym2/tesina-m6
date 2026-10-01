@@ -36,3 +36,12 @@ Cada entrada registra una decisión de Marco sobre un issue `decision`: el conte
 - **Fecha:** 2026-09-29 · **Decidió:** Marco · **Issue:** #12
 - **Decisión:** la fecha de corte es el cierre del **último periodo completo de 4 semanas anterior a la fecha de descarga** del snapshot de precios. Los periodos siguen el calendario del M6, que se construye en el #14.
 - **Implementación:** la fecha de descarga y la fecha de corte resultante se guardan en `data/manifest.json` junto con el snapshot (#12). Los datos posteriores a la fecha de corte no se usan en ningún experimento.
+
+---
+
+## D4 — Sensibilidad del universo del periodo 2 con la regla oficial del M6 (#11)
+
+- **Fecha:** 2026-10-01 · **Decidió:** Claude, por delegación explícita de Marco ("tu decide") · **Issue:** #11 · **Completa:** el punto pendiente de D2.
+- **Decisión:** además del análisis principal con la opción D (D2), el periodo 2 se recalcula con la **opción C** (regla del M6: los deslistados quedan en el universo congelados a su último precio durante todo el periodo) como **análisis de sensibilidad**.
+- **Motivo:** la diferencia entre D y C mide cuánto del desempeño depende del tratamiento de los activos que desaparecen. Ese es un insumo directo para RQ4, y en el periodo 1 esta regla produjo un artefacto (D1). Cuesta poco: el harness ya implementa ambas políticas (`universe_policy = "d2"` y `"official"`).
+- **Cómo se reporta:** la opción D va en las tablas principales y la opción C en una tabla de robustez o en un anexo. Las corridas con C cuentan en el número total de configuraciones probadas (regla de comparaciones múltiples de CLAUDE.md).
