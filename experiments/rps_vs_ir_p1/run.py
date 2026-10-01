@@ -81,7 +81,7 @@ def figure_global(teams, bench, primary, path):
     for side in ("top", "right"):
         ax.spines[side].set_visible(False)
     ax.tick_params(colors=MUTED, labelsize=8)
-    ax.legend(frameon=False, fontsize=8, loc="lower left")
+    ax.legend(frameon=False, fontsize=8, loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=3)
     fig.tight_layout()
     fig.savefig(path)
     plt.close(fig)
@@ -112,6 +112,16 @@ def figure_monthly(monthly, path):
     fig.tight_layout()
     fig.savefig(path)
     plt.close(fig)
+
+
+def _holm(p: np.ndarray) -> np.ndarray:
+    """Holm step-down adjusted p-values."""
+    order = np.argsort(p)
+    m = len(p)
+    adjusted = np.maximum.accumulate((m - np.arange(m)) * p[order]).clip(max=1)
+    out = np.empty(m)
+    out[order] = adjusted
+    return out
 
 
 def main() -> None:
@@ -167,6 +177,9 @@ def main() -> None:
     )
 
     results = pd.DataFrame(rows)
+    # Multiple comparisons (CLAUDE.md): Holm within the family of 12 monthly tests.
+    is_month = results["analysis"].str.startswith("spearman_month_")
+    results.loc[is_month, "p_holm_monthly"] = _holm(results.loc[is_month, "p_perm"].to_numpy())
     results.to_csv(out / "correlations.csv", index=False)
     figure_global(teams, bench, rows[0], out / "fig_rps_ir_global.png")
     figure_monthly(pd.DataFrame(monthly), out / "fig_spearman_monthly.png")
