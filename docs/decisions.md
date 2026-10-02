@@ -80,3 +80,16 @@ Cada entrada registra una decisión de Marco sobre un issue `decision`: el conte
 - **Condiciones:**
   - Los pesos tienen licencia no comercial. La investigación académica está permitida, pero los pesos no se redistribuyen, y descargarlos implica que Marco acepta esa licencia.
   - El riesgo de contaminación del preentrenamiento con los periodos 1 y 2 está documentado en `docs/timesfm.md` y se reporta junto con los resultados.
+
+---
+
+## D8 — Configuración de wound-ignite en el periodo 2 (#61)
+
+- **Fecha:** 2026-10-02 · **Decidió:** Marco · **Issue:** #61
+- **Decisión (opción A):** en el periodo 2, wound-ignite se corre con la **última configuración que el autor dejó en el repo** (la del "mes 11": 8 estimadores de covarianza, `PORT[0]` y escala 1), congelada para todos los periodos. No se reproduce la selección mensual.
+- **Detalles:**
+  - No se aplica el encogimiento hacia el uniforme que se observa en el envío del mes 10, porque no está en el código.
+  - El IR se calcula con los pesos que produce el propio método (`Decision`).
+  - La semilla del Monte Carlo es fija, una adaptación documentada en `vendor/wound-ignite/NOTICE.md`.
+- **Motivo:** RQ1 pregunta si el método publicado sigue funcionando. La configuración final lo responde sin agregar decisiones nuestras, como fijar umbrales que el autor movía a mano. La selección mensual puede agregarse después como sensibilidad, con un issue nuevo.
+- **Implementación:** `vendor/wound-ignite/run.py` y `experiments/wound_ignite/`. El periodo 1 se corre solo como referencia, porque esa configuración se eligió con datos de 2022.

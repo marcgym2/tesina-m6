@@ -26,6 +26,8 @@ import pandas as pd
 from tesina.models import RANK_COLUMNS, Forecast
 from tesina.models.baselines import equal_weights
 
+ROUNDING_TOLERANCE = 1e-3  # residue allowed from rounded outputs (probabilities, weights)
+
 
 @dataclass
 class RScriptModel:
@@ -93,11 +95,17 @@ class RScriptModel:
         probs = probs.loc[universe]
         # Outputs are rounded (FinQBoost: 5 decimals); renormalise rounding residue only.
         total = probs.sum(axis=1)
-        if np.abs(total - 1).max() > 1e-3:
+        if np.abs(total - 1).max() > ROUNDING_TOLERANCE:
             raise ValueError(f"{self.name} probabilities do not sum to 1")
         probs = probs.div(total, axis=0)
         if self.decisions:
-            return Forecast(probs, out.loc[universe, "Decision"].astype(float))
+            weights = out.loc[universe, "Decision"].astype(float)
+            gross = weights.abs().sum()
+            # Rounded weights (wound-ignite: 5 decimals) can exceed the M6 cap of 1 by a
+            # rounding residue; scale that residue away. Larger breaches stay invalid.
+            if 1 < gross <= 1 + ROUNDING_TOLERANCE:
+                weights = weights / gross
+            return Forecast(probs, weights)
         return Forecast(probs, equal_weights(universe))
 
 

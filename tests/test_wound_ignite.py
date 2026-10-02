@@ -35,6 +35,17 @@ def test_python_script_model_passes_only_the_past_and_reads_decisions():
     assert (plain.weights == 0.25).all()
 
 
+def test_rounding_residue_in_decisions_is_scaled_but_real_breaches_fail():
+    symbols = ["A", "B", "C", "D"]
+    prices = synthetic_prices(symbols)
+    origin = pd.Timestamp("2022-03-04")
+    residue = PythonScriptModel("fake", FAKE, args=["--gross", "1.0001"], decisions=True)
+    assert residue.forecast(prices, symbols, origin).weights.abs().sum() == pytest.approx(1.0)
+    breach = PythonScriptModel("fake", FAKE, args=["--gross", "1.2"], decisions=True)
+    with pytest.raises(ValueError, match="outside"):
+        validate_forecast(breach.forecast(prices, symbols, origin), symbols)
+
+
 @pytest.mark.skipif(not (VENDOR / ".venv").exists(), reason="uv sync --project vendor/wound-ignite")
 def test_wound_ignite_adapter_runs_and_is_reproducible():
     symbols = [f"S{i}" for i in range(10)]
