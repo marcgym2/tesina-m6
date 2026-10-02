@@ -1,3 +1,5 @@
+# Third-party code is kept byte-for-byte; generated renv files are not ours either.
+exclude: '^vendor/[^/]+/(upstream|renv)/'
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
