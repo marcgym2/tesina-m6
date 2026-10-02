@@ -1,0 +1,23 @@
+# Issue #26 (RQ2): paired tests of RPS against the uniform benchmark, period 1.
+# Fixed before looking at any result; every comparison in each family is reported.
+[data]
+snapshot = "2026-09-28"
+
+[test]
+loss = "rps"
+alternative = "less"   # H1: lower RPS than the uniform benchmark
+horizon = 1            # non-overlapping four-week periods
+primary = "diebold_mariano_hln"
+alpha = 0.05
+adjustment = "holm"    # family-wise; Benjamini-Hochberg reported as secondary
+
+[bootstrap]
+block = 2              # ~ T^(1/3) for T = 12 periods
+n_boot = 10000
+seed = 2026
+
+[families]
+# "models": our models vs Uniform (walk-forward, official universe).
+models = ["historical_frequency"]
+# "teams": every team of the official global leaderboard (163) vs Uniform.
+teams = "global_leaderboard"

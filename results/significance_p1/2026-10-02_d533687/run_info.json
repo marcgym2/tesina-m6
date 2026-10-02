@@ -1,0 +1,12 @@
+{
+  "experiment": "significance_p1",
+  "commit": "d533687738a426106625cec5309b7f3f90f4778d",
+  "dirty": false,
+  "started_utc": "2026-10-02T00:01:10+00:00",
+  "python": "3.12.7",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "pyarrow": "25.0.1"
+  }
+}
