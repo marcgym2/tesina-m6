@@ -61,8 +61,13 @@ def run(
     policy: str = "official",
     cost_bps: float = 0.0,
     zero_variance: float = np.nan,
+    assets=None,
 ) -> WalkForwardResult:
-    """Evaluate ``model`` on every period of ``calendar`` (needs ``base_date``/``end_date``)."""
+    """Evaluate ``model`` on every period of ``calendar`` (needs ``base_date``/``end_date``).
+
+    ``assets`` fixes the evaluated universe (e.g. the M6 assets) when ``prices`` also
+    holds auxiliary series that models may use as inputs (e.g. VIXY for FinQBoost).
+    """
     if not calendar["base_date"].is_monotonic_increasing:
         raise ValueError("walk-forward periods must be in chronological order")
     rows, forecasts, gross, net = [], {}, {}, {}
@@ -70,12 +75,12 @@ def run(
     for period in calendar.itertuples():
         origin = pd.Timestamp(period.base_date)
         history = prices.loc[prices["date"] <= origin].copy()
-        assets = universe(history, origin, policy)
-        forecast = model.forecast(history, assets, origin)
-        validate_forecast(forecast, assets)
+        members = universe(history, origin, policy, assets)
+        forecast = model.forecast(history, members, origin)
+        validate_forecast(forecast, members)
 
-        wide = period_prices(prices, period.base_date, period.end_date)[assets]
-        targets = quintile_targets(period_returns(wide), n_assets_rule(len(assets)))
+        wide = period_prices(prices, period.base_date, period.end_date)[members]
+        targets = quintile_targets(period_returns(wide), n_assets_rule(len(members)))
         rps = float(rps_per_asset(forecast.probs, targets).mean())
         lr = portfolio_log_returns(wide, forecast.weights)
 
@@ -95,7 +100,7 @@ def run(
                 "label": period.label,
                 "origin": origin,
                 "end_date": pd.Timestamp(period.end_date),
-                "n_assets": len(assets),
+                "n_assets": len(members),
                 "rps": rps,
                 "ir": information_ratio(lr, zero_variance),
                 "ir_net": information_ratio(lr_net, zero_variance),

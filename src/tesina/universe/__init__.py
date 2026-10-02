@@ -24,16 +24,19 @@ DELISTINGS = {
 POLICIES = ("official", "d2")
 
 
-def universe(history: pd.DataFrame, origin, policy: str = "official") -> list[str]:
+def universe(history: pd.DataFrame, origin, policy: str = "official", assets=None) -> list[str]:
     """Assets eligible for the period starting at ``origin`` (sorted symbols).
 
     ``history`` holds prices (``symbol``, ``date``, ``price``) up to ``origin``;
-    later rows are ignored.
+    later rows are ignored. ``assets`` restricts the universe to a fixed list (the M6
+    assets) when ``history`` also carries auxiliary series a model may use.
     """
     if policy not in POLICIES:
         raise ValueError(f"unknown universe policy {policy!r}")
     origin = pd.Timestamp(origin)
     known = set(history.loc[history["date"] <= origin, "symbol"])
+    if assets is not None:
+        known &= set(assets)
     if policy == "d2":
         known -= {s for s, delisted in DELISTINGS.items() if delisted <= origin}
     return sorted(known)
