@@ -18,8 +18,8 @@ import numpy as np
 import pandas as pd
 
 from tesina.backtest.walk_forward import run
-from tesina.data import m6
-from tesina.evaluation.calendar import cutoff, m6_calendar, resolve
+from tesina.data import eodhd, m6
+from tesina.evaluation.calendar import m6_calendar, resolve
 from tesina.experiment import load_config, prepare_run
 from tesina.models.gbm import GBM
 from tesina.models.weighting import Reweighted
@@ -30,12 +30,11 @@ HERE = Path(__file__).resolve().parent
 def main(config_path: Path) -> None:
     config = load_config(config_path)
     data = config["data"]
-    if not data["prices"]:
-        sys.exit("config [data] prices is empty: the long-history snapshot comes from #12")
-    prices = pd.read_parquet(m6.REPO_ROOT / data["prices"], columns=["symbol", "date", "price"])
+    if not data["eodhd"]:
+        sys.exit("config [data] eodhd is empty: the price snapshot comes from #12")
+    prices_by_phase = eodhd.phase_prices(data["eodhd"], data["m6_snapshot"])
     assets = sorted(m6.load_template()["ID"])
-    end = cutoff(data["download_date"])["end"]
-    calendar = resolve(m6_calendar(end), prices["date"].unique())
+    end = eodhd.snapshot(data["eodhd"])["cutoff_end"]
 
     ev = config["evaluation"]
     zero_variance = np.nan if ev["zero_variance"] == "nan" else float(ev["zero_variance"])
@@ -43,6 +42,8 @@ def main(config_path: Path) -> None:
     out = prepare_run("gbm", config_path)
     periods, summaries, logs, forecasts = [], [], [], []
     for phase, policy in ev["policy"].items():
+        prices = prices_by_phase[phase]
+        calendar = resolve(m6_calendar(end), prices["date"].unique())
         subset = calendar[calendar["phase"] == phase]
         gbm = GBM(
             grid=spec["grid"],
