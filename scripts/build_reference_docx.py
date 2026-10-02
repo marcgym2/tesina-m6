@@ -248,6 +248,19 @@ def define_styles(doc) -> None:
     set_para(index_header, after=240, tabs=[("right", TEXT_WIDTH, None)])
     set_run(index_header, bold=True)
 
+    # Title block (used by short documents such as thesis/propuesta.qmd, not by the
+    # thesis, whose cover comes from the template). Same look as the cover: black Arial.
+    title = get_style(doc, "Title", "Title")
+    set_para(title, jc="center", after=120, line=240, keep_next=True)
+    set_run(title, size=13, bold=True)
+    subtitle = get_style(doc, "Subtitle", "Subtitle", based_on="Title")
+    set_para(subtitle, jc="center", after=120, line=240, keep_next=True)
+    set_run(subtitle, size=11, italic=True)
+    for style_id, name in (("Author", "Author"), ("Date", "Date")):
+        style = get_style(doc, style_id, name)
+        set_para(style, jc="center", after=60, line=240, keep_next=True)
+        set_run(style)
+
     # Captions: no rule in the template; APA-like, table caption above (keep with table).
     caption = get_style(doc, "Caption", "caption")
     set_para(caption, jc="center", before=120, after=240, line=240)
