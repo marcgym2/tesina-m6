@@ -57,3 +57,13 @@ Cada entrada registra una decisión de Marco sobre un issue `decision`: el conte
   - **La tesina 2024 no se cita ni se usa como antecedente**, porque no se concluyó ni se publicó. La justificación de cada sesgo de la cascada viene de la literatura (`[CITA PENDIENTE]` hasta que esté en Zotero, #30). `docs/pipeline_2024.md` queda como nota interna.
 - **Pendiente en #52:** el universo de la cascada. La recomendación es el del M6.
 - **Consecuencia:** el orden de trabajo es #12 → #21 → #24/#25.
+
+---
+
+## D6 — Universo de la cascada de sesgos, RQ4 (#52)
+
+- **Fecha:** 2026-10-02 · **Decidió:** Marco · **Issue:** #52 · **Completa:** D5
+- **Decisión:** la cascada se hace sobre el **universo del M6**.
+  - El escalón sesgado usa un universo elegido después de los hechos: solo los activos que siguen cotizando hoy, con los deslistados sustituidos por sus sucesores (DRE→PLD, WRK→SW). Es el sesgo de supervivencia.
+  - La corrección usa el universo point-in-time con la política D2.
+- **Motivo:** es coherente con el resto de la tesina (mismos datos, misma evaluación) y no requiere listas históricas de componentes de otro índice.
