@@ -1,9 +1,32 @@
 # Formulación de objetivos {#sec-objetivos}
 
+<!-- Borrador del issue #31. -->
+
 ## Objetivo general {#sec-objetivo-general}
 
-<!-- Pendiente: issue #31. -->
+Medir, con una evaluación honesta, cuánto del desempeño de los métodos de pronóstico
+probabilístico de rendimientos relativos se sostiene fuera de muestra y cuánto se debe a
+la suerte o a errores de evaluación. La medición se hace replicando y extendiendo la
+competencia M6, con los métodos ganadores y con modelos propios de aprendizaje
+automático.
 
 ## Objetivos específicos {#sec-objetivos-especificos}
 
-<!-- Pendiente: issue #31. -->
+1. **Reproducir la evaluación oficial de la M6.** Implementar el RPS y el IR a partir del
+   código oficial y validarlos contra el leaderboard publicado.
+2. **Construir un protocolo de evaluación sin fuga de información.** Debe ser temporal,
+   con universo point-in-time, costos de transacción y pruebas automáticas, y servir para
+   evaluar cualquier modelo en los dos periodos.
+3. **Evaluar la persistencia de los ganadores (RQ1).** Ejecutar los métodos ganadores de
+   la M6 con código público, o reimplementados a partir de su descripción, en el periodo
+   posterior a la competencia, y comparar su desempeño con el del periodo original.
+4. **Evaluar los modelos con rigor (RQ2).** Comparar contra el benchmark uniforme a los
+   modelos de referencia, a los ganadores y a tres modelos propios (gradient boosting,
+   simulación desde covarianzas y un modelo fundacional), con pruebas pareadas y ajuste
+   por comparaciones múltiples.
+5. **Analizar la relación entre pronóstico y decisión (RQ3).** Estimar la asociación entre
+   el RPS y el IR en los equipos de la competencia y en los modelos evaluados.
+6. **Cuantificar la cascada de sesgos (RQ4).** Medir, sobre un mismo modelo, cuánto
+   desempeño aparente añade cada sesgo de evaluación.
+7. **(Opcional) Estudiar atención y rendimientos (RQ5).** Analizar si los picos de visitas
+   en Wikipedia anticipan rendimientos relativos menores.
