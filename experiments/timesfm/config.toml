@@ -1,0 +1,26 @@
+# Issue #23: zero-shot TimesFM-3 (decision D7), periods 1 and 2.
+# Pre-registered: every setting below is fixed before any run on real data. The
+# model is used as is (no fine-tuning, no hyper-parameter search): one configuration.
+[data]
+# Daily adjusted prices (symbol, date, price) with long history, from issue #12.
+# Empty until that snapshot exists; run.py refuses to run without it.
+prices = ""
+download_date = ""  # sets the cutoff of period 2 (decision D3)
+
+[evaluation]
+cost_bps = 10.0  # charged on turnover at each origin; results reported gross and net
+zero_variance = "nan"  # decision D1
+
+[evaluation.policy]
+period1 = "official"  # as the M6 (DRE held at its last price)
+period2 = "d2"  # decision D2
+
+[model]
+# Checkpoint pinned in tesina.models.foundation (CHECKPOINT, REVISION).
+context = 1024  # trading days of log prices
+horizon = 20  # trading days in a four-week period
+min_context = 32
+copula_halflife = 126  # trading days; fixed, not tuned
+n_sims = 10000
+seed = 2026
+weightings = ["equal", "expected_rank"]  # both reported

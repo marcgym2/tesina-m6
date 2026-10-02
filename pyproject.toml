@@ -16,6 +16,11 @@ dependencies = [
     "scipy>=1.18.1",
 ]
 
+[project.optional-dependencies]
+timesfm = [
+    "timesfm[mlx]>=3.0.2",
+]
+
 [dependency-groups]
 dev = [
     "lxml>=6.1.3",
