@@ -45,3 +45,15 @@ Cada entrada registra una decisión de Marco sobre un issue `decision`: el conte
 - **Decisión:** además del análisis principal con la opción D (D2), el periodo 2 se recalcula con la **opción C** (regla del M6: los deslistados quedan en el universo congelados a su último precio durante todo el periodo) como **análisis de sensibilidad**.
 - **Motivo:** la diferencia entre D y C mide cuánto del desempeño depende del tratamiento de los activos que desaparecen. Ese es un insumo directo para RQ4, y en el periodo 1 esta regla produjo un artefacto (D1). Cuesta poco: el harness ya implementa ambas políticas (`universe_policy = "d2"` y `"official"`).
 - **Cómo se reporta:** la opción D va en las tablas principales y la opción C en una tabla de robustez o en un anexo. Las corridas con C cuentan en el número total de configuraciones probadas (regla de comparaciones múltiples de CLAUDE.md).
+
+---
+
+## D5 — Modelo y alcance de la cascada de sesgos, RQ4 (#24, #25, #52)
+
+- **Fecha:** 2026-10-02 · **Decidió:** Marco · **Issues:** #24, #25, #52
+- **Decisión:**
+  - **El modelo de la cascada es el gradient boosting propio (#21).** Se mantiene fijo y en cada escalón se inyecta o se corrige un sesgo. El último escalón es el mismo GBM limpio que se evalúa en RQ2.
+  - **No se replica la red neuronal (FFNN + meta-modelo) de 2024**, ni siquiera como anexo.
+  - **La tesina 2024 no se cita ni se usa como antecedente**, porque no se concluyó ni se publicó. La justificación de cada sesgo de la cascada viene de la literatura (`[CITA PENDIENTE]` hasta que esté en Zotero, #30). `docs/pipeline_2024.md` queda como nota interna.
+- **Pendiente en #52:** el universo de la cascada. La recomendación es el del M6.
+- **Consecuencia:** el orden de trabajo es #12 → #21 → #24/#25.

@@ -1,6 +1,12 @@
 # El pipeline de la tesina 2024: qué hacía y qué sesgos tenía
 
-Insumo para el #24 (pipeline ingenuo) y el #25 (cascada de sesgos, RQ4). Fuentes:
+> **Nota interna de trabajo, no es una fuente citable.** La tesina 2024 no se concluyó
+> ni se publicó, así que no se cita ni se menciona como antecedente en la tesina.
+> Este documento solo sirvió para inventariar sesgos frecuentes. En el capítulo 6, la
+> justificación de cada sesgo de la cascada (#24/#25) tiene que venir de la literatura
+> (`[CITA PENDIENTE]` hasta que esté en Zotero, #30). Decisión D5 en `docs/decisions.md`.
+
+Fuentes:
 `thesis/legacy/tesina_2024.docx` (cap. 6) y el código del autor en
 [marcgym2/refactor_r](https://github.com/marcgym2/refactor_r):
 
@@ -25,7 +31,7 @@ Insumo para el #24 (pipeline ingenuo) y el #25 (cascada de sesgos, RQ4). Fuentes
 | Ajuste de hiperparámetros | — | 12 commits `exp:` del 2026-03-25 que ajustan el meta-modelo (dropout, paciencia, capas, inicialización) mirando la pérdida de validación |
 | Costos | — | No se modelan |
 
-## Sesgos identificados (candidatos para la cascada del #25)
+## Sesgos identificados (inventario para la cascada del #25; cada uno requiere sustento bibliográfico)
 
 1. **Imputación global:** la mediana usa observaciones de test y validación. Probablemente el efecto es pequeño, pero es fuga.
 2. **Selección sobre el conjunto que se reporta:** el meta-modelo se detiene (early stopping) con el conjunto de validación y luego se reporta la pérdida en ese mismo conjunto.
