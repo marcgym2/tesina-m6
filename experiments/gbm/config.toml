@@ -1,0 +1,30 @@
+# Issue #21: multiclass GBM (LightGBM) on price features, periods 1 and 2.
+# Pre-registered: the grid and every setting below are fixed before any run on real
+# data. Every configuration tried at every origin is written to search_log.csv.
+[data]
+# Daily adjusted prices (symbol, date, price) with long history, from issue #12.
+# Empty until that snapshot exists; run.py refuses to run without it.
+prices = ""
+download_date = ""  # sets the cutoff of period 2 (decision D3)
+
+[evaluation]
+cost_bps = 10.0  # charged on turnover at each origin; results reported gross and net
+zero_variance = "nan"  # decision D1
+
+[evaluation.policy]
+period1 = "official"  # as the M6 (DRE held at its last price)
+period2 = "d2"  # decision D2
+
+[model]
+seed = 2026
+n_val = 12  # validation windows (about one year)
+embargo = 1  # windows between training and validation
+min_train_windows = 24
+lookback = "expanding"
+max_rounds = 1000
+early_stopping = 50
+weightings = ["equal", "expected_rank"]  # both reported
+
+[model.grid]
+num_leaves = [7, 31]
+min_data_in_leaf = [100, 500]

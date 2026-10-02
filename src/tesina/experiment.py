@@ -46,7 +46,7 @@ def prepare_run(name: str, config_path: Path) -> Path:
         "dirty": dirty,
         "started_utc": datetime.now(UTC).isoformat(timespec="seconds"),
         "python": platform.python_version(),
-        "packages": {p: metadata.version(p) for p in ("numpy", "pandas", "pyarrow")},
+        "packages": {p: metadata.version(p) for p in ("numpy", "pandas", "pyarrow", "lightgbm")},
     }
     (out / "run_info.json").write_text(json.dumps(info, indent=2) + "\n", encoding="utf-8")
     return out
