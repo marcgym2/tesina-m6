@@ -1,0 +1,23 @@
+# Issue #22: quintile probabilities simulated from an EWMA covariance, periods 1 and 2.
+# Pre-registered: the grid and every setting below are fixed before any run on real
+# data. Every half-life tried at every origin is written to search_log.csv.
+[data]
+# Daily adjusted prices (symbol, date, price) with long history, from issue #12.
+# Empty until that snapshot exists; run.py refuses to run without it.
+prices = ""
+download_date = ""  # sets the cutoff of period 2 (decision D3)
+
+[evaluation]
+cost_bps = 10.0  # charged on turnover at each origin; results reported gross and net
+zero_variance = "nan"  # decision D1
+
+[evaluation.policy]
+period1 = "official"  # as the M6 (DRE held at its last price)
+period2 = "d2"  # decision D2
+
+[model]
+seed = 2026
+halflives = [21, 63, 126, 252]  # trading days; chosen per origin on past windows
+n_val = 12  # past windows used to choose the half-life
+n_sims = 10000
+min_obs = 20
