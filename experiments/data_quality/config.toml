@@ -1,0 +1,12 @@
+# Issue #13: quality checks of the EODHD snapshot (and Yahoo as an independent source).
+# Thresholds fixed before looking at the data.
+[data]
+eodhd = ""  # download date of the EODHD snapshot (#12); empty until it exists
+yahoo = ""  # download date of the Yahoo snapshot (scripts/download_yahoo.py); optional
+m6_snapshot = "2026-09-28"
+
+[checks]
+expected_start = "2007-01-01"
+jump_threshold = 0.25  # |daily log return| of the adjusted price
+stale_min_run = 5  # rows with the same adjusted price
+diff_bp = 10.0  # daily return difference counted as a discrepancy
