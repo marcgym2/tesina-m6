@@ -1,0 +1,12 @@
+{
+  "experiment": "rps_vs_ir_p1",
+  "commit": "f7bdb95cceeb2ab05c04a2705984361df9dd38e1",
+  "dirty": false,
+  "started_utc": "2026-10-01T23:45:56+00:00",
+  "python": "3.12.7",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "pyarrow": "25.0.1"
+  }
+}

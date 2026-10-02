@@ -1,0 +1,23 @@
+# Issue #27 (RQ3): does a better RPS go with a better IR? Period 1, teams of the M6.
+# Every analysis below is fixed before looking at any result; all are reported.
+[data]
+snapshot = "2026-09-28"
+
+[evaluation]
+# Decision D1: own analyses use the published code's rule (zero-variance IR = NaN).
+zero_variance = "nan"
+benchmark_team = "32cdcc24"
+
+[analysis]
+seed = 2026
+n_boot = 10000
+n_perm = 10000
+level = 0.95
+# Expected sign: negative (lower RPS = better forecasts; higher IR = better decisions).
+primary = "spearman_global_all"
+sensitivity = [
+  "pearson_global_all",
+  "spearman_global_informative",  # excludes teams with uniform forecasts every month
+  "spearman_monthly",             # one correlation per month, team-month pairs
+  "fisher_beat_benchmark",        # 2x2: beat benchmark in RPS vs in IR (global)
+]
