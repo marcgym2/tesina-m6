@@ -1,0 +1,59 @@
+id,cita,tipo,identificador,patron
+fama1970,"Fama (1970)",doi,10.2307/2325486,Fama \(1970\)
+fama1998,"Fama (1998)",doi,10.1016/S0304-405X(98)00026-9,Fama \(1998\)
+debondt1985,"De Bondt y Thaler (1985)",doi,10.2307/2327804,De Bondt y Thaler
+jegadeesh1993,"Jegadeesh y Titman (1993)",doi,10.1111/j.1540-6261.1993.tb04702.x,Jegadeesh
+daniel1998,"Daniel, Hirshleifer y Subrahmanyam (1998)",doi,10.1111/0022-1082.00077,Daniel. Hirshleifer
+lo2004,"Lo (2004)",doi,10.3905/jpm.2004.442611,Lo \(2004\)
+ang2006,"Ang, Hodrick, Xing y Zhang (2006)",doi,10.1111/j.1540-6261.2006.00836.x,Ang. Hodrick
+gneiting2007,"Gneiting y Raftery (2007)",doi,10.1198/016214506000001437,Gneiting
+epstein1969,"Epstein (1969)",doi,10.1175/1520-0450(1969)008<0985:ASSFPF>2.0.CO;2,Epstein \(1969\)
+famafrench1993,"Fama y French (1993)",doi,10.1016/0304-405X(93)90023-5,portfolio sorts
+sharpe1966,"Sharpe (1966)",doi,10.1086/294846,Sharpe \(1966\)
+sharpe1994,"Sharpe (1994)",doi,10.3905/jpm.1994.409501,Sharpe \(1994\)
+lo2002,"Lo (2002)",doi,10.2469/faj.v58.n4.2453,Lo \(2002\)
+makridakis1982,"Makridakis et al. (1982)",doi,10.1002/for.3980010202,historia de las competencias M
+makridakis2000,"Makridakis y Hibon (2000)",doi,10.1016/S0169-2070(00)00057-1,historia de las competencias M|Makridakis y Hibon \(2000\)
+makridakis2020,"Makridakis, Spiliotis y Assimakopoulos (2020), M4",doi,10.1016/j.ijforecast.2019.04.014,competencias M4 y M5
+makridakis2022,"Makridakis, Spiliotis y Assimakopoulos (2022), M5",doi,10.1016/j.ijforecast.2021.11.013,competencias M4 y M5
+makridakis2023,"Makridakis et al. (2023), preprint de la M6",arxiv,2310.13357,NO_MARKER
+gu2020,"Gu, Kelly y Xiu (2020)",doi,10.1093/rfs/hhaa009,Gu. Kelly
+breiman2001,"Breiman (2001)",doi,10.1023/A:1010933404324,Breiman
+friedman2001,"Friedman (2001)",doi,10.1214/aos/1013203451,Friedman \(2001\)
+chen2016,"Chen y Guestrin (2016)",doi,10.1145/2939672.2939785,Chen y Guestrin
+ke2017,"Ke et al. (2017), LightGBM",manual,,Ke et al\. \(2017\)
+prokhorenkova2018,"Prokhorenkova et al. (2018), CatBoost",arxiv,1706.09516,Prokhorenkova
+shwartzziv2022,"Shwartz-Ziv y Armon (2022)",doi,10.1016/j.inffus.2021.11.011,Shwartz-Ziv
+engle1982,"Engle (1982)",doi,10.2307/1912773,Engle \(1982\)
+bollerslev1986,"Bollerslev (1986)",doi,10.1016/0304-4076(86)90063-1,Bollerslev
+riskmetrics1996,"J. P. Morgan/Reuters (1996), RiskMetrics",manual,,RiskMetrics
+werge2022,"Werge y Wintenberger (2022), AdaVol",doi,10.1016/j.ecosta.2021.01.004,Werge y Wintenberger
+das2024,"Das, Kong, Sen y Zhou (2024), TimesFM",arxiv,2310.10688,Das et al\. \(2024\)
+ansari2024,"Ansari et al. (2024), Chronos",arxiv,2403.07815,Chronos
+timesfm3,"Google Research (2026), ficha del modelo TimesFM-3",manual,,ficha del modelo TimesFM-3
+nelsen2006,"Nelsen (2006), An introduction to copulas",doi,10.1007/0-387-28678-0,cópulas gaussianas
+kaufman2012,"Kaufman, Rosset, Perlich y Stitelman (2012)",doi,10.1145/2382577.2382579,Kaufman
+lopezdeprado2018,"López de Prado (2018), Advances in financial machine learning",isbn,9781119482086,López de Prado \(2018\)
+bailey2014,"Bailey, Borwein, López de Prado y Zhu (2014), Pseudo-mathematics and financial charlatanism",doi,10.1090/noti1105,Bailey
+bailey2017,"Bailey, Borwein, López de Prado y Zhu (2017), The probability of backtest overfitting",doi,10.21314/JCF.2016.322,Bailey
+harvey2016,"Harvey, Liu y Zhu (2016)",doi,10.1093/rfs/hhv059,Harvey. Liu y Zhu
+white2000,"White (2000)",doi,10.1111/1468-0262.00152,White \(2000\)
+brown1992,"Brown, Goetzmann, Ibbotson y Ross (1992)",doi,10.1093/rfs/5.4.553,Brown. Goetzmann
+elton1996,"Elton, Gruber y Blake (1996)",doi,10.1093/rfs/9.4.1097,Elton. Gruber
+novymarx2016,"Novy-Marx y Velikov (2016)",doi,10.1093/rfs/hhv063,Novy-Marx
+diebold1995,"Diebold y Mariano (1995)",doi,10.1080/07350015.1995.10524599,Diebold y Mariano
+harvey1997,"Harvey, Leybourne y Newbold (1997)",doi,10.1016/S0169-2070(96)00719-4,Harvey. Leybourne
+politis1992,"Politis y Romano (1992), bootstrap circular por bloques",manual,,Politis y Romano
+holm1979,"Holm (1979)",manual,,Holm \(1979\)
+benjamini1995,"Benjamini y Hochberg (1995)",doi,10.1111/j.2517-6161.1995.tb02031.x,Benjamini y Hochberg
+grinold2000,"Grinold y Kahn (2000), Active portfolio management",isbn,9780070248823,Grinold y Kahn
+barber2008,"Barber y Odean (2008)",doi,10.1093/rfs/hhm079,Barber y Odean
+da2011,"Da, Engelberg y Gao (2011)",doi,10.1111/j.1540-6261.2011.01679.x,Da. Engelberg
+moat2013,"Moat et al. (2013)",doi,10.1038/srep01801,Moat et al
+schneider2024,"Schneider et al. (2024)",zotero,,Schneider et al
+vilmarest2024,"de Vilmarest y Werge (2024)",zotero,,de Vilmarest y Werge
+sec2024,"SEC, NASAA y FINRA (2024), alerta sobre IA y fraude de inversión",manual,,trading con IA
+m6methods,"Repositorio Mcompetitions/M6-methods",manual,,Mcompetitions/M6-methods
+finqboost,"Repositorio miguel-data-sc/FinQBoost",zotero,,FinQBoost
+sebrad,"Repositorio sebrad/M6",manual,,sebrad/M6
+woundignite,"Repositorio MarcoGorelli/wound-ignite",manual,,wound-ignite
