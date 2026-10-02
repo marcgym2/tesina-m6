@@ -79,6 +79,24 @@ Trends) que se traslapan con el periodo 1.
 - **RQ5:** si se usan pageviews de Wikipedia, TimesFM-3 no debe pronosticarlas, porque
   esas series sí estuvieron en su preentrenamiento hasta noviembre de 2023.
 
+## Verificación con caminatas aleatorias sintéticas (2026-10-02)
+
+Esta prueba sirve para revisar el adaptador. No es un resultado de la tesina.
+
+- **Datos:** 100 caminatas aleatorias gaussianas de log-precio, con 1024 días de contexto
+  y volatilidades diarias de 0.5 %, 1 %, 2 % y 4 % (25 series de cada una).
+- **Dispersión, bien calibrada:** la distancia entre los deciles 0.9 y 0.1 del
+  log-rendimiento a 20 días quedó entre 2 % y 7 % arriba de la teórica (2 × 1.2816 × σ√20).
+  - Teórica: 0.057, 0.115, 0.229 y 0.459.
+  - TimesFM-3: 0.058, 0.123, 0.245 y 0.481.
+- **Mediana, no es cero:** en una caminata aleatoria debería ser cero, y TimesFM-3 la
+  desplaza en promedio unas 0.2 desviaciones estándar del rendimiento a 20 días.
+  - Es decir, extrapola "tendencias" que no existen.
+  - En los datos reales, eso agrega ruido a la regla de pesos `expected_rank` y, en
+    menor medida, a las probabilidades.
+  - Hay que tenerlo en cuenta al interpretar los resultados.
+- **Tiempo:** 100 series en unos 7 s con MLX en la Mac de Marco, incluida la compilación.
+
 ## Fuentes primarias, para agregar a Zotero
 
 - Ficha del modelo: https://huggingface.co/google/timesfm-3.0-pytorch (revisión arriba).
