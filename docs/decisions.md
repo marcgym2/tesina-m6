@@ -67,3 +67,16 @@ Cada entrada registra una decisión de Marco sobre un issue `decision`: el conte
   - El escalón sesgado usa un universo elegido después de los hechos: solo los activos que siguen cotizando hoy, con los deslistados sustituidos por sus sucesores (DRE→PLD, WRK→SW). Es el sesgo de supervivencia.
   - La corrección usa el universo point-in-time con la política D2.
 - **Motivo:** es coherente con el resto de la tesina (mismos datos, misma evaluación) y no requiere listas históricas de componentes de otro índice.
+
+---
+
+## D7 — Modelo fundacional de #23: TimesFM-3
+
+- **Fecha:** 2026-10-02 · **Decidió:** Marco · **Issue:** #23
+- **Decisión:** el modelo fundacional zero-shot es **TimesFM-3** de Google (`google/timesfm-3.0-pytorch`). El checkpoint queda fijado a una revisión de Hugging Face y se usa tal cual, sin fine-tuning ni búsqueda de hiperparámetros.
+- **Cómo se adapta:**
+  - TimesFM-3 entrega deciles por activo, no trayectorias. Las probabilidades de quintil salen de esos deciles unidos con una cópula gaussiana, cuya correlación es la EWMA de #22 con una vida media fija de 126 días.
+  - Los detalles están en `src/tesina/models/foundation.py`.
+- **Condiciones:**
+  - Los pesos tienen licencia no comercial. La investigación académica está permitida, pero los pesos no se redistribuyen, y descargarlos implica que Marco acepta esa licencia.
+  - El riesgo de contaminación del preentrenamiento con los periodos 1 y 2 está documentado en `docs/timesfm.md` y se reporta junto con los resultados.

@@ -10,11 +10,11 @@ from tesina.models import RANK_COLUMNS, validate_forecast
 from tesina.models.gbm import (
     GBM,
     cross_sectional_features,
-    expected_rank_weights,
     price_signals,
     split_windows,
     training_windows,
 )
+from tesina.models.weighting import expected_rank_weights
 
 ORIGIN = pd.Timestamp("2024-03-01")
 SMALL_GRID = {"num_leaves": [7], "min_data_in_leaf": [50]}

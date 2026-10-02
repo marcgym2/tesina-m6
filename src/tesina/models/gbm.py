@@ -40,7 +40,8 @@ import pandas as pd
 from tesina.evaluation.prices import period_returns
 from tesina.evaluation.rps import quintile_targets, rps_per_asset
 from tesina.models import RANK_COLUMNS, Forecast
-from tesina.models.baselines import equal_weights, past_windows
+from tesina.models.baselines import past_windows
+from tesina.models.weighting import weights_for
 
 FEATURES = [
     "ret_5",
@@ -154,14 +155,6 @@ def window_rps(booster: lgb.Booster, windows, num_iteration=None) -> float:
     return float(np.mean(scores))
 
 
-def expected_rank_weights(probs: pd.DataFrame, gross: float = 1.0) -> pd.Series:
-    score = probs[RANK_COLUMNS].to_numpy(dtype=float) @ np.arange(1, 6) - 3
-    total = np.abs(score).sum()
-    if total == 0:
-        return equal_weights(list(probs.index)) * gross
-    return pd.Series(gross * score / total, index=probs.index)
-
-
 @dataclass
 class GBM:
     grid: dict = field(default_factory=lambda: dict(DEFAULT_GRID))
@@ -209,12 +202,7 @@ class GBM:
                 booster.predict(x0.to_numpy(dtype=float)), index=universe, columns=RANK_COLUMNS
             )
             probs = probs.div(probs.sum(axis=1), axis=0)
-        if self.weighting == "equal":
-            weights = equal_weights(universe)
-        elif self.weighting == "expected_rank":
-            weights = expected_rank_weights(probs, self.gross)
-        else:
-            raise ValueError(f"unknown weighting {self.weighting!r}")
+        weights = weights_for(probs, self.weighting, self.gross)
         return Forecast(probs, weights)
 
     def _select(self, windows, train_idx, val_idx, origin) -> tuple[dict, int]:
