@@ -20,6 +20,9 @@ dependencies = [
 timesfm = [
     "timesfm[mlx]>=3.0.2",
 ]
+verify = [
+    "yfinance>=1.7.0",
+]
 
 [dependency-groups]
 dev = [
