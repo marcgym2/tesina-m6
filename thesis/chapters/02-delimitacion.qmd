@@ -1,9 +1,82 @@
 # Delimitación y planteamiento del problema de investigación {#sec-delimitacion}
 
+<!-- Borrador del issue #31. -->
+
 ## Delimitación del problema {#sec-delimitacion-problema}
 
-<!-- Pendiente: issue #31. -->
+El estudio se acota en las siguientes dimensiones.
+
+**Universo.** Los 100 activos de la competencia M6: 50 acciones del S&P 500 y 50 fondos
+cotizados de distintos mercados y clases de activo [@makridakis2025]. El universo no se
+amplía ni se reduce para mejorar resultados. Los únicos cambios son los que impone el
+mercado, es decir, los activos que dejan de cotizar, y se tratan con una regla que solo
+usa información disponible en cada fecha (@sec-met-universo-pit).
+
+**Horizonte y calendario.** Periodos de cuatro semanas que siguen el calendario de la
+competencia (@sec-met-calendario).
+
+**Periodos de evaluación:**
+
+- **Periodo 1, la competencia original** (marzo de 2022 a febrero de 2023). Los modelos
+  propios se comparan con los pronósticos que los equipos enviaron en tiempo real.
+- **Periodo 2, la extensión** (marzo de 2023 hasta la fecha de corte). La fecha de corte
+  es el cierre del último periodo completo de cuatro semanas anterior a la descarga de
+  los datos.
+
+**Tareas y métricas.** Las mismas dos tareas de la M6:
+
+- el pronóstico probabilístico del quintil de rendimiento de cada activo, evaluado con el
+  RPS;
+- la decisión de inversión, evaluada con el IR.
+
+Ambas métricas se implementan a partir del código oficial de la competencia. Los
+benchmarks son los de la M6: el pronóstico uniforme y el portafolio de pesos iguales.
+
+**Métodos:**
+
+- dos referencias simples;
+- los métodos de equipos destacados de la M6 que publicaron su código o lo describieron
+  con detalle suficiente para reimplementarlo;
+- tres modelos propios: gradient boosting, simulación desde covarianzas y un modelo
+  fundacional de series de tiempo.
+
+Los modelos propios usan solo precios diarios. No se usan datos fundamentales, noticias
+ni otras fuentes alternativas, salvo las visitas a Wikipedia en la pregunta opcional RQ5.
+
+**Fuera de alcance:**
+
+- operar con dinero real;
+- emitir recomendaciones de inversión;
+- buscar la estrategia de mayor rendimiento;
+- modificar la evaluación, el periodo o el universo para obtener mejores resultados.
 
 ## Planteamiento del problema {#sec-planteamiento}
 
-<!-- Pendiente: issue #31. -->
+Los resultados de una competencia de pronóstico se obtienen en un periodo concreto y con
+un número grande de participantes. Esto plantea dos problemas.
+
+1. **Suerte.** Con muchos equipos, algunos obtendrán resultados sobresalientes por azar
+   [@stanek2024]. Lo que funcionó durante la competencia no necesariamente sigue
+   funcionando después.
+2. **Evaluaciones fuera de la competencia.** Muchas de ellas se hacen sobre simulaciones
+   históricas, que son vulnerables a la fuga de información, al sesgo de supervivencia,
+   al sobreajuste por búsqueda y a la omisión de costos. Esas fallas producen un
+   desempeño aparente que no existe en la práctica (@sec-intro-evaluacion).
+
+El problema que aborda esta tesina es medir con rigor cuánto del desempeño atribuido a
+estrategias de aprendizaje automático para pronosticar rendimientos relativos se sostiene
+bajo una evaluación honesta, y cuánto es ilusión. Se plantean las siguientes preguntas de
+investigación:
+
+- **RQ1. Persistencia.** ¿Los métodos ganadores de la M6 siguen superando al benchmark
+  uniforme fuera del periodo de la competencia?
+- **RQ2. Evaluación limpia.** Con una validación sin fuga de información, ¿algún modelo
+  supera al benchmark uniforme en RPS de forma estadísticamente significativa?
+- **RQ3. Pronóstico frente a decisión.** ¿Un mejor RPS se traduce en un mejor IR?
+- **RQ4. Cascada de sesgos.** ¿Cuánto del desempeño de un procedimiento ingenuo
+  desaparece al corregir la fuga de información, la validación no temporal, el sesgo de
+  supervivencia y la omisión de costos?
+- **RQ5 (opcional).** ¿Los activos con picos de atención, medida con las visitas a sus
+  artículos de Wikipedia, tienen peores rendimientos relativos en el periodo siguiente?
+
+Cada pregunta tiene un diseño propio, que se describe en @sec-met-preguntas.

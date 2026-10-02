@@ -1,3 +1,46 @@
 # Justificación {#sec-justificacion}
 
-<!-- Pendiente: issue #31. -->
+<!-- Borrador del issue #31. -->
+
+El estudio se justifica en cuatro planos.
+
+**Académico: una réplica fuera de muestra.** Las competencias de pronóstico reportan quién
+ganó en un periodo determinado. Rara vez se vuelve a evaluar a los ganadores con datos
+posteriores [CITA PENDIENTE: estudios de réplica o persistencia en competencias de pronóstico].
+
+- La M6 lo permite, porque los datos de la competencia y el código de varios métodos son
+  públicos.
+- Existen análisis posteriores de la competencia, que discuten el papel de la suerte o
+  comparan a los participantes con portafolios de referencia [@stanek2024]
+  [CITA PENDIENTE: Schneider et al. (2024), comparación de los competidores de la M6 con índices y portafolios aleatorios; ya está en Zotero como schneider2024, falta el commit del .bib].
+- Lo que aporta esta tesina es la evaluación de los mismos métodos en un periodo que
+  ninguno de ellos vio.
+
+**Metodológico: cuantificar los sesgos.** Los sesgos de evaluación suelen discutirse por
+separado y de forma cualitativa.
+
+- La cascada de RQ4 los mide uno por uno, sobre el mismo modelo y con la misma
+  evaluación. Así se obtiene una estimación de cuánto contribuye cada uno al desempeño
+  aparente.
+- La réplica de la evaluación oficial obliga a examinar en detalle cómo se calcularon las
+  métricas de la competencia. Eso permite documentar cualquier diferencia entre lo
+  descrito y lo implementado.
+
+**Práctico y social: una referencia para el inversionista no profesional.** El público
+secundario de esta tesina son las personas expuestas a promesas de "trading con
+inteligencia artificial".
+
+- Mostrar con datos públicos y un procedimiento reproducible cuánto del desempeño
+  anunciado puede deberse a errores de evaluación da a ese público una referencia
+  concreta para juzgar esas promesas.
+- Un resultado negativo, como que ningún método supere al benchmark después de las
+  correcciones, es tan informativo como uno positivo.
+
+**Formativo: buenas prácticas de ciencia de datos.** El trabajo aplica prácticas que
+cualquier proyecto de ciencia de datos con información temporal debería seguir:
+
+- validación temporal;
+- pruebas automáticas contra la fuga de información;
+- conteo explícito de las comparaciones realizadas;
+- configuraciones fijadas antes de ver los resultados;
+- reproducibilidad completa del código y los datos (@sec-met-reproducibilidad).
