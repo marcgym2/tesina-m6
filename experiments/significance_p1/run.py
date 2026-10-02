@@ -89,6 +89,8 @@ def main() -> None:
         for team in scores.teams(lb.MONTHS[0])
     }
     teams = test_family(team_diffs, cfg)
+    names = m6.load_leaderboard("global", snap).set_index("team")["team_name"]
+    teams.insert(1, "team_name", teams["name"].map(names))
     teams.to_csv(out / "teams.csv", index=False)
 
     alpha = cfg["test"]["alpha"]
