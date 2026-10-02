@@ -2,10 +2,10 @@
 # Pre-registered: the grid and every setting below are fixed before any run on real
 # data. Every half-life tried at every origin is written to search_log.csv.
 [data]
-# Daily adjusted prices (symbol, date, price) with long history, from issue #12.
-# Empty until that snapshot exists; run.py refuses to run without it.
-prices = ""
-download_date = ""  # sets the cutoff of period 2 (decision D3)
+# Download date of the EODHD snapshot (issue #12); it also sets the cutoff of period 2
+# (decision D3). Empty until that snapshot exists; run.py refuses to run without it.
+eodhd = ""
+m6_snapshot = "2026-09-28"  # official M6 prices: period 1 is scored with them (chapter 6)
 
 [evaluation]
 cost_bps = 10.0  # charged on turnover at each origin; results reported gross and net

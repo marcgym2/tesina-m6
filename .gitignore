@@ -41,3 +41,6 @@ data/cache/
 # Secrets (API keys): never commit
 .env
 .env.*
+
+# EODHD snapshots: redistribution forbidden by the provider (issue #12); hash in data/manifest.json
+data/raw/eodhd/
