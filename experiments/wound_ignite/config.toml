@@ -1,0 +1,20 @@
+# Issue #19, decision D8: wound-ignite's last committed configuration, frozen.
+# Pre-registered before any run on period-2 data. One configuration, no search.
+[data]
+# Download date of the EODHD snapshot (issue #12); it also sets the cutoff of period 2
+# (decision D3). Empty until that snapshot exists; run.py refuses to run without it.
+eodhd = ""
+m6_snapshot = "2026-09-28"  # official M6 prices: period 1 is scored with them (chapter 6)
+
+[evaluation]
+cost_bps = 10.0  # charged on turnover at each origin; results reported gross and net
+zero_variance = "nan"  # decision D1
+
+[evaluation.policy]
+# Period 1 is a reference only: the configuration was chosen with 2022 data (D8).
+period1 = "official"
+period2 = "d2"  # decision D2
+
+[model]
+seed = 0  # Monte Carlo seed of the adapter (upstream has none)
+decisions = true  # weights from the method's own portfolio (D8)

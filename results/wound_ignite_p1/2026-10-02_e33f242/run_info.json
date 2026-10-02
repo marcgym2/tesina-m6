@@ -1,0 +1,13 @@
+{
+  "experiment": "wound_ignite_p1",
+  "commit": "e33f242fc13d7b1d811d1f7feaa83568a6a4e89c",
+  "dirty": false,
+  "started_utc": "2026-10-02T21:42:48+00:00",
+  "python": "3.12.7",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "pyarrow": "25.0.1",
+    "lightgbm": "4.7.0"
+  }
+}

@@ -1,0 +1,18 @@
+# Isolated environment for wound-ignite (issue #19): its `precise` library and its
+# dependencies are kept apart from the thesis environment.
+#   uv sync --project vendor/wound-ignite
+[project]
+name = "wound-ignite-env"
+version = "0"
+requires-python = "==3.12.*"
+dependencies = [
+    "precise",
+    # ortools (via seriate) loads HiGHS symbols from highspy; newer highspy breaks it.
+    "highspy==1.12.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+precise = { path = "upstream", editable = true }

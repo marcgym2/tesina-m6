@@ -1,13 +1,15 @@
-"""Models implemented outside Python (M6 participants' R code in vendor/<method>/).
+"""Models run outside the thesis environment (M6 participants' code in vendor/<method>/).
 
 ``RScriptModel`` runs ``Rscript <script> <prices.csv> <origin> <out.csv>`` inside the
-method's directory (where ``.Rprofile`` activates its renv). The prices file is built
-only from the history the walk-forward harness passes (dates up to the origin), so the
-external code cannot see the future. The script must write a CSV with columns ``ID``
-and ``Rank1``..``Rank5``.
+method's directory (where ``.Rprofile`` activates its renv); ``PythonScriptModel`` runs
+``uv run --project <dir> python <script> ...`` in the method's own uv environment. The
+prices file is built only from the history the walk-forward harness passes (dates up to
+the origin), so the external code cannot see the future. The script must write a CSV
+with columns ``ID`` and ``Rank1``..``Rank5``, and optionally ``Decision``.
 
-The participants' published code produces forecasts only (their investment decisions
-were made by hand), so the weights are the M6 investment benchmark (1/n).
+Most participants' published code produces forecasts only (their investment decisions
+were made by hand), so the weights are the M6 investment benchmark (1/n) unless
+``decisions=True`` and the script writes its own ``Decision`` column.
 """
 
 from __future__ import annotations
@@ -24,6 +26,8 @@ import pandas as pd
 from tesina.models import RANK_COLUMNS, Forecast
 from tesina.models.baselines import equal_weights
 
+ROUNDING_TOLERANCE = 1e-3  # residue allowed from rounded outputs (probabilities, weights)
+
 
 @dataclass
 class RScriptModel:
@@ -37,6 +41,13 @@ class RScriptModel:
     start: str | None = None  # first date written (e.g. "2007-01-01")
     rscript: str = "Rscript"
     timeout: int = 3600
+    args: list[str] = field(default_factory=list)  # extra arguments after <out.csv>
+    decisions: bool = False  # use the script's Decision column as weights
+
+    def command(self) -> list[str]:
+        if shutil.which(self.rscript) is None:
+            raise RuntimeError(f"{self.rscript} not found")
+        return [self.rscript, self.script]
 
     def prices_frame(self, history: pd.DataFrame, universe: list[str]) -> pd.DataFrame:
         """Wide adjusted closes (forward-filled) exactly as handed to the R script."""
@@ -54,8 +65,7 @@ class RScriptModel:
         return wide[keep]
 
     def forecast(self, history, universe, origin) -> Forecast:
-        if shutil.which(self.rscript) is None:
-            raise RuntimeError(f"{self.rscript} not found")
+        command = self.command()
         origin = pd.Timestamp(origin)
         wide = self.prices_frame(history[history["date"] <= origin], universe)
         with tempfile.TemporaryDirectory(prefix=f"{self.name}_") as tmp:
@@ -65,11 +75,11 @@ class RScriptModel:
             )
             subprocess.run(
                 [
-                    self.rscript,
-                    self.script,
+                    *command,
                     str(prices_csv),
                     origin.strftime("%Y-%m-%d"),
                     str(out_csv),
+                    *self.args,
                 ],
                 cwd=self.project_dir,
                 check=True,
@@ -77,14 +87,37 @@ class RScriptModel:
                 timeout=self.timeout,
             )
             out = pd.read_csv(out_csv)
-        probs = out.set_index(out["ID"].astype(str))[RANK_COLUMNS].astype(float)
+        out = out.set_index(out["ID"].astype(str))
+        probs = out[RANK_COLUMNS].astype(float)
         missing = set(universe) - set(probs.index)
         if missing:
             raise ValueError(f"{self.name} returned no forecast for {sorted(missing)}")
         probs = probs.loc[universe]
         # Outputs are rounded (FinQBoost: 5 decimals); renormalise rounding residue only.
         total = probs.sum(axis=1)
-        if np.abs(total - 1).max() > 1e-3:
+        if np.abs(total - 1).max() > ROUNDING_TOLERANCE:
             raise ValueError(f"{self.name} probabilities do not sum to 1")
         probs = probs.div(total, axis=0)
+        if self.decisions:
+            weights = out.loc[universe, "Decision"].astype(float)
+            gross = weights.abs().sum()
+            # Rounded weights (wound-ignite: 5 decimals) can exceed the M6 cap of 1 by a
+            # rounding residue; scale that residue away. Larger breaches stay invalid.
+            if 1 < gross <= 1 + ROUNDING_TOLERANCE:
+                weights = weights / gross
+            return Forecast(probs, weights)
         return Forecast(probs, equal_weights(universe))
+
+
+@dataclass
+class PythonScriptModel(RScriptModel):
+    """Same protocol as ``RScriptModel``, run with the method's own uv environment."""
+
+    script: str = "run.py"
+    uv: str = "uv"
+
+    def command(self) -> list[str]:
+        if shutil.which(self.uv) is None:
+            raise RuntimeError(f"{self.uv} not found")
+        project = str(self.project_dir)
+        return [self.uv, "run", "--quiet", "--project", project, "python", self.script]

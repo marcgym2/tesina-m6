@@ -1,0 +1,15 @@
+# Issue #19: does wound-ignite's published code reproduce the team's period-1 forecasts?
+# Fixed before running. Only months whose 200-day estimation window fits inside the
+# official M6 prices (from 2022-01-31) can be checked without the #12 snapshot.
+[data]
+snapshot = "2026-09-28"  # data/raw/m6_official
+
+[team]
+id = "bc4b0314"  # MarcoGorelli (wound-ignite); see docs/decisions.md D1
+
+[check]
+# k of the calendar = submission number; the last committed configuration is "month 11"
+# (upstream commit c26cbc6); months 10 and 12 test whether it was also used then.
+periods = [10, 11, 12]
+seeds = [0, 1, 2, 3, 4]  # the upstream Monte Carlo has no seed: spread across seeds
+constant_dre = true  # upstream generate_dre.py, in use from month 10

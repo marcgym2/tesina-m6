@@ -1,0 +1,9 @@
+# Minimal uv project for tests of PythonScriptModel (no dependencies).
+[project]
+name = "fake-py-model"
+version = "0"
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.uv]
+package = false
