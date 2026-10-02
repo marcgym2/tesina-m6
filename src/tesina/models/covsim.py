@@ -75,7 +75,16 @@ def simulate_quintile_probs(cov: np.ndarray, n_sims: int, seed: int) -> np.ndarr
     values, vectors = np.linalg.eigh(cov)
     root = vectors * np.sqrt(np.clip(values, 0, None))
     z = np.random.default_rng(seed).standard_normal((n_sims, n))
-    sims = z @ root.T
+    return quintile_frequencies(z @ root.T)
+
+
+def quintile_frequencies(sims: np.ndarray) -> np.ndarray:
+    """Quintile probabilities (n x 5) from scenarios (n_sims x n) of the assets' returns.
+
+    Each scenario ranks the assets and maps ranks to quintiles with the proportional
+    thresholds (k * n / 5); probabilities are the frequencies over scenarios.
+    """
+    n_sims, n = sims.shape
     position = sims.argsort(axis=1).argsort(axis=1) + 1  # 1 = lowest return
     thresholds = np.array([k * n / 5 for k in range(1, 5)])
     quintile = np.searchsorted(thresholds, position, side="left")  # 0..4
