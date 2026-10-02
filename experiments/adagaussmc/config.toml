@@ -1,0 +1,29 @@
+# Issue #20: AdaGaussMC reimplemented from arXiv:2303.01855v2, periods 1 and 2.
+# Pre-registered before any run on real data. One configuration, no search; every
+# setting follows the paper or the AdaVol notebook (vendor/adagaussmc/NOTICE.md).
+[data]
+# Download date of the EODHD snapshot (issue #12); it also sets the cutoff of period 2
+# (decision D3). Empty until that snapshot exists; run.py refuses to run without it.
+eodhd = ""
+m6_snapshot = "2026-09-28"  # official M6 prices: period 1 is scored with them (chapter 6)
+
+[evaluation]
+cost_bps = 10.0  # benchmark weights (1/n) still turn over when the universe changes
+zero_variance = "nan"  # decision D1
+
+[evaluation.policy]
+period1 = "official"
+period2 = "d2"  # decision D2
+
+[team]
+id = "b1002bc9"  # AdaGaussMC_STU: period-1 fidelity check against its submissions
+
+[model]
+class_window = ["2015-01-01", "2020-12-31"]
+vol_start = "2015-01-01"
+horizon = 20
+min_obs = 20
+theta0 = [0.05, 0.90]
+eta = 0.1
+n_sims = 20000
+seed = 2026
