@@ -129,13 +129,13 @@ def exportar() -> None:
         doc += ["## Marcas sin fuente asignada", ""]
         doc += [f"- `{p.relative_to(ROOT)}:{n}`: {d}" for p, n, d in unmatched]
     out = ROOT / "docs" / "citas" / "verificacion.md"
-    out.write_text("\n".join(doc) + "\n", encoding="utf-8")
+    out.write_text("\n".join(doc).rstrip("\n") + "\n", encoding="utf-8")
     print(f"{out.relative_to(ROOT)}: {len(rows)} markers, {len(unmatched)} without a source")
 
 
 def normalize(text: str) -> str:
     text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode().lower()
-    return re.sub(r"[^a-z0-9.:/ -]+", " ", text)
+    return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9.:/ -]+", " ", text))
 
 
 def bib_entries(text: str) -> list[dict]:
@@ -151,7 +151,7 @@ def key_for(r: dict, entries: list[dict]) -> str | None:
     if r["identificador"]:
         needles.append(normalize(r["identificador"]))
     if r["id"] in MANUAL_TITLES:
-        needles.append(MANUAL_TITLES[r["id"]])
+        needles.append(normalize(MANUAL_TITLES[r["id"]]))
     for needle in needles:
         if r.get("tipo") == "isbn":  # exported ISBNs usually carry hyphens
             hits = [e["key"] for e in entries if needle in e["text"].replace("-", "")]

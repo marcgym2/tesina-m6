@@ -40,7 +40,7 @@ def test_every_marker_in_the_thesis_maps_to_a_known_work():
     ids = [r["id"] for r in refs]
     assert len(ids) == len(set(ids))
     unmatched = [d for _, _, _, d in citas.markers() if not citas.works_for(d, refs)]
-    assert unmatched == ["estudios de réplica o persistencia en competencias de pronóstico"]
+    assert unmatched == []
 
 
 def test_resolver_replaces_only_fully_resolved_markers(tmp_path, monkeypatch):

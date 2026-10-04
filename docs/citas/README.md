@@ -50,14 +50,30 @@ Claude no edita `thesis/references.bib` (CLAUDE.md).
    importa qué clave genere Better BibTeX. Solo reemplaza una marca si todas sus obras
    ya tienen clave.
 
-## Una marca sin fuente
+## Estado al 2026-10-04
 
-En `thesis/chapters/03-justificacion.qmd` dice que **"rara vez se vuelve a evaluar a
-los ganadores con datos posteriores"**. Esa afirmación necesita una fuente: estudios de
-réplica o de persistencia en competencias de pronóstico. Hay dos caminos:
-- encontrar esa fuente;
-- o reformular la frase, por ejemplo: "para la M6 no se encontró una reevaluación de los
-  métodos ganadores con datos posteriores a la competencia".
+- **Ya en el `.bib` de Marco: 54 entradas.** Con ellas se resuelven 66 de las 77 marcas.
+- **Faltan 9 obras.** Pegarlas otra vez en la varita mágica; las de arXiv y los ISBN no
+  entraron la primera vez:
+  - arXiv:2310.10688 (TimesFM)
+  - arXiv:2403.07815 (Chronos)
+  - arXiv:1706.09516 (CatBoost)
+  - arXiv:2310.13357 (preprint de la M6)
+  - arXiv:1902.10811 (Recht et al.)
+  - 9781119482086 (López de Prado)
+  - 9780070248823 (Grinold y Kahn)
+  - 10.1111/jofi.12365 (McLean y Pontiff)
+  - 10.1016/j.jeconom.2005.07.015 (Aiolfi y Timmermann)
+- **Arreglos en Zotero:**
+  - *An Introduction to Copulas* quedó sin autor y su clave salió `2006`; el autor es
+    Roger B. Nelsen.
+  - `makridakis2025` sigue como *online/prepublished*; debe pasar a *Journal Article*
+    (IJF).
+- **PDF.** Zotero bajó 16 de acceso abierto ("Find Full Text"). Los que faltan son de
+  revistas de pago: se consiguen con el acceso de la UANL. Los repositorios y las
+  páginas web no necesitan PDF.
+- **La afirmación del cap. 3** sobre reevaluar a los ganadores se reformuló con McLean y
+  Pontiff (2016), Aiolfi y Timmermann (2006) y Recht et al. (2019).
 
 ## ¿Un agente con *computer use*?
 

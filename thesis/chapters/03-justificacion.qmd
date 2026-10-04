@@ -5,8 +5,22 @@
 El estudio se justifica en cuatro planos.
 
 **Académico: una réplica fuera de muestra.** Las competencias de pronóstico reportan quién
-ganó en un periodo determinado. Rara vez se vuelve a evaluar a los ganadores con datos
-posteriores [CITA PENDIENTE: estudios de réplica o persistencia en competencias de pronóstico].
+ganó en un periodo determinado, pero eso no garantiza que el resultado se sostenga
+después. Cuando lo que destacó en una muestra se vuelve a evaluar con datos nuevos, su
+desempeño suele disminuir:
+
+- **En finanzas,** los predictores de rendimientos publicados en la literatura pierden
+  buena parte de su rentabilidad fuera de la muestra original, y aún más después de su
+  publicación [CITA PENDIENTE: McLean y Pontiff (2016), Does academic research destroy stock return predictability?, Journal of Finance].
+- **Entre modelos de pronóstico,** el buen desempeño pasado persiste en parte, pero son
+  frecuentes los casos en que un modelo que pronosticaba bien pasa a hacerlo mal, y al
+  revés [CITA PENDIENTE: Aiolfi y Timmermann (2006), Persistence in forecasting performance and conditional combination strategies, Journal of Econometrics].
+- **En aprendizaje automático,** los mejores modelos de clasificación de imágenes pierden
+  exactitud cuando se les evalúa con un conjunto de prueba nuevo
+  [CITA PENDIENTE: Recht, Roelofs, Schmidt y Shankar (2019), Do ImageNet classifiers generalize to ImageNet?, ICML].
+
+En la literatura revisada no se encontró una reevaluación de los métodos ganadores de la
+M6 con datos posteriores a la competencia. Esta tesina la hace:
 
 - La M6 lo permite, porque los datos de la competencia y el código de varios métodos son
   públicos.
