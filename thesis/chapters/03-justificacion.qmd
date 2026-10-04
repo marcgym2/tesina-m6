@@ -11,10 +11,10 @@ desempeño suele disminuir:
 
 - **En finanzas,** los predictores de rendimientos publicados en la literatura pierden
   buena parte de su rentabilidad fuera de la muestra original, y aún más después de su
-  publicación [CITA PENDIENTE: McLean y Pontiff (2016), Does academic research destroy stock return predictability?, Journal of Finance].
+  publicación [@mclean2016].
 - **Entre modelos de pronóstico,** el buen desempeño pasado persiste en parte, pero son
   frecuentes los casos en que un modelo que pronosticaba bien pasa a hacerlo mal, y al
-  revés [CITA PENDIENTE: Aiolfi y Timmermann (2006), Persistence in forecasting performance and conditional combination strategies, Journal of Econometrics].
+  revés [@aiolfi2006].
 - **En aprendizaje automático,** los mejores modelos de clasificación de imágenes pierden
   exactitud cuando se les evalúa con un conjunto de prueba nuevo
   [CITA PENDIENTE: Recht, Roelofs, Schmidt y Shankar (2019), Do ImageNet classifiers generalize to ImageNet?, ICML].
@@ -26,7 +26,7 @@ M6 con datos posteriores a la competencia. Esta tesina la hace:
   públicos.
 - Existen análisis posteriores de la competencia, que discuten el papel de la suerte o
   comparan a los participantes con portafolios de referencia [@stanek2024]
-  [CITA PENDIENTE: Schneider et al. (2024), comparación de los competidores de la M6 con índices y portafolios aleatorios; ya está en Zotero como schneider2024, falta el commit del .bib].
+  [@schneider2024].
 - Lo que aporta esta tesina es la evaluación de los mismos métodos en un periodo que
   ninguno de ellos vio.
 
