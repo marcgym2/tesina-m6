@@ -8,11 +8,11 @@ Pronosticar el rendimiento de un activo financiero es una de las tareas más est
 menos exitosas de la estadística aplicada. La hipótesis de mercados eficientes sostiene
 que los precios incorporan la información disponible, de modo que superar al mercado de
 forma sistemática no debería ser posible
-[CITA PENDIENTE: Fama (1970), hipótesis de mercados eficientes]. Aun así, la promesa
+[@fama1970]. Aun así, la promesa
 opuesta circula con fuerza: plataformas, cursos y productos de inversión ofrecen
 estrategias de "trading con inteligencia artificial" a inversionistas no profesionales,
 casi siempre respaldadas por simulaciones históricas con rendimientos sobresalientes
-[CITA PENDIENTE: evidencia sobre la oferta de productos de trading con IA a inversionistas minoristas].
+[@sec2024].
 
 Entre esos dos extremos, la pregunta útil no es si el aprendizaje automático puede
 "ganarle al mercado" en abstracto. La pregunta útil es cuánto del desempeño que reporta
@@ -29,7 +29,7 @@ M6.
 ## La competencia M6 {#sec-intro-m6}
 
 Las competencias M, organizadas desde 1982, comparan métodos de pronóstico en
-condiciones controladas [CITA PENDIENTE: historia de las competencias M]. La sexta
+condiciones controladas [@makridakis1982; @makridakis2000]. La sexta
 edición, la M6, se dedicó por primera vez a los mercados financieros [@makridakis2025].
 
 - **Formato.** Durante doce periodos de cuatro semanas, entre 2022 y 2023, los
@@ -66,14 +66,14 @@ información real. La literatura de finanzas cuantitativas y de aprendizaje auto
 identifica varias fuentes de ese desempeño ilusorio.
 
 - **Fuga de información.** Usar datos que no estaban disponibles al momento de decidir
-  [CITA PENDIENTE: literatura sobre *leakage* en minería de datos, p. ej. Kaufman et al. (2012)].
+  [@kaufman2012].
 - **Validación que ignora el orden temporal.** Esto incluye la validación cruzada
   aleatoria con datos financieros
   [CITA PENDIENTE: López de Prado (2018), validación y purga en series financieras].
 - **Sesgo de supervivencia.** Elegir el universo de activos después de los hechos
-  [CITA PENDIENTE: Brown, Goetzmann, Ibbotson y Ross (1992); Elton, Gruber y Blake (1996)].
+  [@brown1992; @elton1996].
 - **Sobreajuste por búsqueda.** Probar muchas configuraciones y reportar solo la mejor
-  [CITA PENDIENTE: Bailey, Borwein, López de Prado y Zhu, probabilidad de sobreajuste del backtest; Harvey, Liu y Zhu (2016)].
+  [@bailey2014; @bailey2016; @harvey2016].
 - **Omitir los costos de transacción.**
 
 Cada una de estas fuentes infla los resultados en la misma dirección, y sus efectos se
