@@ -37,6 +37,9 @@ MANUAL = ROOT / "docs" / "citas" / "manuales.bib"
 CHAPTERS = sorted((ROOT / "thesis" / "chapters").glob("*.qmd"))
 BIB = ROOT / "thesis" / "references.bib"
 MARKER = re.compile(r"\[CITA PENDIENTE:\s*(?P<desc>[^\]]*)\]")
+CITATION = re.compile(r"\[[^\[\]]*@[^\[\]]*\]")  # Pandoc citation group, e.g. [@a; @b]
+KEY = re.compile(r"@([\w:.#$%&+?<>~/-]+)")
+CROSSREF = ("sec-", "tbl-", "eq-", "fig-")
 
 # Titles of the manual entries, used to find their keys in the exported bib.
 MANUAL_TITLES = {
@@ -104,19 +107,37 @@ def exportar() -> None:
     out.write_text("\n".join(i for i in ids if i) + "\n", encoding="utf-8")
     print(f"{out.relative_to(ROOT)}: {sum(1 for i in ids if i)} identifiers")
 
+    # Pending markers and citations already resolved to keys, so the checklist keeps
+    # every claim after the markers are replaced.
+    entries = bib_entries(BIB.read_text(encoding="utf-8")) if BIB.exists() else []
+    by_key = {}
+    for r in refs:
+        key = key_for(r, entries)
+        if key:
+            by_key[key] = r["cita"]
     rows, unmatched = [], []
-    for path, n, _, desc in markers():
-        works = works_for(desc, refs)
-        if not works:
-            unmatched.append((path, n, desc))
-        cite = "; ".join(w["cita"] for w in works) or "**sin fuente asignada**"
-        where = f"{path.relative_to(ROOT)}:{n}"
-        rows.append(f"| [ ] | `{where}` | {cite} | {sentence(path, n).replace('|', '/')} |")
+    for path in CHAPTERS:
+        for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            if line.lstrip().startswith("<!--"):
+                continue
+            where = f"`{path.relative_to(ROOT)}:{n}`"
+            for m in MARKER.finditer(line):
+                works = works_for(m.group("desc"), refs)
+                if not works:
+                    unmatched.append((path, n, m.group("desc")))
+                cite = "; ".join(w["cita"] for w in works) or "**sin fuente asignada**"
+                rows.append((where, f"{cite} (pendiente)", path, n))
+            for m in CITATION.finditer(line):
+                keys = [k for k in KEY.findall(m.group(0)) if not k.startswith(CROSSREF)]
+                if keys:
+                    cite = "; ".join(by_key.get(k, f"@{k}") for k in keys)
+                    rows.append((where, cite, path, n))
+    rows = [f"| [ ] | {w} | {c} | {sentence(p, n).replace('|', '/')} |" for w, c, p, n in rows]
     doc = [
         "# Verificación de citas pendientes (#29)",
         "",
-        "Generado por `scripts/citas.py exportar`. Por cada marca `[CITA PENDIENTE]`:",
-        "la obra a la que se asigna y el párrafo que la usa (`[*]` indica dónde va la cita).",
+        "Generado por `scripts/citas.py exportar`. Por cada cita de la tesina, resuelta o",
+        "pendiente: la obra y el párrafo que la usa (`[*]` marca una cita pendiente).",
         "Para cada fila, Marco verifica contra el PDF que la obra sostiene lo que dice el",
         "párrafo, y marca la casilla. Si no lo sostiene, se corrige el texto o la fuente.",
         "",
@@ -130,7 +151,7 @@ def exportar() -> None:
         doc += [f"- `{p.relative_to(ROOT)}:{n}`: {d}" for p, n, d in unmatched]
     out = ROOT / "docs" / "citas" / "verificacion.md"
     out.write_text("\n".join(doc).rstrip("\n") + "\n", encoding="utf-8")
-    print(f"{out.relative_to(ROOT)}: {len(rows)} markers, {len(unmatched)} without a source")
+    print(f"{out.relative_to(ROOT)}: {len(rows)} citations, {len(unmatched)} without a source")
 
 
 def normalize(text: str) -> str:
@@ -146,6 +167,9 @@ def bib_entries(text: str) -> list[dict]:
     return entries
 
 
+PROVISIONAL_KEY = re.compile(r"^(\d|zotero-item-)")  # Better BibTeX fallback keys
+
+
 def key_for(r: dict, entries: list[dict]) -> str | None:
     needles = []
     if r["identificador"]:
@@ -158,7 +182,9 @@ def key_for(r: dict, entries: list[dict]) -> str | None:
         else:
             hits = [e["key"] for e in entries if needle in e["text"]]
         if len(hits) == 1:
-            return hits[0]
+            # A fallback key (no author or title in Zotero) changes once the item is
+            # fixed, so citing it would break later: treat the work as not yet in the bib.
+            return None if PROVISIONAL_KEY.match(hits[0]) else hits[0]
     return None
 
 

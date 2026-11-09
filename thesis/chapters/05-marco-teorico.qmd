@@ -27,7 +27,7 @@ partes:
 La hipótesis de mercados eficientes sostiene que los precios de los activos reflejan la
 información disponible, de modo que esa información no permite obtener rendimientos
 anormales de forma sistemática
-[CITA PENDIENTE: Fama (1970), Efficient capital markets: a review of theory and empirical work, Journal of Finance 25(2)].
+[@fama1970].
 Se distinguen tres formas según la información considerada:
 
 - **Débil:** la historia de precios.
@@ -44,13 +44,13 @@ La evidencia empírica acumuló regularidades difíciles de conciliar con la for
 
 - **Sobrerreacción.** Las acciones con peores rendimientos en varios años tendieron
   después a superar a las de mejores rendimientos
-  [CITA PENDIENTE: De Bondt y Thaler (1985), Does the stock market overreact?, Journal of Finance].
+  [@bondt1985].
 - **Momentum.** Hay persistencia de rendimientos relativos en horizontes de meses
-  [CITA PENDIENTE: Jegadeesh y Titman (1993), momentum].
+  [@jegadeesh1993].
 
 Explicaciones conductuales, como el exceso de confianza de los inversionistas, buscaron
 reconciliar la continuación de corto plazo con la reversión de largo plazo
-[CITA PENDIENTE: Daniel, Hirshleifer y Subrahmanyam (1998), Journal of Finance].
+[@daniel1998].
 
 La respuesta desde la eficiencia fue que muchas de esas anomalías son frágiles:
 
@@ -58,7 +58,7 @@ La respuesta desde la eficiencia fue que muchas de esas anomalías son frágiles
 - las sobrerreacciones y las subreacciones aparecen con frecuencias parecidas, como se
   esperaría por azar
 
-[CITA PENDIENTE: Fama (1998), Market efficiency, long-term returns, and behavioral finance, Journal of Financial Economics 49(3)].
+[@fama1998].
 
 Este debate anticipa un tema central de la tesina: un patrón que aparece en una muestra
 no necesariamente refleja una regularidad que se mantenga fuera de ella.
@@ -66,7 +66,7 @@ no necesariamente refleja una regularidad que se mantenga fuera de ella.
 ### Hipótesis de los mercados adaptativos
 
 La hipótesis de los mercados adaptativos propone una lectura evolutiva
-[CITA PENDIENTE: Lo (2004), The adaptive markets hypothesis, Journal of Portfolio Management 30(5)].
+[@lo2004].
 La eficiencia no es una propiedad fija del mercado, sino que varía con el entorno, con
 la composición de los participantes y con su capacidad de adaptarse. De ahí se derivan
 tres implicaciones:
@@ -92,10 +92,10 @@ absoluto [@makridakis2025]. Eso cambia lo que la eficiencia permite.
 - Por eso, un pronóstico puede superar a la distribución uniforme sin anticipar qué
   activo subirá. Le basta con reconocer quiénes son más volátiles. Uno de los equipos
   destacados de la M6 basó su método en este argumento
-  [CITA PENDIENTE: de Vilmarest y Werge (2024), arXiv:2303.01855; ya está en Zotero como vilmarest2024, falta el commit del .bib].
+  [@vilmarest2024].
 - La relación entre volatilidad y rendimiento esperado en la sección cruzada es, además,
   objeto de investigación propia
-  [CITA PENDIENTE: Ang, Hodrick, Xing y Zhang (2006), The cross-section of volatility and expected returns, Journal of Finance 61(1)].
+  [@ang2006].
 
 La distinción tiene consecuencias para la interpretación. Superar al benchmark uniforme
 en RPS no equivale a contradecir la eficiencia de mercado. Por eso, la tesina evalúa los
@@ -110,7 +110,7 @@ lugar de un solo valor. Para evaluarlo se usan **reglas de puntuación**, que co
 distribución pronosticada con el resultado observado. Una regla es **propia** si quien
 pronostica obtiene su mejor puntuación esperada reportando su verdadera creencia, y
 **estrictamente propia** si esa es la única forma de obtenerla
-[CITA PENDIENTE: Gneiting y Raftery (2007), Strictly proper scoring rules, prediction, and estimation, JASA].
+[@gneiting2007].
 Las reglas propias evitan que un participante gane exagerando o suavizando sus
 probabilidades por razones estratégicas.
 
@@ -120,7 +120,7 @@ Cuando los resultados son categorías ordenadas, como los quintiles de rendimien
 regla adecuada debe premiar acercarse a la categoría correcta, y no solo acertarla. El
 *Ranked Probability Score* (RPS) lo hace porque compara las distribuciones acumuladas
 del pronóstico y del resultado
-[CITA PENDIENTE: Epstein (1969), definición original del ranked probability score].
+[@epstein1969].
 Su definición en la M6 aparece en @sec-met-metricas (@eq-rps).
 
 Dos propiedades del RPS son relevantes aquí:
@@ -139,7 +139,7 @@ Dos propiedades del RPS son relevantes aquí:
 
 Ordenar los activos por una característica y agruparlos en cuantiles es una práctica
 común en la investigación empírica de precios de activos
-[CITA PENDIENTE: referencia sobre portafolios por ordenamiento (portfolio sorts) en la sección cruzada de rendimientos].
+[@fama1993].
 En la M6, los quintiles se calculan sobre el rendimiento realizado de cada periodo
 [@makridakis2025]. El problema se convierte así en una clasificación ordinal de cinco
 clases que se renueva en cada periodo. Esto tiene dos consecuencias:
@@ -156,7 +156,7 @@ clases que se renueva en cada periodo. Esto tiene dos consecuencias:
 
 El **índice de Sharpe** mide el rendimiento en exceso de una inversión por unidad de
 riesgo total, aproximado por la desviación estándar de sus rendimientos
-[CITA PENDIENTE: Sharpe (1966), Mutual fund performance; Sharpe (1994), The Sharpe ratio].
+[@sharpe1966; @sharpe1994].
 El **índice de información** (IR) mide el rendimiento en exceso respecto a un benchmark
 por unidad de *tracking error*, es decir, de la desviación estándar de esa diferencia
 [CITA PENDIENTE: Grinold y Kahn, Active portfolio management].
@@ -178,7 +178,7 @@ comparabilidad con sus resultados.
 
 - **Ruido de estimación.** Estimar el índice de Sharpe con pocas observaciones produce
   errores grandes, y la autocorrelación de los rendimientos afecta su distribución
-  [CITA PENDIENTE: Lo (2002), The statistics of Sharpe ratios, Financial Analysts Journal].
+  [@lo2002].
   Doce periodos de cuatro semanas son una muestra corta.
 - **Desacople entre pronóstico y decisión.** En la competencia, la relación entre la
   calidad de los pronósticos y la de las inversiones fue débil [@makridakis2025]. Además,
@@ -194,12 +194,12 @@ Ambos puntos motivan que la tesina analice explícitamente la relación entre RP
 
 Las competencias M comparan métodos de pronóstico sobre datos comunes y con reglas de
 evaluación públicas
-[CITA PENDIENTE: historia de las competencias M, p. ej. Makridakis et al. (1982) y Makridakis y Hibon (2000)].
+[@makridakis1982; @makridakis2000].
 Una conclusión recurrente de las primeras ediciones es que los métodos estadísticamente
 sofisticados no necesariamente superan a los simples
-[CITA PENDIENTE: Makridakis y Hibon (2000), The M3-competition]. Las ediciones recientes
+[@makridakis2000]. Las ediciones recientes
 incorporaron pronósticos probabilísticos y métodos de aprendizaje automático
-[CITA PENDIENTE: competencias M4 y M5].
+[@makridakis2020; @makridakis2022].
 
 ### La competencia M6
 
@@ -221,7 +221,7 @@ Los análisis posteriores matizan esos resultados:
 - Los índices de Sharpe más extremos son compatibles con lo esperable por azar, dado el
   número de equipos [@stanek2024].
 - La mayoría de los participantes no superó a portafolios elegidos al azar
-  [CITA PENDIENTE: Schneider et al. (2024), arXiv:2406.19105; ya está en Zotero como schneider2024, falta el commit del .bib].
+  [@schneider2024].
 - Los métodos de varios equipos destacados se publicaron. Algunos como código y otros
   descritos en artículos (@sec-met-ganadores). Eso permite evaluarlos fuera del periodo
   de la competencia.
@@ -235,7 +235,7 @@ modestos pero no nulos. En una comparación amplia, los métodos que capturan re
 no lineales e interacciones, como los árboles y las redes neuronales, mejoraron a los
 modelos lineales, aunque con un poder predictivo fuera de muestra pequeño en términos
 absolutos
-[CITA PENDIENTE: Gu, Kelly y Xiu (2020), Empirical asset pricing via machine learning, Review of Financial Studies].
+[@gu2020].
 Ese poder predictivo pequeño, sumado a la abundancia de ruido, hace que el riesgo de
 sobreajuste sea especialmente alto en este dominio (@sec-mt-sesgos).
 
@@ -245,19 +245,19 @@ sobreajuste sea especialmente alto en este dominio (@sec-mt-sesgos).
 variables mediante reglas binarias y capturan relaciones no lineales y efectos de
 umbral. Los bosques aleatorios promedian muchos árboles, entrenados sobre remuestras de
 los datos y con subconjuntos aleatorios de variables, lo que reduce la varianza
-[CITA PENDIENTE: Breiman (2001), Random forests, Machine Learning].
+[@breiman2001].
 
 **Gradient boosting.** Construye un ensamble de árboles de forma secuencial: cada árbol
 nuevo se ajusta para corregir los errores del ensamble anterior, siguiendo el gradiente
 de la función de pérdida en el espacio de funciones
-[CITA PENDIENTE: Friedman (2001), Greedy function approximation: a gradient boosting machine, Annals of Statistics].
+[@friedman2001].
 Sus implementaciones modernas añaden mejoras de regularización y de eficiencia:
 
 - **XGBoost:** regulariza la complejidad de los árboles e incorpora técnicas para datos
   dispersos y grandes volúmenes
-  [CITA PENDIENTE: Chen y Guestrin (2016), XGBoost, KDD].
+  [@chen2016].
 - **LightGBM:** acelera el entrenamiento con histogramas y muestreo de gradientes
-  [CITA PENDIENTE: Ke et al. (2017), LightGBM, NeurIPS].
+  [@ke2017].
 - **CatBoost:** introduce el *boosting* ordenado. Esto corrige un sesgo que aparece
   cuando las estadísticas de entrenamiento se calculan con los mismos datos que se usan
   para ajustar el modelo, un problema emparentado con la fuga de información
@@ -265,7 +265,7 @@ Sus implementaciones modernas añaden mejoras de regularización y de eficiencia
 
 En comparaciones sobre datos tabulares, los ensambles de árboles se han mantenido
 competitivos frente a las redes profundas, con menos esfuerzo de ajuste
-[CITA PENDIENTE: Shwartz-Ziv y Armon (2022), Tabular data: deep learning is not all you need, Information Fusion 81].
+[@shwartz-ziv2022].
 Esa es la razón principal para usar gradient boosting como modelo supervisado propio y
 como base de la cascada de sesgos (@sec-met-modelos).
 
@@ -280,15 +280,15 @@ temporal (@sec-mt-sesgos).
 La volatilidad de los rendimientos financieros cambia en el tiempo y se agrupa en
 periodos. Los modelos ARCH y GARCH la representan como función de los choques y las
 varianzas pasadas
-[CITA PENDIENTE: Engle (1982), ARCH, Econometrica; Bollerslev (1986), GARCH, Journal of Econometrics].
+[@engle1982; @bollerslev1986].
 Hay dos alternativas más ligeras:
 
 - **Promedio móvil con pesos exponenciales,** popularizado por RiskMetrics
-  [CITA PENDIENTE: J. P. Morgan/Reuters (1996), RiskMetrics].
+  [@riskmetrics1996].
 - **Estimación en línea,** que actualiza los parámetros con cada observación nueva y
   se adapta a cambios de régimen. AdaVol, el modelo que usa AdaGaussMC, pertenece a esta
   familia
-  [CITA PENDIENTE: Werge y Wintenberger (2022), AdaVol, Econometrics and Statistics 23].
+  [@werge2022].
 
 Como se discutió en @sec-mt-eficiencia, pronosticar la volatilidad relativa de los
 activos basta para mejorar al pronóstico uniforme de quintiles. Por eso estos modelos
@@ -315,7 +315,7 @@ documentadas. Cada una corresponde a un paso de la cascada de RQ4 (@tbl-cascada)
 
 Hay fuga de información cuando el modelo usa, durante el entrenamiento o la evaluación,
 datos que no estarían disponibles al momento de pronosticar
-[CITA PENDIENTE: Kaufman, Rosset, Perlich y Stitelman (2012), Leakage in data mining, ACM TKDD].
+[@kaufman2012].
 En series financieras la fuga suele ser sutil. Ejemplos:
 
 - escalar o imputar con estadísticas de toda la muestra;
@@ -344,7 +344,7 @@ modelo se reentrena en cada origen solo con datos anteriores (@sec-met-protocolo
 Hay sesgo de supervivencia cuando el universo se define con los activos que siguen
 existiendo al final de la muestra. Así se excluyen los que desaparecieron, a menudo
 después de un mal desempeño
-[CITA PENDIENTE: Brown, Goetzmann, Ibbotson y Ross (1992), Survivorship bias in performance studies, Review of Financial Studies; Elton, Gruber y Blake (1996), Survivor bias and mutual fund performance, Review of Financial Studies].
+[@brown1992; @elton1996].
 
 En la M6 el problema aparece de forma concreta. Dos activos del universo dejaron de
 cotizar y los proveedores de datos gratuitos ya no los ofrecen. Si se usa un universo
@@ -358,14 +358,14 @@ el desempeño reportado incorpora la suerte de la selección.
 
 - **La probabilidad de sobreajuste crece con el número de pruebas.** Se puede estimar y
   corregir
-  [CITA PENDIENTE: Bailey, Borwein, López de Prado y Zhu (2014, 2017), sobreajuste del backtest y su probabilidad].
+  [@bailey2014; @bailey2016].
 - **La investigación de factores de rendimiento lo ha sufrido.** Ese campo ha propuesto
   exigir umbrales de significancia más estrictos por la cantidad de hipótesis que se han
   probado
-  [CITA PENDIENTE: Harvey, Liu y Zhu (2016), ... and the cross-section of expected returns, Review of Financial Studies].
+  [@harvey2016].
 - **Hay pruebas formales para el riesgo de buscar sobre los mismos datos,** como el
   *reality check*
-  [CITA PENDIENTE: White (2000), A reality check for data snooping, Econometrica].
+  [@white2000].
 
 Las competencias tienen una versión de este problema, porque con muchos participantes
 algunos destacan por azar [@stanek2024]. Por eso la tesina:
@@ -379,23 +379,23 @@ algunos destacan por azar [@stanek2024]. Por eso la tesina:
 Una estrategia que rota su portafolio con frecuencia paga costos que una simulación sin
 fricciones ignora. Una parte importante de las anomalías documentadas se reduce o
 desaparece al considerar esos costos
-[CITA PENDIENTE: Novy-Marx y Velikov (2016), A taxonomy of anomalies and their trading costs, Review of Financial Studies].
+[@novy-marx2016].
 La tesina los modela como un costo proporcional a la rotación (@sec-met-protocolo).
 
 ## Comparación estadística de pronósticos {#sec-mt-inferencia}
 
 Para comparar dos pronósticos evaluados sobre los mismos periodos, se usa la prueba de
 Diebold y Mariano sobre la serie de diferencias de pérdida
-[CITA PENDIENTE: Diebold y Mariano (1995)], con la corrección para muestras pequeñas de
-Harvey, Leybourne y Newbold [CITA PENDIENTE: Harvey, Leybourne y Newbold (1997)].
+[@diebold1995], con la corrección para muestras pequeñas de
+Harvey, Leybourne y Newbold [@harvey1997].
 
 - **Robustez.** El bootstrap por bloques conserva la dependencia temporal al remuestrear
   bloques consecutivos, y no observaciones sueltas
-  [CITA PENDIENTE: Politis y Romano (1992), bootstrap circular por bloques].
+  [@politis1992].
 - **Comparaciones múltiples.** El procedimiento de Holm controla la probabilidad de
-  cometer al menos un falso positivo [CITA PENDIENTE: Holm (1979)]. El de Benjamini y
+  cometer al menos un falso positivo [@holm1979]. El de Benjamini y
   Hochberg controla la proporción esperada de falsos descubrimientos
-  [CITA PENDIENTE: Benjamini y Hochberg (1995)].
+  [@benjamini1995].
 
 Los detalles de su aplicación están en @sec-met-inferencia.
 
@@ -405,13 +405,13 @@ La atención de los inversionistas es limitada.
 
 - **Compras por atención.** Los inversionistas individuales tienden a comprar las
   acciones que la captan, por ejemplo por aparecer en las noticias o tener movimientos
-  extremos [CITA PENDIENTE: Barber y Odean (2008), All that glitters].
+  extremos [@barber2008].
 - **Precios tras un aumento de atención.** Las medidas directas de atención, como el
   volumen de búsquedas en internet, se han asociado con alzas de corto plazo seguidas de
   reversiones
-  [CITA PENDIENTE: Da, Engelberg y Gao (2011), In search of attention, Journal of Finance].
+  [@da2011].
 - **Wikipedia.** Las visitas a sus artículos se han estudiado como indicador de la
   atención hacia empresas y mercados
-  [CITA PENDIENTE: Moat et al. (2013), Wikipedia y movimientos del mercado].
+  [@moat2013].
 
 Estas ideas sustentan la pregunta opcional RQ5.

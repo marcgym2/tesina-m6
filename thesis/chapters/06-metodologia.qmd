@@ -46,7 +46,7 @@ bien documentado, se considera un hallazgo válido.
 El universo es el de la M6: 100 activos que cotizan en bolsa, la mitad acciones del
 S&P 500 y la otra mitad ETFs de distintos mercados y clases de activo [@makridakis2025].
 La lista proviene del repositorio oficial de la competencia
-[CITA PENDIENTE: repositorio Mcompetitions/M6-methods, archivo `assets_m6.csv`].
+[@m6methods].
 El universo no se modifica para mejorar resultados. Los únicos cambios son los que impone
 el mercado, que se describen en @sec-met-universo-pit.
 
@@ -104,7 +104,7 @@ las cuatro semanas siguientes.
 
 Las dos métricas son las de la competencia. Se implementaron a partir del código oficial
 de evaluación, no de su descripción verbal
-[CITA PENDIENTE: repositorio Mcompetitions/M6-methods, `RPS and IR calculation.R`].
+[@m6methods].
 La implementación se validó de dos formas: contra el ejemplo oficial de evaluación y
 reproduciendo el leaderboard publicado. El resultado de esa validación se presenta en
 @sec-resultados.
@@ -116,7 +116,7 @@ y se dividen en quintiles: el quintil 1 agrupa los peores rendimientos y el 5, l
 mejores. Para cada activo $i$, un pronóstico asigna una probabilidad $p_{i,q}$ a cada
 quintil $q = 1, \dots, 5$, y esas probabilidades suman uno. Sea $y_{i,q}$ el quintil
 observado codificado como vector indicador. El RPS del activo
-[CITA PENDIENTE: Epstein (1969), definición original del ranked probability score] es
+[@epstein1969] es
 
 $$
 \mathrm{RPS}_i = \frac{1}{5} \sum_{q=1}^{5} \Big( \sum_{j=1}^{q} y_{i,j} - \sum_{j=1}^{q} p_{i,j} \Big)^2 ,
@@ -191,7 +191,7 @@ Todos los modelos, propios y de terceros, se evalúan con el mismo procedimiento
 ### Reglas contra la fuga de información
 
 El protocolo hace cumplir seis reglas. La fuga de información
-[CITA PENDIENTE: literatura sobre *leakage* en minería de datos, p. ej. Kaufman et al. (2012)]
+[@kaufman2012]
 y el sobreajuste de backtests
 [CITA PENDIENTE: López de Prado (2018); Bailey et al. sobre sobreajuste de backtests]
 son las fuentes más comunes de desempeño ilusorio en finanzas cuantitativas.
@@ -281,12 +281,12 @@ Se evalúan los métodos de equipos destacados que publicaron su código. Cada u
 ejecuta con su propio entorno de software y sin modificar el código original. Un
 adaptador traduce entre el formato del método y el del protocolo de evaluación.
 
-- **FinQBoost** [CITA PENDIENTE: repositorio miguel-data-sc/FinQBoost; la entrada de Zotero existe pero está incompleta]. Está escrito en R y usa gradient boosting.
+- **FinQBoost** [@finqboost]. Está escrito en R y usa gradient boosting.
   - El autor publicó solo la versión final, y su selección de variables se afinó durante
     2022. Ejecutarlo en el periodo 1 usa, por lo tanto, información de ese mismo periodo,
     así que solo el periodo 2 es una prueba limpia.
   - Produce únicamente pronósticos: el autor tomó a mano las decisiones de inversión.
-- **sebrad** [CITA PENDIENTE: repositorio sebrad/M6]. Combina modelos lineales apilados
+- **sebrad** [@sebrad]. Combina modelos lineales apilados
   sobre datos semanales con una simulación a partir de covarianzas.
   - El código publicado corresponde a la versión usada desde el octavo envío, de modo que
     en el periodo 1 solo se reproducen los meses 8 a 12.
@@ -294,9 +294,9 @@ adaptador traduce entre el formato del método y el del protocolo de evaluación
     que introduce sesgo de supervivencia. Se documenta como tal.
   - El repositorio no declara licencia, así que su código no se redistribuye: se obtiene
     en un commit fijo.
-- **wound-ignite** [CITA PENDIENTE: repositorio MarcoGorelli/wound-ignite].
+- **wound-ignite** [@woundignite].
   <!-- Pendiente: completar con lo que documente el issue #19. -->
-- **AdaGaussMC** [CITA PENDIENTE: de Vilmarest y Werge (2024), arXiv:2303.01855; ya está en Zotero como vilmarest2024, falta el commit del .bib]. Modela la volatilidad de cada activo de forma
+- **AdaGaussMC** [@vilmarest2024]. Modela la volatilidad de cada activo de forma
   adaptativa y deriva de ella pronósticos probabilísticos.
   <!-- Pendiente: completar con lo que documente el issue #20 (código público o reimplementación y su fidelidad). -->
 
@@ -309,7 +309,7 @@ configuración probada en cada origen queda registrada, para poder reportar la b
 completa.
 
 **Gradient boosting multiclase.** Es un clasificador LightGBM de cinco clases
-[CITA PENDIENTE: Ke et al. (2017), LightGBM], que se reentrena desde cero en cada origen.
+[@ke2017], que se reentrena desde cero en cada origen.
 
 - **Muestras.** Hay una muestra por cada combinación de activo y ventana pasada de cuatro
   semanas. Las ventanas retroceden de 28 en 28 días desde el origen, así que las
@@ -331,7 +331,7 @@ completa.
 
 **Simulación desde covarianzas.** El modelo estima una covarianza de los rendimientos
 diarios con pesos exponenciales al estilo RiskMetrics
-[CITA PENDIENTE: J. P. Morgan/Reuters (1996), RiskMetrics].
+[@riskmetrics1996].
 
 - **Simulación.** Genera escenarios gaussianos conjuntos del periodo siguiente, con
   media cero. En cada escenario ordena los activos, y las probabilidades de quintil son
@@ -385,14 +385,14 @@ Para cada modelo se calcula, periodo a periodo, el diferencial de pérdida
 $d_t = \mathrm{RPS}_{\text{modelo},t} - \mathrm{RPS}_{\text{uniforme},t}$. La hipótesis
 alternativa es unilateral: $E[d_t] < 0$, es decir, que el modelo pronostica mejor. La
 prueba principal es la de Diebold y Mariano
-[CITA PENDIENTE: Diebold y Mariano (1995)] con la corrección para muestras pequeñas de
-Harvey, Leybourne y Newbold [CITA PENDIENTE: Harvey, Leybourne y Newbold (1997)] y
+[@diebold1995] con la corrección para muestras pequeñas de
+Harvey, Leybourne y Newbold [@harvey1997] y
 valores críticos de una t de Student. Los periodos no se traslapan, así que el horizonte
 es de un periodo.
 
 Como prueba de robustez, que no depende de la aproximación t, se usa un bootstrap
 circular por bloques de la media del diferencial
-[CITA PENDIENTE: Politis y Romano (1992), bootstrap circular por bloques]. El bootstrap
+[@politis1992]. El bootstrap
 también da un intervalo de confianza percentil. Un diferencial idénticamente cero, como
 el de un modelo que reproduce al uniforme, no aporta evidencia en ningún sentido.
 
@@ -400,10 +400,10 @@ el de un modelo que reproduce al uniforme, no aporta evidencia en ningún sentid
 
 Cada familia de comparaciones se ajusta por multiplicidad:
 
-- **Ajuste principal:** el método de Holm [CITA PENDIENTE: Holm (1979)], que controla la
+- **Ajuste principal:** el método de Holm [@holm1979], que controla la
   probabilidad de cometer al menos un falso positivo.
 - **Ajuste secundario:** el de Benjamini y Hochberg
-  [CITA PENDIENTE: Benjamini y Hochberg (1995)], que controla la proporción esperada de
+  [@benjamini1995], que controla la proporción esperada de
   falsos descubrimientos.
 
 Las familias son dos:
@@ -414,7 +414,7 @@ Las familias son dos:
 La tesina reporta cuántos modelos, configuraciones y análisis de sensibilidad se probaron
 en total. El riesgo de reportar solo el mejor resultado de muchas pruebas está bien
 documentado en finanzas
-[CITA PENDIENTE: Harvey, Liu y Zhu (2016), pruebas múltiples en la sección cruzada de rendimientos],
+[@harvey2016],
 y en la propia M6 se ha argumentado que los resultados extremos son compatibles con la
 suerte [@stanek2024].
 
@@ -489,9 +489,9 @@ correspondiente.
 Fuentes pendientes para los sesgos de la tabla:
 
 - **Sesgo de supervivencia:**
-  [CITA PENDIENTE: Brown, Goetzmann, Ibbotson y Ross (1992); Elton, Gruber y Blake (1996)].
+  [@brown1992; @elton1996].
 - **Sobreajuste por búsqueda:**
-  [CITA PENDIENTE: Bailey, Borwein, López de Prado y Zhu, probabilidad de sobreajuste del backtest].
+  [@bailey2014; @bailey2016].
 
 El orden de las correcciones afecta cuánto se atribuye a cada sesgo. Se fija antes de
 correr la cascada y se reporta junto con la figura.

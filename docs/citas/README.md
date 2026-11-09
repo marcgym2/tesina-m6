@@ -50,30 +50,28 @@ Claude no edita `thesis/references.bib` (CLAUDE.md).
    importa qué clave genere Better BibTeX. Solo reemplaza una marca si todas sus obras
    ya tienen clave.
 
-## Estado al 2026-10-04
+## Estado al 2026-10-04 (después del commit del `.bib`)
 
-- **Ya en el `.bib` de Marco: 54 entradas.** Con ellas se resuelven 66 de las 77 marcas.
-- **Faltan 9 obras.** Pegarlas otra vez en la varita mágica; las de arXiv y los ISBN no
-  entraron la primera vez:
-  - arXiv:2310.10688 (TimesFM)
-  - arXiv:2403.07815 (Chronos)
-  - arXiv:1706.09516 (CatBoost)
-  - arXiv:2310.13357 (preprint de la M6)
-  - arXiv:1902.10811 (Recht et al.)
-  - 9781119482086 (López de Prado)
-  - 9780070248823 (Grinold y Kahn)
-  - 10.1111/jofi.12365 (McLean y Pontiff)
-  - 10.1016/j.jeconom.2005.07.015 (Aiolfi y Timmermann)
-- **Arreglos en Zotero:**
-  - *An Introduction to Copulas* quedó sin autor y su clave salió `2006`; el autor es
-    Roger B. Nelsen.
-  - `makridakis2025` sigue como *online/prepublished*; debe pasar a *Journal Article*
-    (IJF).
-- **PDF.** Zotero bajó 16 de acceso abierto ("Find Full Text"). Los que faltan son de
-  revistas de pago: se consiguen con el acceso de la UANL. Los repositorios y las
-  páginas web no necesitan PDF.
-- **La afirmación del cap. 3** sobre reevaluar a los ganadores se reformuló con McLean y
-  Pontiff (2016), Aiolfi y Timmermann (2006) y Recht et al. (2019).
+- **Resueltas:** 67 de las 77 marcas ya son citas `[@clave]`. La tesina renderiza con
+  APA y 54 referencias. `verificacion.md` lista las 96 citas, resueltas o pendientes,
+  para verificarlas contra el PDF (#29).
+- **Quedan 10 marcas, por 7 obras que aún no están en el `.bib`.**
+  - Pegar en la varita mágica (no entraron las dos veces anteriores; si la varita
+    falla, agregarlas a mano):
+    - arXiv:2310.10688 (TimesFM)
+    - arXiv:2403.07815 (Chronos)
+    - arXiv:1706.09516 (CatBoost)
+    - arXiv:1902.10811 (Recht et al.)
+    - 9781119482086 (López de Prado)
+    - 9780070248823 (Grinold y Kahn)
+  - *An Introduction to Copulas*: falta el autor, Roger B. Nelsen. Su clave provisional
+    `2006` no se usa, porque cambiaría al corregirlo.
+- **Arreglos de formato en Zotero:**
+  - "Mclean" → "McLean";
+  - "López De Prado" → "López de Prado";
+  - títulos en *sentence case*, como pide APA.
+- **PDF:** 16 de acceso abierto en Zotero; los de revistas de pago se consiguen con la
+  UANL.
 
 ## ¿Un agente con *computer use*?
 

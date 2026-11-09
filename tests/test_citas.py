@@ -63,3 +63,11 @@ def test_isbn_matches_with_hyphens():
     entries = citas.bib_entries(BIB)
     ref = {"id": "lopezdeprado2018", "tipo": "isbn", "identificador": "9781119482086"}
     assert citas.key_for(ref, entries) == "lopezdeprado2018"
+
+
+def test_provisional_keys_are_not_used():
+    bib = "@book{2006,\n  title = {An Introduction to Copulas},\n"
+    bib += "  doi = {10.1007/0-387-28678-0},\n}\n"
+    entries = citas.bib_entries(bib)
+    ref = {"id": "nelsen2006", "tipo": "doi", "identificador": "10.1007/0-387-28678-0"}
+    assert citas.key_for(ref, entries) is None
