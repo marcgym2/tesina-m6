@@ -1,0 +1,13 @@
+{
+  "experiment": "timesfm",
+  "commit": "17793aca1e0c7739f7a8ff22d64ee7184e490b6d",
+  "dirty": false,
+  "started_utc": "2026-11-09T21:27:07+00:00",
+  "python": "3.12.7",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "pyarrow": "25.0.1",
+    "lightgbm": "4.7.0"
+  }
+}

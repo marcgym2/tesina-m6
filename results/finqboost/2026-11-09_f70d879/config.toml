@@ -1,0 +1,21 @@
+# Issue #17: FinQBoost (published final version) on periods 1 and 2.
+# One configuration, the author's; nothing is tuned here. Period 1 is a reference only:
+# the published feature set was tuned during 2022 (vendor/finqboost/NOTICE.md).
+[data]
+eodhd = "2026-11-09"
+m6_snapshot = "2026-09-28"
+
+[evaluation]
+cost_bps = 10.0  # benchmark weights (1/n): the method gives forecasts only
+zero_variance = "nan"  # decision D1
+
+[evaluation.policy]
+period1 = "official"
+period2 = "d2"  # decision D2
+
+[team]
+id = "38c7fc7b"  # MP - Miguel Pérez Michaus: period-1 fidelity check
+
+[model]
+start = "2007-01-01"  # the author trains on weekly data since 2007
+substitutes = { VXX = "VIXY" }  # the author replaced VXX by VIXY

@@ -1,0 +1,13 @@
+{
+  "experiment": "finqboost",
+  "commit": "f70d8798fc293dcaadfab1c88a0199263fc15b5e",
+  "dirty": false,
+  "started_utc": "2026-11-09T21:04:49+00:00",
+  "python": "3.12.7",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "pyarrow": "25.0.1",
+    "lightgbm": "4.7.0"
+  }
+}
