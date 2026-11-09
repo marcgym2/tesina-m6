@@ -8,17 +8,15 @@ el issue #29 y la auditoría de las referencias de la tarea está en
 docs/revision_marco_teorico_tarea.md. No hay citas textuales.
 -->
 
-Este capítulo reúne los conceptos en los que se apoya la tesina. Está organizado en seis
-partes:
-
-- la eficiencia de mercado, que fija lo que cabe esperar de cualquier pronóstico de
-  rendimientos (@sec-mt-eficiencia);
-- la evaluación de pronósticos probabilísticos (@sec-mt-pronostico);
-- la medición del desempeño de inversión (@sec-mt-inversion);
-- las competencias de pronóstico y la M6 (@sec-mt-competencias);
-- los modelos que se evalúan (@sec-mt-modelos);
-- las fuentes de sesgo que inflan el desempeño aparente de una estrategia
-  (@sec-mt-sesgos).
+Este capítulo reúne los conceptos en los que se apoya la tesina. Empieza con la
+eficiencia de mercado, que fija lo que cabe esperar de cualquier pronóstico de
+rendimientos (@sec-mt-eficiencia). Sigue con la evaluación de pronósticos
+probabilísticos (@sec-mt-pronostico) y con la medición del desempeño de inversión
+(@sec-mt-inversion). Después presenta las competencias de pronóstico y la M6
+(@sec-mt-competencias) y los modelos que se evalúan (@sec-mt-modelos). Termina con las
+fuentes de sesgo que inflan el desempeño aparente de una estrategia (@sec-mt-sesgos),
+las pruebas para comparar pronósticos (@sec-mt-inferencia) y la literatura sobre
+atención de los inversionistas (@sec-mt-atencion).
 
 ## Eficiencia de mercado y predictibilidad de los rendimientos {#sec-mt-eficiencia}
 
@@ -26,55 +24,37 @@ partes:
 
 La hipótesis de mercados eficientes sostiene que los precios de los activos reflejan la
 información disponible, de modo que esa información no permite obtener rendimientos
-anormales de forma sistemática
-[@fama1970].
-Se distinguen tres formas según la información considerada:
-
-- **Débil:** la historia de precios.
-- **Semifuerte:** toda la información pública.
-- **Fuerte:** también la información privada.
-
-La forma débil es la que importa aquí. Si se cumple, ningún modelo que use solo precios
-pasados, como los de esta tesina, debería pronosticar de manera sistemática qué activos
-tendrán un mejor rendimiento relativo.
+anormales de forma sistemática [@fama1970]. Se distinguen tres formas según la
+información considerada: la débil, que se refiere a la historia de precios; la
+semifuerte, que abarca toda la información pública; y la fuerte, que incluye también la
+información privada. La forma débil es la que importa aquí. Si se cumple, ningún modelo
+que use solo precios pasados, como los de esta tesina, debería pronosticar de manera
+sistemática qué activos tendrán un mejor rendimiento relativo.
 
 ### Anomalías y críticas
 
-La evidencia empírica acumuló regularidades difíciles de conciliar con la forma débil:
-
-- **Sobrerreacción.** Las acciones con peores rendimientos en varios años tendieron
-  después a superar a las de mejores rendimientos
-  [@bondt1985].
-- **Momentum.** Hay persistencia de rendimientos relativos en horizontes de meses
-  [@jegadeesh1993].
-
+La evidencia empírica acumuló regularidades difíciles de conciliar con la forma débil.
+Una es la sobrerreacción: las acciones con peores rendimientos en varios años tendieron
+después a superar a las de mejores rendimientos [@bondt1985]. Otra es el momentum, la
+persistencia de los rendimientos relativos en horizontes de meses [@jegadeesh1993].
 Explicaciones conductuales, como el exceso de confianza de los inversionistas, buscaron
 reconciliar la continuación de corto plazo con la reversión de largo plazo
 [@daniel1998].
 
-La respuesta desde la eficiencia fue que muchas de esas anomalías son frágiles:
-
-- dependen del método de medición;
-- las sobrerreacciones y las subreacciones aparecen con frecuencias parecidas, como se
-  esperaría por azar
-
-[@fama1998].
-
-Este debate anticipa un tema central de la tesina: un patrón que aparece en una muestra
-no necesariamente refleja una regularidad que se mantenga fuera de ella.
+La respuesta desde la eficiencia fue que muchas de esas anomalías son frágiles: dependen
+del método de medición, y las sobrerreacciones y las subreacciones aparecen con
+frecuencias parecidas, como se esperaría por azar [@fama1998]. Este debate anticipa un
+tema central de la tesina: un patrón que aparece en una muestra no necesariamente
+refleja una regularidad que se mantenga fuera de ella.
 
 ### Hipótesis de los mercados adaptativos
 
-La hipótesis de los mercados adaptativos propone una lectura evolutiva
-[@lo2004].
-La eficiencia no es una propiedad fija del mercado, sino que varía con el entorno, con
-la composición de los participantes y con su capacidad de adaptarse. De ahí se derivan
-tres implicaciones:
-
-- la relación entre riesgo y rendimiento cambia con el tiempo;
-- las oportunidades de ganancia aparecen y desaparecen;
-- las estrategias de inversión atraviesan ciclos: funcionan en ciertos entornos y dejan
-  de hacerlo en otros.
+La hipótesis de los mercados adaptativos propone una lectura evolutiva [@lo2004]. Según
+ella, la eficiencia no es una propiedad fija del mercado, sino que varía con el entorno,
+con la composición de los participantes y con su capacidad de adaptarse. De ahí se
+derivan tres implicaciones. La relación entre riesgo y rendimiento cambia con el tiempo.
+Las oportunidades de ganancia aparecen y desaparecen. Y las estrategias de inversión
+atraviesan ciclos: funcionan en ciertos entornos y dejan de hacerlo en otros.
 
 La última implicación motiva directamente la pregunta de persistencia (RQ1). Aun si un
 método hubiera superado al benchmark durante la competencia por razones genuinas, nada
@@ -82,20 +62,16 @@ garantiza que siga haciéndolo en un periodo posterior.
 
 ### Implicaciones para el pronóstico de rendimientos relativos
 
-La M6 pidió pronosticar el **rendimiento relativo** de los activos, no su rendimiento
-absoluto [@makridakis2025]. Eso cambia lo que la eficiencia permite.
-
-- Aun en un mercado eficiente, los activos difieren en su riesgo. Un activo más volátil
-  tiene más probabilidad de terminar en los quintiles extremos de la distribución
-  transversal que uno menos volátil, aunque ninguno de los dos tenga un rendimiento
-  esperado anormal.
-- Por eso, un pronóstico puede superar a la distribución uniforme sin anticipar qué
-  activo subirá. Le basta con reconocer quiénes son más volátiles. Uno de los equipos
-  destacados de la M6 basó su método en este argumento
-  [@vilmarest2024].
-- La relación entre volatilidad y rendimiento esperado en la sección cruzada es, además,
-  objeto de investigación propia
-  [@ang2006].
+La M6 pidió pronosticar el rendimiento relativo de los activos, no su rendimiento
+absoluto [@makridakis2025], y eso cambia lo que la eficiencia permite. Aun en un mercado
+eficiente, los activos difieren en su riesgo. Un activo más volátil tiene más
+probabilidad de terminar en los quintiles extremos de la distribución transversal que
+uno menos volátil, aunque ninguno de los dos tenga un rendimiento esperado anormal. Por
+eso, un pronóstico puede superar a la distribución uniforme sin anticipar qué activo
+subirá: le basta con reconocer cuáles son más volátiles. Uno de los equipos destacados
+de la M6 basó su método en este argumento [@vilmarest2024]. La relación entre
+volatilidad y rendimiento esperado en la sección cruzada es, además, objeto de
+investigación propia [@ang2006].
 
 La distinción tiene consecuencias para la interpretación. Superar al benchmark uniforme
 en RPS no equivale a contradecir la eficiencia de mercado. Por eso, la tesina evalúa los
@@ -106,125 +82,102 @@ pronósticos (RPS) y las decisiones de inversión (IR) por separado.
 ### Pronósticos probabilísticos y reglas de puntuación propias
 
 Un pronóstico probabilístico asigna una distribución a los resultados posibles, en
-lugar de un solo valor. Para evaluarlo se usan **reglas de puntuación**, que comparan la
-distribución pronosticada con el resultado observado. Una regla es **propia** si quien
-pronostica obtiene su mejor puntuación esperada reportando su verdadera creencia, y
-**estrictamente propia** si esa es la única forma de obtenerla
-[@gneiting2007].
-Las reglas propias evitan que un participante gane exagerando o suavizando sus
-probabilidades por razones estratégicas.
+lugar de un solo valor. Para evaluarlo se usan reglas de puntuación, que comparan la
+distribución pronosticada con el resultado observado. Una regla es propia si quien
+pronostica obtiene su mejor puntuación esperada reportando su verdadera creencia, y es
+estrictamente propia si esa es la única forma de obtenerla [@gneiting2007]. Las reglas
+propias evitan que un participante gane exagerando o suavizando sus probabilidades por
+razones estratégicas.
 
 ### Ranked Probability Score
 
 Cuando los resultados son categorías ordenadas, como los quintiles de rendimiento, una
 regla adecuada debe premiar acercarse a la categoría correcta, y no solo acertarla. El
 *Ranked Probability Score* (RPS) lo hace porque compara las distribuciones acumuladas
-del pronóstico y del resultado
-[@epstein1969].
-Su definición en la M6 aparece en @sec-met-metricas (@eq-rps).
+del pronóstico y del resultado [@epstein1969]. Su definición en la M6 aparece en
+@sec-met-metricas (@eq-rps).
 
-Dos propiedades del RPS son relevantes aquí:
-
-- **Es una pérdida cuadrática.** Por eso es propia, y el pronóstico que minimiza el RPS
-  esperado es la probabilidad esperada de cada categoría. En otras palabras, el mejor
-  pronóstico constante para un conjunto de periodos es la frecuencia observada de cada
-  quintil, y el mejor pronóstico bajo un modelo de los rendimientos es la frecuencia
-  simulada de cada quintil. Varios de los métodos evaluados se apoyan en este hecho
-  (@sec-met-modelos).
-- **Tiene una referencia fija.** Contra la distribución uniforme, el RPS de un periodo
-  es 0.16 cuando los quintiles tienen el mismo tamaño. Eso da un punto de comparación
-  común para todos los modelos y todos los periodos.
+Dos propiedades del RPS son relevantes aquí. La primera es que se trata de una pérdida
+cuadrática. Por eso es propia, y el pronóstico que minimiza el RPS esperado es la
+probabilidad esperada de cada categoría. En otras palabras, el mejor pronóstico
+constante para un conjunto de periodos es la frecuencia observada de cada quintil, y el
+mejor pronóstico bajo un modelo de los rendimientos es la frecuencia simulada de cada
+quintil. Varios de los métodos evaluados se apoyan en este hecho (@sec-met-modelos). La
+segunda propiedad es que tiene una referencia fija: contra la distribución uniforme, el
+RPS de un periodo es 0.16 cuando los quintiles tienen el mismo tamaño. Eso da un punto
+de comparación común para todos los modelos y todos los periodos.
 
 ### Pronóstico de quintiles en la sección cruzada
 
 Ordenar los activos por una característica y agruparlos en cuantiles es una práctica
-común en la investigación empírica de precios de activos
-[@fama1993].
-En la M6, los quintiles se calculan sobre el rendimiento realizado de cada periodo
-[@makridakis2025]. El problema se convierte así en una clasificación ordinal de cinco
-clases que se renueva en cada periodo. Esto tiene dos consecuencias:
-
-- **Etiquetas transversales.** Las etiquetas solo tienen sentido dentro de cada periodo,
-  de modo que cualquier modelo debe calcularlas así y no agrupando periodos (regla 3,
-  @sec-met-protocolo).
-- **Cancelación del mercado.** Un movimiento común a todos los activos no cambia los
-  quintiles. Lo que el modelo debe anticipar son las diferencias entre activos.
+común en la investigación empírica de precios de activos [@fama1993]. En la M6, los
+quintiles se calculan sobre el rendimiento realizado de cada periodo [@makridakis2025].
+El problema se convierte así en una clasificación ordinal de cinco clases que se renueva
+en cada periodo, y eso tiene dos consecuencias. Las etiquetas solo tienen sentido dentro
+de cada periodo, de modo que cualquier modelo debe calcularlas así y no agrupando
+periodos (regla 3, @sec-met-protocolo). Además, un movimiento común a todos los activos
+no cambia los quintiles: lo que el modelo debe anticipar son las diferencias entre
+activos.
 
 ## Medición del desempeño de inversión {#sec-mt-inversion}
 
 ### Índice de Sharpe e índice de información
 
-El **índice de Sharpe** mide el rendimiento en exceso de una inversión por unidad de
-riesgo total, aproximado por la desviación estándar de sus rendimientos
-[@sharpe1966; @sharpe1994].
-El **índice de información** (IR) mide el rendimiento en exceso respecto a un benchmark
-por unidad de *tracking error*, es decir, de la desviación estándar de esa diferencia
+El índice de Sharpe mide el rendimiento en exceso de una inversión por unidad de riesgo
+total, aproximado por la desviación estándar de sus rendimientos
+[@sharpe1966; @sharpe1994]. El índice de información (IR) mide el rendimiento en exceso
+respecto a un benchmark por unidad de *tracking error*, es decir, de la desviación
+estándar de esa diferencia
 [CITA PENDIENTE: Grinold y Kahn, Active portfolio management].
 
 El IR de la M6 no corresponde exactamente a la definición clásica (@sec-met-metricas,
-@eq-ir):
-
-- es la suma de los rendimientos logarítmicos diarios del portafolio en el periodo,
-  dividida entre su desviación estándar;
-- no resta un benchmark ni anualiza;
-- el benchmark de la competencia, el portafolio de pesos iguales, se compara por
-  separado [@makridakis2025].
-
-Por eso, sus valores no son comparables con las magnitudes habituales del IR en la
-industria. La tesina usa la definición de la competencia para mantener la
-comparabilidad con sus resultados.
+@eq-ir). Es la suma de los rendimientos logarítmicos diarios del portafolio en el
+periodo, dividida entre su desviación estándar. No resta un benchmark ni anualiza, y el
+benchmark de la competencia, que es el portafolio de pesos iguales, se compara por
+separado [@makridakis2025]. Por eso, sus valores no son comparables con las magnitudes
+habituales del IR en la industria. La tesina usa la definición de la competencia para
+mantener la comparabilidad con sus resultados.
 
 ### Limitaciones de las métricas de desempeño
 
-- **Ruido de estimación.** Estimar el índice de Sharpe con pocas observaciones produce
-  errores grandes, y la autocorrelación de los rendimientos afecta su distribución
-  [@lo2002].
-  Doce periodos de cuatro semanas son una muestra corta.
-- **Desacople entre pronóstico y decisión.** En la competencia, la relación entre la
-  calidad de los pronósticos y la de las inversiones fue débil [@makridakis2025]. Además,
-  la estrategia que maximiza la probabilidad de encabezar un ranking no es
-  necesariamente la que maximiza el rendimiento esperado [@stanek2024].
-
-Ambos puntos motivan que la tesina analice explícitamente la relación entre RPS e IR
-(RQ3), en lugar de suponerla.
+Las métricas de desempeño tienen dos limitaciones que importan en este estudio. La
+primera es el ruido de estimación: estimar el índice de Sharpe con pocas observaciones
+produce errores grandes, y la autocorrelación de los rendimientos afecta su distribución
+[@lo2002]. Doce periodos de cuatro semanas son una muestra corta. La segunda es el
+desacople entre pronóstico y decisión. En la competencia, la relación entre la calidad
+de los pronósticos y la de las inversiones fue débil [@makridakis2025], y la estrategia
+que maximiza la probabilidad de encabezar un ranking no es necesariamente la que
+maximiza el rendimiento esperado [@stanek2024]. Ambos puntos motivan que la tesina
+analice explícitamente la relación entre RPS e IR (RQ3), en lugar de suponerla.
 
 ## Competencias de pronóstico {#sec-mt-competencias}
 
 ### Las competencias M
 
 Las competencias M comparan métodos de pronóstico sobre datos comunes y con reglas de
-evaluación públicas
-[@makridakis1982; @makridakis2000].
-Una conclusión recurrente de las primeras ediciones es que los métodos estadísticamente
-sofisticados no necesariamente superan a los simples
-[@makridakis2000]. Las ediciones recientes
-incorporaron pronósticos probabilísticos y métodos de aprendizaje automático
+evaluación públicas [@makridakis1982; @makridakis2000]. Una conclusión recurrente de las
+primeras ediciones es que los métodos estadísticamente sofisticados no necesariamente
+superan a los simples [@makridakis2000]. Las ediciones recientes incorporaron
+pronósticos probabilísticos y métodos de aprendizaje automático
 [@makridakis2020; @makridakis2022].
 
 ### La competencia M6
 
-La M6 trasladó el formato a los mercados financieros [@makridakis2025]:
+La M6 trasladó el formato a los mercados financieros [@makridakis2025]. Durante doce
+periodos de cuatro semanas, los participantes enviaron en tiempo real pronósticos del
+quintil de rendimiento de 100 activos y decisiones de inversión sobre ellos. Los
+pronósticos se evaluaron con el RPS y las decisiones con el IR, y el ranking global
+combinó ambos. Sus organizadores destacan la dificultad de pronosticar el desempeño
+relativo, la dificultad aún mayor de superar al mercado de forma consistente, la
+conexión débil entre pronósticos y decisiones, y el valor de combinar pronósticos y de
+usar modelos de riesgo.
 
-- **Formato.** Durante doce periodos de cuatro semanas, los participantes enviaron en
-  tiempo real pronósticos del quintil de rendimiento de 100 activos y decisiones de
-  inversión sobre ellos.
-- **Evaluación.** Los pronósticos se evaluaron con el RPS y las decisiones con el IR, y
-  el ranking global combinó ambos.
-- **Hallazgos de sus organizadores:**
-  - la dificultad de pronosticar el desempeño relativo;
-  - la dificultad aún mayor de superar al mercado de forma consistente;
-  - la conexión débil entre pronósticos y decisiones;
-  - el valor de combinar pronósticos y de usar modelos de riesgo.
-
-Los análisis posteriores matizan esos resultados:
-
-- Los índices de Sharpe más extremos son compatibles con lo esperable por azar, dado el
-  número de equipos [@stanek2024].
-- La mayoría de los participantes no superó a portafolios elegidos al azar
-  [@schneider2024].
-- Los métodos de varios equipos destacados se publicaron. Algunos como código y otros
-  descritos en artículos (@sec-met-ganadores). Eso permite evaluarlos fuera del periodo
-  de la competencia.
+Los análisis posteriores matizan esos resultados. Los índices de Sharpe más extremos son
+compatibles con lo esperable por azar, dado el número de equipos [@stanek2024], y la
+mayoría de los participantes no superó a portafolios elegidos al azar [@schneider2024].
+Por otra parte, los métodos de varios equipos destacados se publicaron, algunos como
+código y otros descritos en artículos (@sec-met-ganadores), lo que permite evaluarlos
+fuera del periodo de la competencia.
 
 ## Modelos para el pronóstico de rendimientos {#sec-mt-modelos}
 
@@ -234,61 +187,48 @@ El aprendizaje automático se ha aplicado a la predicción de rendimientos con r
 modestos pero no nulos. En una comparación amplia, los métodos que capturan relaciones
 no lineales e interacciones, como los árboles y las redes neuronales, mejoraron a los
 modelos lineales, aunque con un poder predictivo fuera de muestra pequeño en términos
-absolutos
-[@gu2020].
-Ese poder predictivo pequeño, sumado a la abundancia de ruido, hace que el riesgo de
-sobreajuste sea especialmente alto en este dominio (@sec-mt-sesgos).
+absolutos [@gu2020]. Ese poder predictivo pequeño, sumado a la abundancia de ruido, hace
+que el riesgo de sobreajuste sea especialmente alto en este dominio (@sec-mt-sesgos).
 
 ### Ensambles de árboles y gradient boosting
 
-**Árboles y bosques aleatorios.** Los árboles de decisión dividen el espacio de
-variables mediante reglas binarias y capturan relaciones no lineales y efectos de
-umbral. Los bosques aleatorios promedian muchos árboles, entrenados sobre remuestras de
-los datos y con subconjuntos aleatorios de variables, lo que reduce la varianza
-[@breiman2001].
+Los árboles de decisión dividen el espacio de variables mediante reglas binarias y
+capturan relaciones no lineales y efectos de umbral. Los bosques aleatorios promedian
+muchos árboles, entrenados sobre remuestras de los datos y con subconjuntos aleatorios
+de variables, lo que reduce la varianza [@breiman2001].
 
-**Gradient boosting.** Construye un ensamble de árboles de forma secuencial: cada árbol
+El gradient boosting construye un ensamble de árboles de forma secuencial: cada árbol
 nuevo se ajusta para corregir los errores del ensamble anterior, siguiendo el gradiente
-de la función de pérdida en el espacio de funciones
-[@friedman2001].
-Sus implementaciones modernas añaden mejoras de regularización y de eficiencia:
-
-- **XGBoost:** regulariza la complejidad de los árboles e incorpora técnicas para datos
-  dispersos y grandes volúmenes
-  [@chen2016].
-- **LightGBM:** acelera el entrenamiento con histogramas y muestreo de gradientes
-  [@ke2017].
-- **CatBoost:** introduce el *boosting* ordenado. Esto corrige un sesgo que aparece
-  cuando las estadísticas de entrenamiento se calculan con los mismos datos que se usan
-  para ajustar el modelo, un problema emparentado con la fuga de información
-  [CITA PENDIENTE: Prokhorenkova et al. (2018), CatBoost, NeurIPS].
+de la función de pérdida en el espacio de funciones [@friedman2001]. Sus
+implementaciones modernas añaden mejoras de regularización y de eficiencia. XGBoost
+regulariza la complejidad de los árboles e incorpora técnicas para datos dispersos y
+grandes volúmenes [@chen2016]. LightGBM acelera el entrenamiento con histogramas y
+muestreo de gradientes [@ke2017]. CatBoost introduce el *boosting* ordenado, que corrige
+un sesgo que aparece cuando las estadísticas de entrenamiento se calculan con los mismos
+datos que se usan para ajustar el modelo, un problema emparentado con la fuga de
+información
+[CITA PENDIENTE: Prokhorenkova et al. (2018), CatBoost, NeurIPS].
 
 En comparaciones sobre datos tabulares, los ensambles de árboles se han mantenido
 competitivos frente a las redes profundas, con menos esfuerzo de ajuste
-[@shwartz-ziv2022].
-Esa es la razón principal para usar gradient boosting como modelo supervisado propio y
-como base de la cascada de sesgos (@sec-met-modelos).
+[@shwartz-ziv2022]. Esa es la razón principal para usar gradient boosting como modelo
+supervisado propio y como base de la cascada de sesgos (@sec-met-modelos).
 
-**Limitaciones con series de tiempo.** Los ensambles de árboles no modelan la
-dependencia temporal por sí mismos. Sus métodos de validación habituales suponen
-observaciones intercambiables, algo que no se cumple en datos financieros. Por eso, su
-uso requiere variables construidas solo con información pasada y una validación
-temporal (@sec-mt-sesgos).
+Estos modelos tienen una limitación con series de tiempo: no modelan la dependencia
+temporal por sí mismos, y sus métodos de validación habituales suponen observaciones
+intercambiables, algo que no se cumple en datos financieros. Por eso, su uso requiere
+variables construidas solo con información pasada y una validación temporal
+(@sec-mt-sesgos).
 
 ### Modelos de volatilidad
 
 La volatilidad de los rendimientos financieros cambia en el tiempo y se agrupa en
 periodos. Los modelos ARCH y GARCH la representan como función de los choques y las
-varianzas pasadas
-[@engle1982; @bollerslev1986].
-Hay dos alternativas más ligeras:
-
-- **Promedio móvil con pesos exponenciales,** popularizado por RiskMetrics
-  [@riskmetrics1996].
-- **Estimación en línea,** que actualiza los parámetros con cada observación nueva y
-  se adapta a cambios de régimen. AdaVol, el modelo que usa AdaGaussMC, pertenece a esta
-  familia
-  [@werge2022].
+varianzas pasadas [@engle1982; @bollerslev1986]. Hay dos alternativas más ligeras. Una
+es el promedio móvil con pesos exponenciales, popularizado por RiskMetrics
+[@riskmetrics1996]. La otra es la estimación en línea, que actualiza los parámetros con
+cada observación nueva y se adapta a cambios de régimen; AdaVol, el modelo que usa
+AdaGaussMC, pertenece a esta familia [@werge2022].
 
 Como se discutió en @sec-mt-eficiencia, pronosticar la volatilidad relativa de los
 activos basta para mejorar al pronóstico uniforme de quintiles. Por eso estos modelos
@@ -309,32 +249,25 @@ trata este riesgo de forma explícita (@sec-met-modelos).
 
 El desempeño que reporta una estrategia en una simulación histórica puede sobrestimar
 mucho el que tendría en la práctica. Las fuentes de esa sobrestimación están bien
-documentadas. Cada una corresponde a un paso de la cascada de RQ4 (@tbl-cascada).
+documentadas, y cada una corresponde a un paso de la cascada de RQ4 (@tbl-cascada).
 
 ### Fuga de información
 
 Hay fuga de información cuando el modelo usa, durante el entrenamiento o la evaluación,
-datos que no estarían disponibles al momento de pronosticar
-[@kaufman2012].
-En series financieras la fuga suele ser sutil. Ejemplos:
-
-- escalar o imputar con estadísticas de toda la muestra;
-- seleccionar variables viendo el periodo de prueba;
-- construir variables con datos que se publican después de la fecha que representan.
+datos que no estarían disponibles al momento de pronosticar [@kaufman2012]. En series
+financieras la fuga suele ser sutil. Ocurre, por ejemplo, al escalar o imputar con
+estadísticas de toda la muestra, al seleccionar variables viendo el periodo de prueba, o
+al construir variables con datos que se publican después de la fecha que representan.
 
 ### Validación temporal, purga y embargo
 
-**Por qué falla la validación cruzada aleatoria.** Mezcla observaciones del futuro y del
-pasado, de modo que el modelo aprende de periodos posteriores a los que pronostica.
-
-**Etiquetas traslapadas.** Cuando las etiquetas abarcan varios días, como los
-rendimientos de cuatro semanas, las observaciones cercanas comparten información. En
-ese caso hacen falta dos medidas:
-
-- **Purga:** eliminar del entrenamiento las observaciones cuyas etiquetas se traslapan
-  con las de prueba.
-- **Embargo:** dejar un margen entre el entrenamiento y la prueba.
-
+La validación cruzada aleatoria falla con datos financieros porque mezcla observaciones
+del futuro y del pasado, de modo que el modelo aprende de periodos posteriores a los que
+pronostica. El problema se agrava cuando las etiquetas abarcan varios días, como los
+rendimientos de cuatro semanas, porque las observaciones cercanas comparten información.
+En ese caso hacen falta dos medidas: la purga, que elimina del entrenamiento las
+observaciones cuyas etiquetas se traslapan con las de prueba, y el embargo, que deja un
+margen entre el entrenamiento y la prueba
 [CITA PENDIENTE: López de Prado (2018), Advances in financial machine learning, validación con purga y embargo].
 La alternativa más sencilla, que adopta esta tesina, es la evaluación *walk-forward*: el
 modelo se reentrena en cada origen solo con datos anteriores (@sec-met-protocolo).
@@ -343,75 +276,54 @@ modelo se reentrena en cada origen solo con datos anteriores (@sec-met-protocolo
 
 Hay sesgo de supervivencia cuando el universo se define con los activos que siguen
 existiendo al final de la muestra. Así se excluyen los que desaparecieron, a menudo
-después de un mal desempeño
-[@brown1992; @elton1996].
+después de un mal desempeño [@brown1992; @elton1996].
 
-En la M6 el problema aparece de forma concreta. Dos activos del universo dejaron de
-cotizar y los proveedores de datos gratuitos ya no los ofrecen. Si se usa un universo
-"limpio" definido hoy, se introduce el sesgo sin advertirlo. El tratamiento que se da a
-esos activos se describe en @sec-met-universo-pit.
+En la M6 el problema aparece de forma concreta. Tres activos del universo dejaron de
+cotizar entre 2022 y 2026, y los proveedores de datos gratuitos ya no los ofrecen. Si se
+usa un universo "limpio" definido hoy, se introduce el sesgo sin advertirlo. El
+tratamiento que se da a esos activos se describe en @sec-met-universo-pit.
 
 ### Sobreajuste del backtest y pruebas múltiples
 
 Si se prueban muchas configuraciones sobre los mismos datos y se reporta solo la mejor,
-el desempeño reportado incorpora la suerte de la selección.
-
-- **La probabilidad de sobreajuste crece con el número de pruebas.** Se puede estimar y
-  corregir
-  [@bailey2014; @bailey2016].
-- **La investigación de factores de rendimiento lo ha sufrido.** Ese campo ha propuesto
-  exigir umbrales de significancia más estrictos por la cantidad de hipótesis que se han
-  probado
-  [@harvey2016].
-- **Hay pruebas formales para el riesgo de buscar sobre los mismos datos,** como el
-  *reality check*
-  [@white2000].
+el desempeño reportado incorpora la suerte de la selección. La probabilidad de ese
+sobreajuste crece con el número de pruebas, y se puede estimar y corregir
+[@bailey2014; @bailey2016]. La investigación de factores de rendimiento lo ha sufrido, y
+en ese campo se ha propuesto exigir umbrales de significancia más estrictos por la
+cantidad de hipótesis que se han probado [@harvey2016]. También hay pruebas formales
+para el riesgo de buscar sobre los mismos datos, como el *reality check* [@white2000].
 
 Las competencias tienen una versión de este problema, porque con muchos participantes
-algunos destacan por azar [@stanek2024]. Por eso la tesina:
-
-- reporta todas las configuraciones probadas;
-- ajusta las pruebas por comparaciones múltiples;
-- fija las configuraciones antes de ver los resultados.
+algunos destacan por azar [@stanek2024]. Por eso la tesina reporta todas las
+configuraciones probadas, ajusta las pruebas por comparaciones múltiples y fija las
+configuraciones antes de ver los resultados.
 
 ### Costos de transacción
 
 Una estrategia que rota su portafolio con frecuencia paga costos que una simulación sin
 fricciones ignora. Una parte importante de las anomalías documentadas se reduce o
-desaparece al considerar esos costos
-[@novy-marx2016].
-La tesina los modela como un costo proporcional a la rotación (@sec-met-protocolo).
+desaparece al considerar esos costos [@novy-marx2016]. La tesina los modela como un
+costo proporcional a la rotación (@sec-met-protocolo).
 
 ## Comparación estadística de pronósticos {#sec-mt-inferencia}
 
 Para comparar dos pronósticos evaluados sobre los mismos periodos, se usa la prueba de
-Diebold y Mariano sobre la serie de diferencias de pérdida
-[@diebold1995], con la corrección para muestras pequeñas de
-Harvey, Leybourne y Newbold [@harvey1997].
+Diebold y Mariano sobre la serie de diferencias de pérdida [@diebold1995], con la
+corrección para muestras pequeñas de Harvey, Leybourne y Newbold [@harvey1997]. Como
+prueba de robustez se usa el bootstrap por bloques, que conserva la dependencia temporal
+al remuestrear bloques consecutivos y no observaciones sueltas [@politis1992].
 
-- **Robustez.** El bootstrap por bloques conserva la dependencia temporal al remuestrear
-  bloques consecutivos, y no observaciones sueltas
-  [@politis1992].
-- **Comparaciones múltiples.** El procedimiento de Holm controla la probabilidad de
-  cometer al menos un falso positivo [@holm1979]. El de Benjamini y
-  Hochberg controla la proporción esperada de falsos descubrimientos
-  [@benjamini1995].
-
-Los detalles de su aplicación están en @sec-met-inferencia.
+Cuando se hacen muchas comparaciones, las pruebas se ajustan. El procedimiento de Holm
+controla la probabilidad de cometer al menos un falso positivo [@holm1979], y el de
+Benjamini y Hochberg controla la proporción esperada de falsos descubrimientos
+[@benjamini1995]. Los detalles de su aplicación están en @sec-met-inferencia.
 
 ## Atención de los inversionistas y rendimientos (RQ5, opcional) {#sec-mt-atencion}
 
-La atención de los inversionistas es limitada.
-
-- **Compras por atención.** Los inversionistas individuales tienden a comprar las
-  acciones que la captan, por ejemplo por aparecer en las noticias o tener movimientos
-  extremos [@barber2008].
-- **Precios tras un aumento de atención.** Las medidas directas de atención, como el
-  volumen de búsquedas en internet, se han asociado con alzas de corto plazo seguidas de
-  reversiones
-  [@da2011].
-- **Wikipedia.** Las visitas a sus artículos se han estudiado como indicador de la
-  atención hacia empresas y mercados
-  [@moat2013].
-
-Estas ideas sustentan la pregunta opcional RQ5.
+La atención de los inversionistas es limitada. Los inversionistas individuales tienden a
+comprar las acciones que la captan, por ejemplo por aparecer en las noticias o tener
+movimientos extremos [@barber2008]. Las medidas directas de atención, como el volumen de
+búsquedas en internet, se han asociado con alzas de corto plazo seguidas de reversiones
+[@da2011]. Las visitas a los artículos de Wikipedia se han estudiado, a su vez, como
+indicador de la atención hacia empresas y mercados [@moat2013]. Estas ideas sustentan la
+pregunta opcional RQ5.

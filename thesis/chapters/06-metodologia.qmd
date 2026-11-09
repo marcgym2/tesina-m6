@@ -19,14 +19,12 @@ el diseño propio de cada pregunta (@sec-met-preguntas) y las medidas de reprodu
 El estudio replica y extiende la competencia M6 [@makridakis2025]. En ella, los
 participantes pronosticaron durante doce periodos el rendimiento relativo de 100 activos
 y, al mismo tiempo, decidieron cómo invertir en ellos. La tesina aprovecha ese diseño en
-dos periodos de evaluación:
-
-- **Periodo 1, la competencia original** (marzo de 2022 a febrero de 2023). Los modelos
-  de esta tesina se comparan con los pronósticos que los equipos enviaron en tiempo real,
-  tomados del archivo oficial de *submissions*.
-- **Periodo 2, la extensión** (marzo de 2023 a la fecha de corte). El código público de
-  los equipos ganadores y los modelos propios se evalúan con datos que nadie vio durante
-  la competencia.
+dos periodos de evaluación. El periodo 1 es la competencia original, de marzo de 2022 a
+febrero de 2023; en él, los modelos de esta tesina se comparan con los pronósticos que
+los equipos enviaron en tiempo real, tomados del archivo oficial de *submissions*. El
+periodo 2 es la extensión, de marzo de 2023 a la fecha de corte; en él, el código
+público de los equipos ganadores y los modelos propios se evalúan con datos que nadie
+vio durante la competencia.
 
 El periodo 2 es la prueba fuera de muestra más limpia disponible. Ningún participante
 pudo ajustar su método a esos datos, y su extensión depende solo de la fecha en que se
@@ -52,51 +50,56 @@ el mercado, que se describen en @sec-met-universo-pit.
 
 ### Fuentes
 
-- **Periodo 1.** Se usan los datos oficiales del repositorio de la competencia: los
-  precios de los activos, las *submissions* de los equipos, la plantilla de envío y el
-  leaderboard publicado. El snapshot queda fijado a un commit específico del repositorio.
-- **Periodo 2.** Se usan precios de cierre diarios ajustados por *splits* y dividendos
-  del proveedor EOD Historical Data. Según el repositorio oficial, es la misma fuente que
-  usó la competencia durante la mayor parte de su duración. Como fuente independiente de
-  verificación se usa Yahoo Finance.
-- **Historia de entrenamiento.** Los modelos que aprenden del pasado necesitan historia
-  anterior al inicio de la competencia. Por eso se descargan precios desde 2007. Esa
-  historia se usa solo para entrenar; la evaluación del periodo 1 sigue usando los
-  precios oficiales.
+Para el periodo 1 se usan los datos oficiales del repositorio de la competencia: los
+precios de los activos, las *submissions* de los equipos, la plantilla de envío y el
+leaderboard publicado. El snapshot queda fijado a un commit específico del repositorio.
 
-<!-- Pendiente: completar con el manifest del snapshot cuando exista (#12) y con los checks de calidad (#13). -->
+Para el periodo 2 se usan precios de cierre diarios ajustados por *splits* y dividendos
+del proveedor EOD Historical Data. Según el repositorio oficial, es la misma fuente que
+usó la competencia durante la mayor parte de su duración, y conserva la historia de los
+activos que dejaron de cotizar. Como fuente independiente de verificación se usa Yahoo
+Finance.
+
+Los modelos que aprenden del pasado necesitan historia anterior al inicio de la
+competencia, y por eso los precios se descargan desde 2007. En el periodo 1 esa historia
+se usa solo para entrenar: se empalma antes del primer precio oficial de cada activo,
+multiplicada por un factor constante para que coincida con el nivel oficial. Un factor
+constante no altera ningún rendimiento, de modo que la evaluación del periodo 1 sigue
+dependiendo únicamente de los precios oficiales.
 
 Los datos crudos se congelan con la fecha de descarga en el nombre y nunca se
-sobrescriben. Los snapshots de más de 50 MB se registran en un manifiesto con su hash.
+sobrescriben. Los proveedores no permiten redistribuir los precios, así que esos
+archivos no se publican con el código; un manifiesto registra su hash para poder
+verificar cualquier copia. Antes de usarlos se revisa su calidad: la cobertura de cada
+activo, los huecos frente al calendario de su bolsa, los *splits* sin ajustar, los
+saltos anómalos y las discrepancias con los precios oficiales y con Yahoo Finance. El
+resultado de esa revisión se presenta en @sec-resultados.
 
 ### Fecha de corte
 
-El periodo 2 termina con el **último periodo completo de cuatro semanas anterior a la
-fecha de descarga** (decisión D3). Un periodo cuenta como completo cuando su último
-cierre ya es definitivo al momento de la descarga. Ningún experimento usa datos
-posteriores a la fecha de corte.
+El periodo 2 termina con el último periodo completo de cuatro semanas anterior a la
+fecha de descarga (decisión D3). Un periodo cuenta como completo cuando su último cierre
+ya es definitivo al momento de la descarga. Los precios se descargaron el 9 de noviembre
+de 2026, de modo que la fecha de corte es el 6 de noviembre de 2026 y el periodo 2
+abarca 49 periodos de cuatro semanas. Ningún experimento usa datos posteriores a esa
+fecha.
 
 ## Calendario de evaluación {#sec-met-calendario}
 
 Cada pronóstico cubre las cuatro semanas siguientes, normalmente veinte días hábiles, y
 los periodos consecutivos no se traslapan [@makridakis2025]. La guía oficial ya no está
-en línea, así que el calendario se reconstruyó a partir de tres fuentes:
-
-1. el paper de resultados;
-2. el código con el que los organizadores evaluaron sus hipótesis;
-3. el ejemplo oficial de evaluación.
+en línea, así que el calendario se reconstruyó a partir de tres fuentes: el artículo de
+resultados, el código con el que los organizadores evaluaron sus hipótesis y el ejemplo
+oficial de evaluación.
 
 El resultado es una malla fija de viernes separados por 28 días, que empieza con el
-cierre del 4 de febrero de 2022:
+cierre del 4 de febrero de 2022. El periodo 0 de la malla es la ronda de prueba. Los
+periodos 1 a 12 son la competencia, es decir, el periodo 1 de la tesina, y del periodo
+13 en adelante es la extensión, el periodo 2. Cada fecha de la malla es nominal: si cae
+en día inhábil, se toma el último día hábil anterior, y el cambio aplica por igual al
+periodo que termina y al que empieza.
 
-- el periodo 0 es la ronda de prueba;
-- los periodos 1 a 12 son la competencia, es decir, el periodo 1 de la tesina;
-- del periodo 13 en adelante es la extensión, el periodo 2.
-
-Cada fecha de la malla es nominal. Si cae en día inhábil, se toma el último día hábil
-anterior, y el cambio aplica por igual al periodo que termina y al que empieza.
-
-En cada periodo, el **origen** del pronóstico es el cierre que lo inicia. Todo modelo
+En cada periodo, el origen del pronóstico es el cierre que lo inicia. Todo modelo
 pronostica con información disponible hasta ese cierre y se evalúa con los precios de
 las cuatro semanas siguientes.
 
@@ -130,16 +133,14 @@ el mismo tamaño, se aparta ligeramente de 0.16, y por eso se compara siempre co
 RPS que el uniforme obtiene en cada periodo.
 
 El código oficial agrega dos reglas que la descripción verbal no menciona, y aquí se
-siguen tal como están:
-
-- **Empates.** Los activos con el mismo rendimiento reciben el rango mínimo del grupo.
-  Si el grupo abarca posiciones de dos quintiles, cada activo recibe el promedio de los
-  vectores indicadores de esas posiciones, así que el objetivo puede ser fraccionario.
-- **Umbrales.** Los cortes entre quintiles están fijos en las posiciones 20, 40, 60 y 80,
-  es decir, suponen 100 activos. Cuando el universo tiene menos activos
-  (@sec-met-universo-pit), los cortes pasan a ser proporcionales, en las posiciones
-  $k \cdot n / 5$. Este cambio se aparta del código oficial y se declara como tal
-  (decisión D2).
+siguen tal como están. La primera trata los empates: los activos con el mismo
+rendimiento reciben el rango mínimo del grupo, y si el grupo abarca posiciones de dos
+quintiles, cada activo recibe el promedio de los vectores indicadores de esas
+posiciones, así que el objetivo puede ser fraccionario. La segunda fija los cortes entre
+quintiles en las posiciones 20, 40, 60 y 80, es decir, supone 100 activos. Cuando el
+universo tiene menos activos (@sec-met-universo-pit), los cortes pasan a ser
+proporcionales, en las posiciones $k \cdot n / 5$. Este cambio se aparta del código
+oficial y se declara como tal (decisión D2).
 
 ### Decisión de inversión: Information Ratio
 
@@ -170,10 +171,8 @@ Un caso especial: un portafolio con rendimiento diario constante tiene varianza 
 su IR queda indefinido. Esto ocurrió en el periodo 1, cuando un equipo invirtió todo en
 un activo deslistado cuyo precio estaba congelado. El código oficial devuelve un valor
 faltante, mientras que el leaderboard publicado muestra 1. La tesina reporta ambos
-criterios (decisión D1):
-
-- para reproducir el leaderboard, se usa 1;
-- en los análisis propios, el periodo se excluye del agregado y la exclusión se reporta.
+criterios (decisión D1): para reproducir el leaderboard se usa 1, y en los análisis
+propios el periodo se excluye del agregado y la exclusión se reporta.
 
 ## Protocolo de evaluación {#sec-met-protocolo}
 
@@ -190,11 +189,10 @@ Todos los modelos, propios y de terceros, se evalúan con el mismo procedimiento
 
 ### Reglas contra la fuga de información
 
-El protocolo hace cumplir seis reglas. La fuga de información
-[@kaufman2012]
-y el sobreajuste de backtests
+La fuga de información [@kaufman2012] y el sobreajuste de backtests
 [CITA PENDIENTE: López de Prado (2018); Bailey et al. sobre sobreajuste de backtests]
-son las fuentes más comunes de desempeño ilusorio en finanzas cuantitativas.
+son las fuentes más comunes de desempeño ilusorio en finanzas cuantitativas. Para
+evitarlas, el protocolo hace cumplir seis reglas:
 
 1. **Todo split es temporal**, *walk-forward* o de ventana creciente. Se prohíben la
    validación cruzada aleatoria y cualquier barajado de observaciones.
@@ -211,24 +209,21 @@ son las fuentes más comunes de desempeño ilusorio en finanzas cuantitativas.
 
 ### Universo point-in-time {#sec-met-universo-pit}
 
-Desde el inicio de la competencia, dos activos del universo dejaron de cotizar:
+Desde el inicio de la competencia, tres activos del universo dejaron de cotizar. DRE fue
+adquirida por Prologis, y su último precio en los datos oficiales es del 28 de noviembre
+de 2022. WRK se fusionó con Smurfit Kappa y salió de la bolsa de Nueva York el 5 de
+julio de 2024. AVB se fusionó con Equity Residential y salió de la misma bolsa el 17 de
+agosto de 2026 (decisión D9). Un cuarto activo, RE, cambió su ticker a EG, pero sigue
+siendo la misma acción.
 
-- **DRE** fue adquirida por Prologis. Su último precio en los datos oficiales es del
-  28 de noviembre de 2022.
-- **WRK** se fusionó con Smurfit Kappa y salió de la bolsa de Nueva York el 5 de julio
-  de 2024.
-
-Un tercer activo, RE, cambió su ticker a EG, pero sigue siendo la misma acción.
-
-La competencia mantuvo a DRE en el universo con su último precio. Este estudio
-distingue dos políticas:
-
-- **Política oficial (periodo 1).** Se replica la regla de la M6: un activo deslistado
-  permanece en el universo, congelado en su último precio.
-- **Política D2 (periodo 2).** Un activo deslistado se excluye desde el primer periodo
-  cuyo origen es igual o posterior a su fecha de deslistado. Como el deslistado es
-  público el día en que ocurre, la regla no usa información futura. En consecuencia, DRE
-  queda fuera de todo el periodo 2 y WRK, desde el periodo siguiente a su salida.
+La competencia mantuvo a DRE en el universo con su último precio. Este estudio distingue
+dos políticas. La política oficial, que se usa en el periodo 1, replica la regla de la
+M6: un activo deslistado permanece en el universo, congelado en su último precio. La
+política D2, que se usa en el periodo 2, excluye a un activo deslistado desde el primer
+periodo cuyo origen es igual o posterior a su fecha de deslistado. Como el deslistado es
+público el día en que ocurre, la regla no usa información futura. En consecuencia, DRE
+queda fuera de todo el periodo 2, y WRK y AVB, desde el periodo siguiente a su salida.
+El universo del periodo 2 tiene así 99, 98 y finalmente 97 activos.
 
 Como análisis de sensibilidad, el periodo 2 se recalcula también con la política oficial
 (decisión D4). La diferencia entre ambas mide cuánto del desempeño depende del
@@ -256,8 +251,8 @@ los activos del universo en cada origen, y todos pasan por el protocolo de
 | Referencia | Frecuencia histórica | Frecuencia pasada de cada quintil por activo | Ninguna (fijado a priori) |
 | Ganadores M6 | FinQBoost | Gradient boosting sobre variables técnicas | La del autor, durante 2022 |
 | Ganadores M6 | sebrad | Modelos lineales apilados y simulación desde covarianzas | La del autor, durante 2022 |
-| Ganadores M6 | wound-ignite | Por documentar (#19) | Por documentar |
-| Ganadores M6 | AdaGaussMC | Volatilidad adaptativa (AdaVol) y pronóstico probabilístico | Por documentar (#20) |
+| Ganadores M6 | wound-ignite | Covarianzas de 200 días y simulación gaussiana | La del autor: selección mensual por backtest |
+| Ganadores M6 | AdaGaussMC | Volatilidad adaptativa (AdaVol) y simulación | Ninguna (reimplementación del artículo) |
 | Propio | GBM multiclase | Quintil a partir de variables de precio | Grid fijo, solo con el pasado |
 | Propio | Simulación desde covarianzas | Covarianza EWMA, media cero | Vida media, solo con el pasado |
 | Propio | TimesFM-3 | Nada: modelo preentrenado, *zero-shot* | Ninguna |
@@ -266,39 +261,54 @@ los activos del universo en cada origen, y todos pasan por el protocolo de
 
 ### Referencias
 
-- **Uniforme.** Asigna 0.2 a cada quintil y es el benchmark de pronóstico de la M6.
-- **Frecuencia histórica.** Estima, para cada activo, la frecuencia con la que cayó en
-  cada quintil en ventanas pasadas de cuatro semanas que terminan en el origen o antes,
-  con suavizado aditivo. Sirve para saber si la sola persistencia del quintil de cada
-  activo aporta información.
-
-Ambas referencias invierten con pesos iguales. Así se distinguen del benchmark solo por
-su pronóstico.
+La primera referencia es el pronóstico uniforme, que asigna 0.2 a cada quintil y es el
+benchmark de pronóstico de la M6. La segunda es la frecuencia histórica: estima, para
+cada activo, la frecuencia con la que cayó en cada quintil en ventanas pasadas de cuatro
+semanas que terminan en el origen o antes, con suavizado aditivo. Sirve para saber si la
+sola persistencia del quintil de cada activo aporta información. Ambas referencias
+invierten con pesos iguales, y así se distinguen del benchmark solo por su pronóstico.
 
 ### Métodos ganadores de la M6 {#sec-met-ganadores}
 
-Se evalúan los métodos de equipos destacados que publicaron su código. Cada uno se
-ejecuta con su propio entorno de software y sin modificar el código original. Un
-adaptador traduce entre el formato del método y el del protocolo de evaluación.
+Se evalúan cuatro métodos de equipos destacados. Tres publicaron su código, que se
+ejecuta con su propio entorno de software y sin modificarlo; un adaptador traduce entre
+el formato del método y el del protocolo de evaluación. El cuarto se reimplementó a
+partir del artículo de sus autores.
 
-- **FinQBoost** [@finqboost]. Está escrito en R y usa gradient boosting.
-  - El autor publicó solo la versión final, y su selección de variables se afinó durante
-    2022. Ejecutarlo en el periodo 1 usa, por lo tanto, información de ese mismo periodo,
-    así que solo el periodo 2 es una prueba limpia.
-  - Produce únicamente pronósticos: el autor tomó a mano las decisiones de inversión.
-- **sebrad** [@sebrad]. Combina modelos lineales apilados
-  sobre datos semanales con una simulación a partir de covarianzas.
-  - El código publicado corresponde a la versión usada desde el octavo envío, de modo que
-    en el periodo 1 solo se reproducen los meses 8 a 12.
-  - Se entrena con un universo ampliado de acciones elegido después de los hechos, lo
-    que introduce sesgo de supervivencia. Se documenta como tal.
-  - El repositorio no declara licencia, así que su código no se redistribuye: se obtiene
-    en un commit fijo.
-- **wound-ignite** [@woundignite].
-  <!-- Pendiente: completar con lo que documente el issue #19. -->
-- **AdaGaussMC** [@vilmarest2024]. Modela la volatilidad de cada activo de forma
-  adaptativa y deriva de ella pronósticos probabilísticos.
-  <!-- Pendiente: completar con lo que documente el issue #20 (código público o reimplementación y su fidelidad). -->
+FinQBoost [@finqboost] está escrito en R y usa gradient boosting. Su autor publicó solo
+la versión final, cuya selección de variables se afinó durante 2022. Ejecutarlo en el
+periodo 1 usa, por lo tanto, información de ese mismo periodo, así que solo el periodo 2
+es una prueba limpia. El método produce únicamente pronósticos, porque el autor tomó a
+mano las decisiones de inversión.
+
+El método de sebrad [@sebrad] combina modelos lineales apilados sobre datos semanales
+con una simulación a partir de covarianzas. El código publicado corresponde a la versión
+usada desde el octavo envío, de modo que en el periodo 1 solo se reproducen los meses 8
+a 12. Se entrena con un universo ampliado de acciones elegido después de los hechos, lo
+que introduce sesgo de supervivencia, y se documenta como tal. El repositorio no declara
+licencia, así que su código no se redistribuye: se obtiene en un commit fijo.
+
+wound-ignite [@woundignite] estima la covarianza de los últimos 200 rendimientos
+diarios, simula escenarios gaussianos con media cero y toma como probabilidades las
+frecuencias de cada quintil. Durante la competencia, su autor probaba cada mes muchas
+combinaciones de estimador de covarianza y de constructor de portafolio sobre los tres
+periodos anteriores, y promediaba las que superaban ciertos umbrales, que ajustaba a
+mano. Las selecciones mensuales no se publicaron. Aquí se ejecuta la última
+configuración que el autor dejó en su repositorio, congelada para todos los periodos
+(decisión D8), con los pesos de inversión que produce el propio método. En el periodo 1
+esa configuración sirve solo como referencia, porque se eligió con datos de 2022.
+
+AdaGaussMC [@vilmarest2024] no publicó el código que usó en la competencia, solo el de
+su modelo de volatilidad, AdaVol [@werge2022]. El método se reimplementó siguiendo el
+artículo. La media diaria de cada activo es la de su clase (acciones, ETFs de renta
+variable, de renta fija o de materias primas) entre 2015 y 2020. Su volatilidad se
+estima con AdaVol y se mantiene fija durante el horizonte. El ETF de volatilidad se
+simula con la distribución empírica de sus rendimientos pasados. Los activos se suponen
+independientes, y las probabilidades de quintil son las frecuencias simuladas, que es el
+punto al que converge la optimización del RPS esperado que describe el artículo. El paso
+de inversión no está especificado con detalle suficiente para reproducirlo, de modo que
+el método invierte con pesos iguales. La fidelidad de la reimplementación se verifica
+contra los envíos reales del equipo en el periodo 1.
 
 ### Modelos propios
 
@@ -308,74 +318,58 @@ Sus configuraciones se fijaron antes de cualquier corrida con datos reales. Cada
 configuración probada en cada origen queda registrada, para poder reportar la búsqueda
 completa.
 
-**Gradient boosting multiclase.** Es un clasificador LightGBM de cinco clases
-[@ke2017], que se reentrena desde cero en cada origen.
+El primer modelo es un gradient boosting multiclase: un clasificador LightGBM de cinco
+clases [@ke2017] que se reentrena desde cero en cada origen. Hay una muestra de
+entrenamiento por cada combinación de activo y ventana pasada de cuatro semanas. Las
+ventanas retroceden de 28 en 28 días desde el origen, así que las etiquetas no se
+traslapan entre sí ni con el periodo pronosticado, y la etiqueta es el quintil del
+activo dentro de su propia ventana. Las variables solo dependen del precio: los
+rendimientos a 1, 4, 12 y 24 semanas, el momentum de 12 meses sin el último, las
+volatilidades a 4 y 12 semanas y su cociente, y la distancia al máximo de 52 semanas.
+Cada variable entra como su percentil entre los activos en la misma fecha, de modo que
+no hace falta ajustar escaladores a lo largo del tiempo. Los hiperparámetros se eligen
+en cada origen de un grid fijo de cuatro configuraciones, que combinan el número de
+hojas y el tamaño mínimo de hoja. Se valida con las últimas doce ventanas anteriores al
+origen, dejando una ventana de embargo, con *early stopping* sobre el RPS, y el modelo
+final se reentrena con todas las ventanas usando la mejor configuración.
 
-- **Muestras.** Hay una muestra por cada combinación de activo y ventana pasada de cuatro
-  semanas. Las ventanas retroceden de 28 en 28 días desde el origen, así que las
-  etiquetas no se traslapan entre sí ni con el periodo pronosticado.
-- **Etiqueta.** Es el quintil del activo dentro de su propia ventana.
-- **Variables.** Solo dependen del precio:
-  - rendimientos a 1, 4, 12 y 24 semanas;
-  - momentum de 12 meses sin el último;
-  - volatilidades a 4 y 12 semanas y su cociente;
-  - distancia al máximo de 52 semanas.
+El segundo modelo es una simulación desde covarianzas. Estima una covarianza de los
+rendimientos diarios con pesos exponenciales al estilo RiskMetrics [@riskmetrics1996] y
+genera escenarios gaussianos conjuntos del periodo siguiente, con media cero. En cada
+escenario ordena los activos, y las probabilidades de quintil son las frecuencias. El
+modelo usa media cero porque no intenta pronosticar qué activo subirá: solo codifica que
+los activos más volátiles caen con más frecuencia en los quintiles extremos y que los
+activos correlacionados se mueven juntos. Con media cero, además, el horizonte no altera
+las probabilidades, y una distribución t multivariada daría exactamente el mismo orden
+que la gaussiana. Su único hiperparámetro, la vida media de los pesos, se elige en cada
+origen entre cuatro valores, según el RPS en las doce ventanas anteriores. El modelo
+invierte con pesos iguales, porque con media cero el quintil esperado de todos los
+activos es el mismo.
 
-  Cada variable entra como su percentil entre los activos en la misma fecha, de modo que
-  no hace falta ajustar escaladores a lo largo del tiempo.
-- **Hiperparámetros.** Se eligen en cada origen de un grid fijo de cuatro
-  configuraciones (número de hojas y tamaño mínimo de hoja).
-  - Se valida con las últimas doce ventanas anteriores al origen, dejando una ventana
-    de embargo, con *early stopping* sobre el RPS.
-  - El modelo final se reentrena con todas las ventanas usando la mejor configuración.
+El tercer modelo es TimesFM-3, un modelo fundacional de series de tiempo preentrenado
+por Google [CITA PENDIENTE: Das et al. (2024), TimesFM; ficha del modelo TimesFM-3], que
+se usa tal cual, sin ajuste fino ni búsqueda (decisión D7). Recibe los últimos 1024
+logaritmos del precio de cada activo y devuelve los deciles de su valor veinte días
+hábiles adelante, de donde salen los deciles del rendimiento del periodo. Como pronostica
+cada activo por separado, los activos se unen con una cópula gaussiana
+[CITA PENDIENTE: referencia sobre cópulas gaussianas], cuya correlación es la del modelo
+anterior con una vida media fija. Las probabilidades de quintil salen de la simulación,
+igual que en el modelo anterior.
 
-**Simulación desde covarianzas.** El modelo estima una covarianza de los rendimientos
-diarios con pesos exponenciales al estilo RiskMetrics
-[@riskmetrics1996].
+TimesFM-3 tiene un riesgo propio, la contaminación, porque se preentrenó con datos cuya
+composición solo se conoce en parte. No hay evidencia de que haya visto los precios del
+universo, pero sí vio series de atención, como consultas de búsqueda y visitas a
+Wikipedia, que se traslapan con el periodo 1. Por eso sus resultados del periodo 1 se
+reportan con esa advertencia, y el tramo del periodo 2 posterior a esas series se
+reporta también por separado.
 
-- **Simulación.** Genera escenarios gaussianos conjuntos del periodo siguiente, con
-  media cero. En cada escenario ordena los activos, y las probabilidades de quintil son
-  las frecuencias.
-- **Por qué media cero.** El modelo no intenta pronosticar qué activo subirá. Solo
-  codifica dos hechos: los activos más volátiles caen con más frecuencia en los quintiles
-  extremos, y los activos correlacionados se mueven juntos.
-- **Por qué gaussiana.** Con media cero, el horizonte no altera las probabilidades. Una
-  distribución t multivariada daría exactamente el mismo orden que la gaussiana.
-- **Hiperparámetro.** La vida media de los pesos se elige en cada origen entre cuatro
-  valores, según el RPS en las doce ventanas anteriores.
-- **Pesos de inversión.** Invierte con pesos iguales, porque con media cero el quintil
-  esperado de todos los activos es el mismo.
-
-**Modelo fundacional: TimesFM-3.** Es un modelo de series de tiempo preentrenado por
-Google [CITA PENDIENTE: Das et al. (2024), TimesFM; ficha del modelo TimesFM-3] y se usa
-tal cual, sin ajuste fino ni búsqueda (decisión D7).
-
-- **Pronóstico.** Recibe los últimos 1024 logaritmos del precio de cada activo y devuelve
-  los deciles de su valor veinte días hábiles adelante, de donde salen los deciles del
-  rendimiento del periodo.
-- **Distribución conjunta.** El modelo pronostica cada activo por separado. Los activos
-  se unen con una cópula gaussiana
-  [CITA PENDIENTE: referencia sobre cópulas gaussianas], cuya correlación es la del
-  modelo anterior con una vida media fija. Las probabilidades de quintil salen de la
-  simulación, igual que en el modelo anterior.
-- **Contaminación.** Es un riesgo propio de este modelo, porque se preentrenó con datos
-  cuya composición solo se conoce en parte.
-  - No hay evidencia de que haya visto los precios del universo.
-  - Sí vio series de atención (consultas de búsqueda y visitas a Wikipedia) que se
-    traslapan con el periodo 1.
-  - Por eso sus resultados del periodo 1 se reportan con esa advertencia, y el tramo del
-    periodo 2 posterior a esas series se reporta también por separado.
-
-**Pesos de inversión de los modelos propios.** El gradient boosting y TimesFM-3 se
-evalúan con dos reglas:
-
-- **Pesos iguales.** Coinciden con el benchmark de la M6, de modo que la comparación
-  aísla el valor del pronóstico.
-- **Inclinación hacia el quintil esperado.** El peso es proporcional al quintil esperado
-  menos 3 y se escala a una exposición bruta de uno.
-
-Las probabilidades se calculan una sola vez por periodo. Las dos reglas usan los mismos
-pronósticos, así que la búsqueda de hiperparámetros no se cuenta dos veces.
+El gradient boosting y TimesFM-3 se evalúan con dos reglas de inversión. La primera usa
+pesos iguales, que coinciden con el benchmark de la M6, de modo que la comparación aísla
+el valor del pronóstico. La segunda inclina el portafolio hacia el quintil esperado: el
+peso de cada activo es proporcional a su quintil esperado menos 3 y se escala a una
+exposición bruta de uno. Las probabilidades se calculan una sola vez por periodo y las
+dos reglas usan los mismos pronósticos, así que la búsqueda de hiperparámetros no se
+cuenta dos veces.
 
 ## Inferencia estadística {#sec-met-inferencia}
 
@@ -398,18 +392,12 @@ el de un modelo que reproduce al uniforme, no aporta evidencia en ningún sentid
 
 ### Comparaciones múltiples
 
-Cada familia de comparaciones se ajusta por multiplicidad:
-
-- **Ajuste principal:** el método de Holm [@holm1979], que controla la
-  probabilidad de cometer al menos un falso positivo.
-- **Ajuste secundario:** el de Benjamini y Hochberg
-  [@benjamini1995], que controla la proporción esperada de
-  falsos descubrimientos.
-
-Las familias son dos:
-
-- los modelos de esta tesina contra el uniforme;
-- en el periodo 1, los equipos del leaderboard global contra el uniforme.
+Cada familia de comparaciones se ajusta por multiplicidad. El ajuste principal es el
+método de Holm [@holm1979], que controla la probabilidad de cometer al menos un falso
+positivo. El ajuste secundario es el de Benjamini y Hochberg [@benjamini1995], que
+controla la proporción esperada de falsos descubrimientos. Las familias son dos: los
+modelos de esta tesina contra el uniforme y, en el periodo 1, los equipos del
+leaderboard global contra el uniforme.
 
 La tesina reporta cuántos modelos, configuraciones y análisis de sensibilidad se probaron
 en total. El riesgo de reportar solo el mejor resultado de muchas pruebas está bien
@@ -444,35 +432,28 @@ comparaciones múltiples.
 ### RQ3: pronóstico frente a decisión
 
 Se mide la asociación entre el RPS y el IR. La unidad de análisis principal son los
-equipos del leaderboard global del periodo 1.
-
-- **Análisis principal:** la correlación de Spearman global, cuyo signo esperado es
-  negativo, porque un RPS menor indica mejor pronóstico y un IR mayor, mejor decisión.
-- **Inferencia:** intervalos bootstrap por remuestreo de pares y valores p por
-  permutación.
-- **Análisis secundarios:**
-  - la correlación de Pearson;
-  - la de Spearman excluyendo a los equipos que enviaron el pronóstico uniforme todos los
-    meses;
-  - las correlaciones mes por mes;
-  - una tabla de contingencia que cruza superar al benchmark en RPS con superarlo en IR.
-
-Todos los análisis se fijaron antes de ver los datos y se reportan completos. En el
+equipos del leaderboard global del periodo 1, y el análisis principal es la correlación
+de Spearman global. Su signo esperado es negativo, porque un RPS menor indica mejor
+pronóstico y un IR mayor, mejor decisión. La inferencia usa intervalos bootstrap por
+remuestreo de pares y valores p por permutación. Como análisis secundarios se calculan
+la correlación de Pearson, la de Spearman excluyendo a los equipos que enviaron el
+pronóstico uniforme todos los meses, las correlaciones mes por mes y una tabla de
+contingencia que cruza superar al benchmark en RPS con superarlo en IR. Todos los
+análisis se fijaron antes de ver los datos y se reportan completos. En el
 periodo 2 el análisis se repite con los modelos evaluados.
 
 ### RQ4: cascada de sesgos
 
 La cascada parte de un *pipeline* ingenuo y corrige un sesgo a la vez, midiendo en cada
-paso el RPS, el IR y el índice de Sharpe con la misma evaluación de RQ2.
+paso el RPS, el IR y el índice de Sharpe con la misma evaluación de RQ2. Durante toda la
+cascada el modelo es el gradient boosting propio, y solo cambia el procedimiento
+(decisión D5). El universo es el de la M6 (decisión D6). El último paso es el mismo
+modelo limpio que se evalúa en RQ2, así que la caída total de la cascada es la
+diferencia entre el desempeño ingenuo y el honesto.
 
-- **Modelo.** Durante toda la cascada el modelo es el gradient boosting propio; solo
-  cambia el procedimiento (decisión D5).
-- **Universo.** Es el de la M6 (decisión D6).
-- **Último paso.** Es el mismo modelo limpio que se evalúa en RQ2, así que la caída total
-  de la cascada es la diferencia entre el desempeño ingenuo y el honesto.
-
-@tbl-cascada lista los sesgos que se inyectan. Cada uno se justifica con la literatura
-correspondiente.
+@tbl-cascada lista los sesgos que se inyectan. El sesgo de supervivencia
+[@brown1992; @elton1996] y el sobreajuste por búsqueda [@bailey2014; @bailey2016] se
+justifican con la literatura revisada en @sec-mt-sesgos, igual que los demás.
 
 | Sesgo inyectado | Corrección |
 |---|---|
@@ -485,13 +466,6 @@ correspondiente.
 | Sin costos de transacción | Costos sobre la rotación |
 
 : Sesgos de la cascada y su corrección. {#tbl-cascada}
-
-Fuentes pendientes para los sesgos de la tabla:
-
-- **Sesgo de supervivencia:**
-  [@brown1992; @elton1996].
-- **Sobreajuste por búsqueda:**
-  [@bailey2014; @bailey2016].
 
 El orden de las correcciones afecta cuánto se atribuye a cada sesgo. Se fija antes de
 correr la cascada y se reporta junto con la figura.
@@ -507,14 +481,13 @@ de su preentrenamiento.
 
 ## Reproducibilidad {#sec-met-reproducibilidad}
 
-- **Entornos.** El código se escribió en Python, con dependencias fijadas en un archivo
-  de bloqueo. Los métodos de terceros escritos en R tienen su propio entorno fijado.
-- **Configuración por experimento.** Cada experimento tiene un archivo de configuración
-  versionado y semillas fijas.
-- **Resultados.** Se guardan en un directorio con la fecha y el commit del código que los
-  generó, junto con la configuración usada. Los resultados previos nunca se sobrescriben.
-- **Cifras de la tesina.** Las tablas y figuras de @sec-resultados se generan a partir de
-  esos archivos; ninguna cifra de resultados se escribe a mano.
-- **Decisiones metodológicas.** Se registran con su fecha y su motivo en un registro de
-  decisiones. Las referidas en este capítulo como D1 a D7 se resumen en los anexos.
+El código se escribió en Python, con dependencias fijadas en un archivo de bloqueo; los
+métodos de terceros tienen cada uno su propio entorno fijado. Cada experimento tiene un
+archivo de configuración versionado y semillas fijas. Sus resultados se guardan en un
+directorio con la fecha y el commit del código que los generó, junto con la
+configuración usada, y los resultados previos nunca se sobrescriben. Las tablas y
+figuras de @sec-resultados se generan a partir de esos archivos, de modo que ninguna
+cifra de resultados se escribe a mano. Las decisiones metodológicas se registran con su
+fecha y su motivo en un registro de decisiones; las referidas en este capítulo como D1 a
+D9 se resumen en los anexos.
 <!-- Pendiente: llevar el resumen de docs/decisions.md a anexos. -->
