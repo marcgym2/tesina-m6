@@ -26,19 +26,23 @@ from tesina.data import m6
 SNAPSHOT = "eodhd"
 
 
-def snapshot(downloaded: str | None = None) -> dict:
-    """Manifest entry of the EODHD snapshot (the most recent unless ``downloaded``)."""
-    snaps = [s for s in m6.manifest()["snapshots"] if s["name"] == SNAPSHOT]
+def snapshot(downloaded: str | None = None, name: str = SNAPSHOT) -> dict:
+    """Manifest entry of an EODHD snapshot (the most recent unless ``downloaded``).
+
+    ``name`` selects the group: ``"eodhd"`` (core), ``"eodhd_sebrad"`` or
+    ``"eodhd_successors"``.
+    """
+    snaps = [s for s in m6.manifest()["snapshots"] if s["name"] == name]
     if downloaded:
         snaps = [s for s in snaps if s["downloaded"] == downloaded]
     if not snaps:
-        raise FileNotFoundError(f"no {SNAPSHOT} snapshot in {m6.MANIFEST} (issue #12)")
+        raise FileNotFoundError(f"no {name} snapshot in {m6.MANIFEST} (issue #12)")
     return max(snaps, key=lambda s: s["downloaded"])
 
 
-def load_raw(downloaded: str | None = None) -> pd.DataFrame:
+def load_raw(downloaded: str | None = None, name: str = SNAPSHOT) -> pd.DataFrame:
     """The snapshot as stored, after checking its SHA-256 against the manifest."""
-    entry = snapshot(downloaded)["files"][0]
+    entry = snapshot(downloaded, name)["files"][0]
     file = m6.REPO_ROOT / entry["path"]
     if not file.exists():
         raise FileNotFoundError(f"{file} is not in git; download it with scripts/download_eodhd.py")
@@ -48,10 +52,10 @@ def load_raw(downloaded: str | None = None) -> pd.DataFrame:
     return pd.read_parquet(file)
 
 
-def load_prices(downloaded: str | None = None) -> pd.DataFrame:
+def load_prices(downloaded: str | None = None, name: str = SNAPSHOT) -> pd.DataFrame:
     """Adjusted closes up to the cutoff: ``symbol`` (M6 code), ``date``, ``price``."""
-    raw = load_raw(downloaded)
-    end = pd.Timestamp(snapshot(downloaded)["cutoff_end"])
+    raw = load_raw(downloaded, name)
+    end = pd.Timestamp(snapshot(downloaded, name)["cutoff_end"])
     out = raw.loc[raw["date"] <= end, ["symbol", "date", "adjusted_close"]]
     return out.rename(columns={"adjusted_close": "price"}).reset_index(drop=True)
 

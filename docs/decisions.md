@@ -120,3 +120,23 @@ Cada entrada registra una decisión de Marco sobre un issue `decision`: el conte
   - No se ajusta para parecerse a los envíos, porque eso sería afinarlo con el periodo 1.
   - En RQ1 su resultado se presenta aparte de FinQBoost y wound-ignite, con esta advertencia.
 - **Contraste:** FinQBoost sí queda validado. Su correlación con los envíos de su equipo es 0.96 (0.99 desde el mes 6) y el RPS medio coincide (`results/finqboost/2026-11-09_f70d879/fidelity.csv`).
+
+---
+
+## D11 — Pasos y orden de la cascada de sesgos, RQ4 (#24, #25)
+
+- **Fecha:** 2026-11-09 · **Decidió:** Claude, por delegación explícita de Marco ("no importa el orden, tú defínelo") · **Issues:** #24, #25 · **Completa:** D5 y D6
+- **Decisión:** la cascada tiene siete pasos acumulativos sobre el GBM, evaluados en el periodo 2. El orden va de los errores de procedimiento más comunes a los que dependen del mercado, y se fijó antes de correrla.
+  0. **Ingenuo:** validación cruzada con filas barajadas sobre toda la muestra; muestras semanales con etiquetas de cuatro semanas traslapadas; variables estandarizadas por activo con estadísticas de toda la muestra; se reporta la mejor configuración del grid sobre los propios periodos de evaluación; universo de supervivientes; sin costos.
+  1. **+ split temporal:** en cada origen se entrena solo con muestras cuya fecha base es anterior. Las etiquetas aún no se purgan.
+  2. **+ purga:** solo ventanas de cuatro semanas que terminan en el origen o antes.
+  3. **+ preprocesamiento solo con el pasado:** las variables pasan a ser rangos transversales del mismo día.
+  4. **+ selección honesta:** hiperparámetros elegidos con ventanas pasadas; ya no se elige nada viendo la evaluación.
+  5. **+ universo point-in-time** (D2) en lugar del de supervivientes.
+  6. **+ costos de transacción** sobre la rotación. Es el GBM limpio de RQ2, neto.
+- **Detalles:**
+  - Los sesgos "selección y reporte sobre el mismo conjunto" y "búsqueda no reportada" se inyectan juntos: en los pasos 0 a 3 se prueban 12 configuraciones (4 del grid × 3 números de rondas) y se reporta la de mejor RPS en la evaluación. La búsqueda completa se guarda.
+  - El universo de supervivientes sustituye DRE→PLD, WRK→SW y AVB→VMRK.
+  - Los pesos son siempre la inclinación hacia el quintil esperado, para que el IR y el Sharpe reflejen el pronóstico.
+- **Límite de interpretación:** el orden afecta cuánto se atribuye a cada sesgo. La cascada mide el efecto de cada corrección dado que las anteriores ya se hicieron, no el efecto aislado de cada sesgo.
+- **Implementación:** `src/tesina/cascade.py` y `experiments/cascade/`.

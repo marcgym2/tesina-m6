@@ -11580,6 +11580,36 @@
           "problems": []
         }
       ]
+    },
+    {
+      "name": "eodhd_successors",
+      "downloaded": "2026-11-09",
+      "source": "https://eodhd.com/api",
+      "license": "EODHD terms of use: storage and analysis allowed, redistribution forbidden; the file is not committed",
+      "plan": "monthly",
+      "start": "2007-01-01",
+      "cutoff_period": "P2-49",
+      "cutoff_end": "2026-11-06",
+      "files": [
+        {
+          "path": "data/raw/eodhd/successors_2026-11-09.parquet",
+          "sha256": "68d149e3f6294270e974477bf3df31eec77b6b791254730fbfc0185371f2d531",
+          "bytes": 164149,
+          "in_git": false,
+          "format": "EODHD /eod JSON -> parquet, long format, values as returned"
+        }
+      ],
+      "symbols": [
+        {
+          "symbol": "VMRK",
+          "ticker": "VMRK.US",
+          "rows": 4995,
+          "first": "2007-01-03",
+          "last": "2026-11-09",
+          "warnings": [],
+          "problems": []
+        }
+      ]
     }
   ]
 }
