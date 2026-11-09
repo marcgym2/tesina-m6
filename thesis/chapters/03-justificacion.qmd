@@ -2,59 +2,44 @@
 
 <!-- Borrador del issue #31. -->
 
-El estudio se justifica en cuatro planos.
+El estudio se justifica en cuatro planos: académico, metodológico, práctico y formativo.
 
-**Académico: una réplica fuera de muestra.** Las competencias de pronóstico reportan quién
-ganó en un periodo determinado, pero eso no garantiza que el resultado se sostenga
-después. Cuando lo que destacó en una muestra se vuelve a evaluar con datos nuevos, su
-desempeño suele disminuir:
-
-- **En finanzas,** los predictores de rendimientos publicados en la literatura pierden
-  buena parte de su rentabilidad fuera de la muestra original, y aún más después de su
-  publicación [@mclean2016].
-- **Entre modelos de pronóstico,** el buen desempeño pasado persiste en parte, pero son
-  frecuentes los casos en que un modelo que pronosticaba bien pasa a hacerlo mal, y al
-  revés [@aiolfi2006].
-- **En aprendizaje automático,** los mejores modelos de clasificación de imágenes pierden
-  exactitud cuando se les evalúa con un conjunto de prueba nuevo
-  [CITA PENDIENTE: Recht, Roelofs, Schmidt y Shankar (2019), Do ImageNet classifiers generalize to ImageNet?, ICML].
+En el plano académico, la tesina aporta una réplica fuera de muestra. Las competencias
+de pronóstico reportan quién ganó en un periodo determinado, pero eso no garantiza que
+el resultado se sostenga después. Cuando lo que destacó en una muestra se vuelve a
+evaluar con datos nuevos, su desempeño suele disminuir. En finanzas, los predictores de
+rendimientos publicados en la literatura pierden buena parte de su rentabilidad fuera de
+la muestra original, y aún más después de su publicación [@mclean2016]. Entre modelos de
+pronóstico, el buen desempeño pasado persiste en parte, pero son frecuentes los casos en
+que un modelo que pronosticaba bien pasa a hacerlo mal, y al revés [@aiolfi2006]. En
+aprendizaje automático, los mejores modelos de clasificación de imágenes pierden
+exactitud cuando se les evalúa con un conjunto de prueba nuevo
+[CITA PENDIENTE: Recht, Roelofs, Schmidt y Shankar (2019), Do ImageNet classifiers generalize to ImageNet?, ICML].
 
 En la literatura revisada no se encontró una reevaluación de los métodos ganadores de la
-M6 con datos posteriores a la competencia. Esta tesina la hace:
+M6 con datos posteriores a la competencia. Los análisis posteriores que existen discuten
+el papel de la suerte o comparan a los participantes con portafolios de referencia
+[@stanek2024; @schneider2024]. La M6 permite ir más allá, porque sus datos y el código de
+varios métodos son públicos. Lo que aporta esta tesina es la evaluación de esos mismos
+métodos en un periodo que ninguno de ellos vio.
 
-- La M6 lo permite, porque los datos de la competencia y el código de varios métodos son
-  públicos.
-- Existen análisis posteriores de la competencia, que discuten el papel de la suerte o
-  comparan a los participantes con portafolios de referencia [@stanek2024]
-  [@schneider2024].
-- Lo que aporta esta tesina es la evaluación de los mismos métodos en un periodo que
-  ninguno de ellos vio.
+En el plano metodológico, la tesina cuantifica los sesgos de evaluación, que suelen
+discutirse por separado y de forma cualitativa. La cascada de RQ4 los mide uno por uno,
+sobre el mismo modelo y con la misma evaluación, y así se obtiene una estimación de
+cuánto contribuye cada uno al desempeño aparente. Además, replicar la evaluación oficial
+obliga a examinar en detalle cómo se calcularon las métricas de la competencia, lo que
+permite documentar cualquier diferencia entre lo descrito y lo implementado.
 
-**Metodológico: cuantificar los sesgos.** Los sesgos de evaluación suelen discutirse por
-separado y de forma cualitativa.
+En el plano práctico y social, el trabajo ofrece una referencia para el inversionista no
+profesional, que es su público secundario: las personas expuestas a promesas de "trading
+con inteligencia artificial". Mostrar con datos públicos y un procedimiento reproducible
+cuánto del desempeño anunciado puede deberse a errores de evaluación da a ese público un
+criterio concreto para juzgar esas promesas. Un resultado negativo, como que ningún
+método supere al benchmark después de las correcciones, es tan informativo como uno
+positivo.
 
-- La cascada de RQ4 los mide uno por uno, sobre el mismo modelo y con la misma
-  evaluación. Así se obtiene una estimación de cuánto contribuye cada uno al desempeño
-  aparente.
-- La réplica de la evaluación oficial obliga a examinar en detalle cómo se calcularon las
-  métricas de la competencia. Eso permite documentar cualquier diferencia entre lo
-  descrito y lo implementado.
-
-**Práctico y social: una referencia para el inversionista no profesional.** El público
-secundario de esta tesina son las personas expuestas a promesas de "trading con
-inteligencia artificial".
-
-- Mostrar con datos públicos y un procedimiento reproducible cuánto del desempeño
-  anunciado puede deberse a errores de evaluación da a ese público una referencia
-  concreta para juzgar esas promesas.
-- Un resultado negativo, como que ningún método supere al benchmark después de las
-  correcciones, es tan informativo como uno positivo.
-
-**Formativo: buenas prácticas de ciencia de datos.** El trabajo aplica prácticas que
-cualquier proyecto de ciencia de datos con información temporal debería seguir:
-
-- validación temporal;
-- pruebas automáticas contra la fuga de información;
-- conteo explícito de las comparaciones realizadas;
-- configuraciones fijadas antes de ver los resultados;
-- reproducibilidad completa del código y los datos (@sec-met-reproducibilidad).
+En el plano formativo, el trabajo aplica prácticas que cualquier proyecto de ciencia de
+datos con información temporal debería seguir: la validación temporal, las pruebas
+automáticas contra la fuga de información, el conteo explícito de las comparaciones
+realizadas, las configuraciones fijadas antes de ver los resultados y la
+reproducibilidad completa del código y los datos (@sec-met-reproducibilidad).
