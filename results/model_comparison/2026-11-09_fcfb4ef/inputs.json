@@ -1,0 +1,9 @@
+{
+  "adagaussmc": "results/adagaussmc/2026-11-09_17793ac",
+  "baselines": "results/baselines/2026-11-09_17793ac",
+  "covsim": "results/covsim/2026-11-09_17793ac",
+  "finqboost": "results/finqboost/2026-11-09_f70d879",
+  "gbm": "results/gbm/2026-11-09_17793ac",
+  "timesfm": "results/timesfm/2026-11-09_17793ac",
+  "wound_ignite": "results/wound_ignite/2026-11-09_17793ac"
+}

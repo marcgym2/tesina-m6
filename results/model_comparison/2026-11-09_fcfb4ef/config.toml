@@ -1,0 +1,46 @@
+# Issues #26, #27, #28: every model against the uniform benchmark, periods 1 and 2.
+# Written and committed before looking at any model result on real data.
+# Inputs: the most recent run of each experiment under results/.
+[inputs]
+benchmark = "baselines"  # model "uniform", evaluations period1 / period2
+# experiment -> model whose RPS is tested (weightings share the same forecasts)
+[inputs.models]
+baselines = "historical_frequency"
+finqboost = "finqboost"
+wound_ignite = "wound_ignite"
+adagaussmc = "adagaussmc"
+gbm = "gbm_equal"
+covsim = "covsim"
+timesfm = "timesfm3_equal"
+
+[test]
+alternative = "less"  # H1: lower RPS than the uniform benchmark
+horizon = 1  # non-overlapping four-week periods
+alpha = 0.05
+adjustment = "holm"  # family-wise, primary; Benjamini-Hochberg reported as secondary
+# Primary family: the 7 models in period 2 (clean out-of-sample).
+# Secondary family: the same 7 in period 1 (reference; FinQBoost and wound-ignite carry
+# look-ahead there, see chapter 6).
+
+[bootstrap]
+n_boot = 10000
+seed = 2026
+[bootstrap.block]  # ~ T^(1/3)
+period1 = 2
+period2 = 4
+
+[subperiods]
+# TimesFM-3 saw attention series up to Nov 2023 (docs/timesfm.md): period 2 from the
+# first origin after 2023-11-30, reported for every model; a separate, secondary family.
+after_pretraining = "2023-11-30"
+
+[persistence]
+# RQ1: methods of M6 teams; verdict from period 2 only.
+methods = ["finqboost", "wound_ignite", "adagaussmc"]
+
+[rps_vs_ir]
+# RQ3 at model level, period 2: Spearman between mean RPS and pooled net IR over every
+# model-weighting pair (including the uniform benchmark). Few points: descriptive.
+n_boot = 10000
+n_perm = 10000
+seed = 2026

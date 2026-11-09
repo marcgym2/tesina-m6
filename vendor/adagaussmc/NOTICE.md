@@ -54,3 +54,20 @@ The AdaVol recursion is unchanged.
 
 Fidelity against the team's submissions is checked in period 1 with
 `experiments/adagaussmc/`. That needs the 2015–2021 prices from #12.
+
+## Fidelity check against the team's submissions (2026-11-09)
+
+Run: `results/adagaussmc/2026-11-09_17793ac/fidelity.csv` (period 1, 12 submissions).
+
+- **The reimplementation does not reproduce the submissions.** The mean correlation of
+  `p - 0.2` with the team's forecasts is 0.31, and its mean RPS is 0.1583 against the
+  team's 0.1569.
+- **Where they differ.** The team's forecasts put the broad equity ETFs (IVV, sector
+  ETFs) in the middle quintile and leave short-term bonds (SHY) close to uniform. With
+  independent assets, as section 4.1 of the paper describes for the forecasting task, the
+  least volatile assets (SHY and other bond ETFs) are the ones that land in the middle.
+  The submissions therefore reflect dependence between assets, or a different step that
+  the paper does not describe.
+- **Consequence.** The model is reported as "AdaGaussMC as described in the paper", not
+  as the team's method. It is not tuned to match the submissions: that would fit it to
+  period 1. Its period-2 result is evidence about the paper's recipe, not about the team.
