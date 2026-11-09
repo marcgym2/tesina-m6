@@ -1,3 +1,232 @@
 # Resultados y conclusiones {#sec-resultados}
 
-<!-- Pendiente: issue #34. Todos los números se inyectan desde results/. -->
+<!--
+Borrador del issue #34. Todas las cifras y tablas vienen de results/ a través de
+scripts/build_thesis_results.py (shortcodes var y thesis/_generated/). Falta la cascada
+de sesgos (RQ4), el método de sebrad y la sensibilidad D4 para todos los modelos.
+-->
+
+Este capítulo presenta los resultados en el orden del diseño. Primero se revisa la
+calidad de los datos (@sec-res-datos) y la réplica de la evaluación oficial
+(@sec-res-replica). Después se analiza a los equipos de la competencia en el periodo 1
+(@sec-res-equipos) y a los modelos evaluados en los dos periodos (@sec-res-modelos). Con
+esos resultados se responden las preguntas de persistencia (@sec-res-rq1) y de la
+relación entre pronóstico y decisión (@sec-res-rq3). El capítulo cierra con las
+limitaciones (@sec-res-limitaciones) y las conclusiones (@sec-res-conclusiones).
+
+## Calidad de los datos {#sec-res-datos}
+
+El snapshot de precios contiene los {{< var datos.simbolos >}} símbolos solicitados, sin
+ningún faltante: los 100 activos de la M6 y tres series auxiliares. La revisión no
+encontró ninguna inconsistencia entre precios de apertura, máximo, mínimo y cierre. Se
+detectaron {{< var datos.splits >}} movimientos del tamaño de un *split* en los precios
+sin ajustar. El precio ajustado absorbió todos menos
+{{< var datos.splits_sin_ajustar >}}, que se revisó a mano y corresponde a un movimiento
+real del mercado durante la crisis de 2008, no a un *split*.
+
+La comparación con otras fuentes confirma que los precios sirven para la evaluación. En
+el periodo 1, la diferencia mediana entre los rendimientos diarios del snapshot y los
+de los precios oficiales de la M6 es de {{< var datos.oficial_mediana_bp >}} puntos
+base, y la proporción máxima de activos que caen en un quintil distinto es de
+{{< var datos.oficial_quintil_max >}}. En el periodo 2, frente a Yahoo Finance, a lo más
+el {{< var datos.yahoo_quintil_max >}} de los activos cambia de quintil en alguno de
+los {{< var datos.yahoo_periodos >}} periodos, y en promedio cambia el
+{{< var datos.yahoo_quintil_medio >}}.
+
+La revisión reveló además un tercer activo deslistado, AVB, que salió de la bolsa en
+agosto de 2026. Ni el snapshot ni Yahoo Finance tienen precios suyos después de esa
+fecha, y Yahoo Finance tampoco conserva su historia ni la de los otros dos deslistados.
+Un estudio que tomara hoy los precios de una fuente gratuita perdería esos activos sin
+advertirlo, que es precisamente el sesgo de supervivencia descrito en @sec-mt-sesgos.
+
+## Réplica de la evaluación oficial {#sec-res-replica}
+
+La implementación del RPS y del IR reproduce el leaderboard publicado. Se compararon
+{{< var replica.filas_mes >}} puntajes mensuales, {{< var replica.filas_trimestre >}}
+trimestrales y los de los {{< var replica.equipos >}} equipos del ranking global, y el
+número de rangos distintos de los oficiales es {{< var replica.rangos_distintos >}}.
+También se reproducen las cifras globales que reportan los organizadores:
+{{< var replica.mejor_rps >}} equipos superaron al benchmark en RPS,
+{{< var replica.mejor_ir >}} lo superaron en IR y {{< var replica.mejor_ambos >}} en
+ambas métricas [@makridakis2025].
+
+Para lograr esa coincidencia hubo que inferir reglas que el código publicado no
+documenta, como el redondeo del RPS antes de ordenar y el tratamiento de los empates. La
+réplica también mostró dos diferencias entre lo descrito y lo implementado. La primera
+es que los dos programas oficiales de evaluación, uno en R y otro en Python, no son
+equivalentes cuando hay empates de rendimiento o precios faltantes. La segunda es el
+caso de un equipo que invirtió todo su portafolio en un activo deslistado de precio
+constante: el código publicado deja su IR indefinido, mientras que el leaderboard le
+asigna un valor que no aparece en ese código (@sec-met-metricas).
+<!-- Pendiente: decidir con Marco si los hallazgos sobre la Tabla 4 del preprint (docs/hallazgos_m6.md) van aquí o en un anexo; antes hay que confirmarlos contra la versión publicada. -->
+
+## Los equipos de la competencia en el periodo 1 {#sec-res-equipos}
+
+De los {{< var equipos.n >}} equipos del ranking global, {{< var equipos.mejor_media >}}
+tuvieron un RPS medio menor que el del pronóstico uniforme. Con la prueba pareada de
+@sec-met-inferencia, {{< var equipos.sig_sin_ajuste >}} lo superan de forma
+significativa sin ajuste por comparaciones múltiples. Después del ajuste de Holm quedan
+{{< var equipos.sig_holm >}}, y con el de Benjamini y Hochberg,
+{{< var equipos.sig_bh >}}. Es decir, con doce periodos, la gran mayoría de los equipos
+que quedaron por arriba del benchmark no se distingue estadísticamente de él.
+
+Entre esos mismos equipos, pronosticar mejor no se asoció con invertir mejor. La
+correlación de Spearman entre el RPS y el IR globales es de
+{{< var equipos.spearman >}}, con un intervalo de confianza del 95 % de
+{{< var equipos.spearman_ic >}} y un valor p de permutación de
+{{< var equipos.spearman_p >}}. El resultado coincide con la conexión débil entre
+pronósticos y decisiones que reportan los organizadores [@makridakis2025].
+
+## Los modelos en los dos periodos {#sec-res-modelos}
+
+@tbl-significancia compara cada modelo con el pronóstico uniforme. El RPS medio del
+uniforme es de {{< var uniforme.rps_p1 >}} en los {{< var uniforme.n_p1 >}} periodos del
+periodo 1 y de {{< var uniforme.rps_p2 >}} en los {{< var uniforme.n_p2 >}} del
+periodo 2, donde el universo tiene menos de 100 activos.
+
+{{< include /_generated/tbl-significancia.md >}}
+
+En el periodo 2, que es la prueba fuera de muestra, {{< var modelos.sig_p2 >}} de los
+{{< var modelos.n >}} modelos superan al uniforme después del ajuste de Holm. La mejora
+es pequeña pero muy regular. El mejor modelo, la simulación desde covarianzas, reduce el
+RPS en {{< var covsim.dif_p2 >}}, un {{< var covsim.rel_p2 >}} del RPS del uniforme, y
+lo supera en el {{< var covsim.mejor_p2 >}} de los periodos. FinQBoost lo supera en el
+{{< var finqboost.mejor_p2 >}} de ellos. Esa regularidad, y no el tamaño de la mejora,
+es lo que produce valores p tan bajos.
+
+En el periodo 1, con solo doce observaciones, únicamente {{< var modelos.sig_p1 >}}
+modelos alcanzan significancia. Las diferencias medias tienen el mismo signo que en el
+periodo 2, pero la muestra es demasiado corta para distinguirlas del azar.
+
+Tres observaciones ayudan a interpretar la tabla. La primera es que los seis modelos que
+superan al uniforme tienen un rasgo en común: todos explotan, de una forma u otra, que
+los activos difieren en volatilidad. La simulación desde covarianzas no hace otra cosa,
+porque supone que ningún activo tiene mejor rendimiento esperado que otro, y aun así es
+el mejor modelo. Incluso la frecuencia histórica, que solo cuenta en qué quintil cayó
+cada activo en el pasado, supera al uniforme en el periodo 2
+({{< var baselines.dif_p2 >}}). Como se argumentó en @sec-mt-eficiencia, esta mejora no
+contradice la eficiencia de mercado: anticipa qué activos terminarán en los extremos,
+no cuáles subirán.
+
+La segunda observación es que la complejidad no ayudó. El gradient boosting, con nueve
+variables y búsqueda de hiperparámetros, queda por debajo de la simulación desde
+covarianzas, que tiene un solo parámetro.
+
+La tercera es que el modelo fundacional fue el único peor que el uniforme. TimesFM-3
+aumenta el RPS en {{< var timesfm.dif_p2 >}} en el periodo 2 y solo supera al uniforme
+en el {{< var timesfm.mejor_p2 >}} de los periodos. El resultado no cambia en el tramo
+posterior a sus datos de preentrenamiento, de {{< var uniforme.n_p2_posterior >}}
+periodos ({{< var timesfm.dif_p2_posterior >}}). Una explicación consistente con la
+verificación del adaptador es que el modelo extrapola tendencias de precio que no se
+sostienen, y eso desplaza sus probabilidades en la dirección equivocada.
+
+## RQ1: persistencia de los métodos ganadores {#sec-res-rq1}
+
+{{< include /_generated/tbl-persistencia.md >}}
+
+@tbl-persistencia resume la respuesta a RQ1. Antes de leerla conviene saber qué tan fiel
+es cada método a lo que su equipo envió durante la competencia.
+
+FinQBoost queda validado. La correlación entre sus pronósticos regenerados y los envíos
+reales del equipo es de {{< var finqboost.fid_corr >}} en promedio, y de
+{{< var finqboost.fid_corr_final >}} desde el sexto envío, cuando el autor ya usaba la
+versión publicada. El RPS medio de ambos en el periodo 1 coincide
+({{< var finqboost.fid_rps_propio >}} y {{< var finqboost.fid_rps_equipo >}}).
+
+wound-ignite solo puede validarse en parte. El equipo usó su código en algunos meses de
+la competencia y en otros envió pronósticos uniformes o casi uniformes. En el décimo
+envío, la configuración publicada reproduce la dirección de lo enviado, con una
+correlación de {{< var wound_ignite.fid_corr_mes10 >}}, pero el envío real está mucho
+más cerca del uniforme que lo que produce el código.
+
+AdaGaussMC no queda validado. La reimplementación a partir del artículo se parece poco a
+los envíos del equipo: la correlación media es de {{< var adagaussmc.fid_corr >}} y su
+RPS en el periodo 1 es de {{< var adagaussmc.fid_rps_propio >}}, contra
+{{< var adagaussmc.fid_rps_equipo >}} del equipo. Los envíos reales reflejan una
+dependencia entre activos que el artículo no describe para la tarea de pronóstico. Por
+eso su renglón debe leerse como el desempeño del procedimiento que describe el artículo,
+y no como el del equipo.
+
+Con esas reservas, la respuesta a RQ1 es afirmativa. FinQBoost, el único método
+validado por completo, mejora al uniforme en el periodo 2 en
+{{< var finqboost.dif_p2 >}}, una diferencia mayor que la del periodo 1
+({{< var finqboost.dif_p1 >}}), y lo hace en todos los periodos. Los otros dos métodos
+también lo superan de forma significativa. La ventaja de pronóstico de los métodos
+ganadores no desapareció después de la competencia.
+
+Esta persistencia tiene una explicación menos llamativa que la habilidad para predecir
+el mercado. Las diferencias de volatilidad entre activos son estables en el tiempo, y un
+método que las aprovecha sigue funcionando mientras lo sean. Lo confirma que modelos
+mucho más simples, que no existían durante la competencia, logren mejoras del mismo
+tamaño.
+
+## RQ3: pronóstico frente a decisión {#sec-res-rq3}
+
+{{< include /_generated/tbl-ir.md >}}
+
+Un mejor pronóstico no se tradujo en una mejor inversión. La mayoría de los modelos
+invierte con pesos iguales, de modo que su IR es el del benchmark. De los
+{{< var inversion.activos >}} portafolios que se apartan de él, el número que supera su
+IR neto en el periodo 2 es {{< var inversion.mejores_que_bench_p2 >}} (@tbl-ir). El
+gradient boosting ilustra el punto: sus pronósticos superan al uniforme, pero el
+portafolio que se inclina hacia el quintil esperado rinde menos que el de pesos
+iguales, y los costos de su rotación amplían la diferencia.
+
+Entre los {{< var inversion.spearman_modelos_n >}} portafolios evaluados en el periodo 2,
+la correlación de Spearman entre el RPS y el IR neto es de
+{{< var inversion.spearman_modelos >}}, con un intervalo de
+{{< var inversion.spearman_modelos_ic >}}. Con tan pocos puntos el intervalo es muy
+ancho y el análisis es solo descriptivo, pero apunta en la misma dirección que el de los
+equipos de la competencia (@sec-res-equipos): la calidad del pronóstico de quintiles
+dice poco sobre la calidad de la decisión de inversión.
+
+La razón es la misma que explica el éxito en RPS. Saber qué activos son más volátiles
+permite repartir mejor las probabilidades entre quintiles, pero no indica en qué
+dirección se moverán, que es lo que necesita un portafolio.
+
+Las magnitudes del IR requieren una advertencia. El IR de la M6 suma los rendimientos
+diarios de todo el periodo evaluado y no anualiza (@sec-mt-inversion), así que crece con
+el número de periodos. Los valores del periodo 2 no son comparables con los del
+periodo 1 ni con los índices de información habituales en la industria.
+
+## Limitaciones {#sec-res-limitaciones}
+
+Los resultados tienen cinco limitaciones. La primera es que falta la cascada de sesgos
+de RQ4, que es la parte del estudio que mide cuánto desempeño aparente añaden los
+errores de evaluación.
+<!-- Pendiente: #24 y #25. -->
+La segunda es que el periodo 1 tiene solo doce observaciones, por lo que casi ninguna
+diferencia alcanza significancia en él, y la evidencia descansa en el periodo 2. La
+tercera es que no se evaluó el método de sebrad, que requiere un universo ampliado de
+más de mil activos.
+<!-- Pendiente: #18. -->
+La cuarta es que dos de los tres métodos de equipos no pudieron validarse por completo
+contra sus envíos reales (@sec-res-rq1). La quinta es que en el periodo 2 el portafolio
+de pesos iguales tuvo un rendimiento acumulado positivo, y no se sabe si la relación
+entre pronóstico e inversión sería distinta en un mercado a la baja.
+
+## Conclusiones {#sec-res-conclusiones}
+
+<!-- Conclusiones provisionales: se completan cuando esté la cascada de RQ4. -->
+
+La pregunta que da título a la tesina, cuánto del alfa es ilusión, admite una respuesta
+en dos partes con la evidencia disponible.
+
+Lo que no es ilusión es la mejora en el pronóstico de quintiles. Con una evaluación sin
+fuga de información, en un periodo que ningún método vio y después de ajustar por
+comparaciones múltiples, {{< var modelos.sig_p2 >}} de {{< var modelos.n >}} modelos superan al pronóstico uniforme, y los
+métodos ganadores de la M6 conservan su ventaja (RQ1 y RQ2). La mejora es real, pequeña
+y muy regular.
+
+Lo que sí resulta ilusorio es leer esa mejora como capacidad de ganarle al mercado. La
+ventaja proviene de anticipar qué activos son más volátiles, algo compatible con un
+mercado eficiente, y se obtiene igual con un modelo de un solo parámetro que con uno de
+aprendizaje automático. Ningún portafolio derivado de los pronósticos superó al de pesos
+iguales, y entre los equipos de la competencia no hubo relación entre pronosticar mejor
+e invertir mejor (RQ3). El modelo más sofisticado, un modelo fundacional preentrenado,
+fue el único peor que no hacer nada.
+
+Para el inversionista no profesional, la lección es concreta: un resultado
+estadísticamente sólido en una métrica de pronóstico no implica una estrategia
+rentable, y una evaluación que solo reporta la primera puede sugerir lo segundo sin
+demostrarlo.
