@@ -20,6 +20,9 @@ DELISTINGS = {
     "DRE": pd.Timestamp("2022-11-28"),
     # Merged into Smurfit WestRock (SW); delisted from the NYSE on 2024-07-05 (issue #11).
     "WRK": pd.Timestamp("2024-07-05"),
+    # Merged into Equity Residential (renamed Vivmark Residential, VMRK); removed from the
+    # NYSE before the open of 2026-08-17 (AvalonBay 8-K of that date; decision D9).
+    "AVB": pd.Timestamp("2026-08-17"),
 }
 POLICIES = ("official", "d2")
 

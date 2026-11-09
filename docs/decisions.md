@@ -93,3 +93,18 @@ Cada entrada registra una decisión de Marco sobre un issue `decision`: el conte
   - La semilla del Monte Carlo es fija, una adaptación documentada en `vendor/wound-ignite/NOTICE.md`.
 - **Motivo:** RQ1 pregunta si el método publicado sigue funcionando. La configuración final lo responde sin agregar decisiones nuestras, como fijar umbrales que el autor movía a mano. La selección mensual puede agregarse después como sensibilidad, con un issue nuevo.
 - **Implementación:** `vendor/wound-ignite/run.py` y `experiments/wound_ignite/`. El periodo 1 se corre solo como referencia, porque esa configuración se eligió con datos de 2022.
+
+---
+
+## D9 — AVB: tercer deslistado del universo (#12, #13)
+
+- **Fecha:** 2026-11-09 · **Decidió:** Claude, aplicando la regla D2 ya decidida por Marco · **Issues:** #12, #13
+- **Contexto:** el check de calidad del snapshot de EODHD (2026-11-09) mostró que AVB (AvalonBay Communities) no tiene precios después del 2026-08-14; Yahoo tampoco los tiene. AvalonBay se fusionó con Equity Residential, que pasó a llamarse Vivmark Residential (VMRK). Según el 8-K de AvalonBay del 2026-08-17, sus acciones salieron de la bolsa de Nueva York antes de la apertura de ese día y cada acción se canjeó por 2.793 acciones de la nueva empresa.
+- **Decisión:** AVB recibe el mismo trato que WRK (D2).
+  - Se mantiene con su último precio durante el periodo de 4 semanas en que desaparece.
+  - Queda excluido desde el primer periodo cuyo origen es igual o posterior al 2026-08-17.
+  - El universo del periodo 2 baja de 98 a 97 activos desde entonces.
+- **Implementación:** `tesina.universe.DELISTINGS`. Para el escalón de supervivencia de la cascada (D6), el sucesor de AVB es VMRK; hay que descargarlo cuando se haga el #24.
+- **Otros hallazgos del check, sin cambio de reglas:**
+  - En EODHD, el último precio de DRE es del 2022-10-03 (cierre de su fusión); los datos oficiales del M6 lo traen hasta el 2022-11-28. No afecta: el periodo 1 usa los datos oficiales y el periodo 2 excluye a DRE.
+  - El salto de HIG del 2008-12-05 (+102 %) es un movimiento real, no un split sin ajustar.

@@ -165,9 +165,11 @@ def load_manifest() -> dict:
 def download(symbols: list[str], start: str, end: str, key: str):
     frames, report = [], []
     for symbol in symbols:
-        df, warnings = parse(
-            symbol, get_json(f"eod/{ticker(symbol)}", key, **{"from": start, "to": end})
-        )
+        try:
+            payload = get_json(f"eod/{ticker(symbol)}", key, **{"from": start, "to": end})
+        except RuntimeError as error:  # e.g. HTTP 404: ticker not found
+            payload = [{"warning": str(error)}]
+        df, warnings = parse(symbol, payload)
         problems = check(df)
         report.append(
             {
@@ -240,6 +242,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.no_manifest:
         return 0
     path = target.resolve().relative_to(REPO_ROOT)
+    manifest = load_manifest()  # reload: another download may have registered meanwhile
     manifest["snapshots"].append(
         {
             "name": name,

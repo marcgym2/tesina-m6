@@ -1,8 +1,8 @@
 # Issue #13: quality checks of the EODHD snapshot (and Yahoo as an independent source).
 # Thresholds fixed before looking at the data.
 [data]
-eodhd = ""  # download date of the EODHD snapshot (#12); empty until it exists
-yahoo = ""  # download date of the Yahoo snapshot (scripts/download_yahoo.py); optional
+eodhd = "2026-11-09"  # download date of the EODHD snapshot (#12); empty until it exists
+yahoo = "2026-11-09"  # download date of the Yahoo snapshot (scripts/download_yahoo.py); optional
 m6_snapshot = "2026-09-28"
 
 [checks]
