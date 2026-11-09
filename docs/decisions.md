@@ -93,3 +93,30 @@ Cada entrada registra una decisión de Marco sobre un issue `decision`: el conte
   - La semilla del Monte Carlo es fija, una adaptación documentada en `vendor/wound-ignite/NOTICE.md`.
 - **Motivo:** RQ1 pregunta si el método publicado sigue funcionando. La configuración final lo responde sin agregar decisiones nuestras, como fijar umbrales que el autor movía a mano. La selección mensual puede agregarse después como sensibilidad, con un issue nuevo.
 - **Implementación:** `vendor/wound-ignite/run.py` y `experiments/wound_ignite/`. El periodo 1 se corre solo como referencia, porque esa configuración se eligió con datos de 2022.
+
+---
+
+## D9 — AVB: tercer deslistado del universo (#12, #13)
+
+- **Fecha:** 2026-11-09 · **Decidió:** Claude, aplicando la regla D2 ya decidida por Marco · **Issues:** #12, #13
+- **Contexto:** el check de calidad del snapshot de EODHD (2026-11-09) mostró que AVB (AvalonBay Communities) no tiene precios después del 2026-08-14; Yahoo tampoco los tiene. AvalonBay se fusionó con Equity Residential, que pasó a llamarse Vivmark Residential (VMRK). Según el 8-K de AvalonBay del 2026-08-17, sus acciones salieron de la bolsa de Nueva York antes de la apertura de ese día y cada acción se canjeó por 2.793 acciones de la nueva empresa.
+- **Decisión:** AVB recibe el mismo trato que WRK (D2).
+  - Se mantiene con su último precio durante el periodo de 4 semanas en que desaparece.
+  - Queda excluido desde el primer periodo cuyo origen es igual o posterior al 2026-08-17.
+  - El universo del periodo 2 baja de 98 a 97 activos desde entonces.
+- **Implementación:** `tesina.universe.DELISTINGS`. Para el escalón de supervivencia de la cascada (D6), el sucesor de AVB es VMRK; hay que descargarlo cuando se haga el #24.
+- **Otros hallazgos del check, sin cambio de reglas:**
+  - En EODHD, el último precio de DRE es del 2022-10-03 (cierre de su fusión); los datos oficiales del M6 lo traen hasta el 2022-11-28. No afecta: el periodo 1 usa los datos oficiales y el periodo 2 excluye a DRE.
+  - El salto de HIG del 2008-12-05 (+102 %) es un movimiento real, no un split sin ajustar.
+
+---
+
+## D10 — AdaGaussMC: la reimplementación no reproduce los envíos del equipo (#20)
+
+- **Fecha:** 2026-11-09 · **Decidió:** Claude; es un criterio de reporte, no cambia ningún modelo · **Issue:** #20
+- **Contexto:** la reimplementación desde el artículo (arXiv:2303.01855) se comparó con los 12 envíos reales del equipo `b1002bc9` (`results/adagaussmc/2026-11-09_17793ac/fidelity.csv`). La correlación media es 0.31 y el RPS medio es 0.1583 contra 0.1569 del equipo. Los envíos reales colocan a los ETFs amplios de renta variable en el quintil central y dejan a los bonos de corto plazo cerca del uniforme; eso refleja dependencia entre activos, mientras que el artículo describe activos independientes para la tarea de pronóstico.
+- **Decisión:**
+  - El modelo se reporta como "AdaGaussMC según el artículo", no como el método del equipo.
+  - No se ajusta para parecerse a los envíos, porque eso sería afinarlo con el periodo 1.
+  - En RQ1 su resultado se presenta aparte de FinQBoost y wound-ignite, con esta advertencia.
+- **Contraste:** FinQBoost sí queda validado. Su correlación con los envíos de su equipo es 0.96 (0.99 desde el mes 6) y el RPS medio coincide (`results/finqboost/2026-11-09_f70d879/fidelity.csv`).

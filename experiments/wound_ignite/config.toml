@@ -3,7 +3,7 @@
 [data]
 # Download date of the EODHD snapshot (issue #12); it also sets the cutoff of period 2
 # (decision D3). Empty until that snapshot exists; run.py refuses to run without it.
-eodhd = ""
+eodhd = "2026-11-09"
 m6_snapshot = "2026-09-28"  # official M6 prices: period 1 is scored with them (chapter 6)
 
 [evaluation]

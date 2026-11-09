@@ -63,6 +63,975 @@
           "upstream_bytes": 17195878
         }
       ]
+    },
+    {
+      "name": "eodhd",
+      "downloaded": "2026-11-09",
+      "source": "https://eodhd.com/api",
+      "license": "EODHD terms of use: storage and analysis allowed, redistribution forbidden; the file is not committed",
+      "plan": "monthly",
+      "start": "2007-01-01",
+      "cutoff_period": "P2-49",
+      "cutoff_end": "2026-11-06",
+      "files": [
+        {
+          "path": "data/raw/eodhd/prices_2026-11-09.parquet",
+          "sha256": "08365bd54ecc9ce425237d08d8998a100db3127145b75b2da132e8d06543ad18",
+          "bytes": 9906103,
+          "in_git": false,
+          "format": "EODHD /eod JSON -> parquet, long format, values as returned"
+        }
+      ],
+      "symbols": [
+        {
+          "symbol": "ABBV",
+          "ticker": "ABBV.US",
+          "rows": 3499,
+          "first": "2012-12-10",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "ACN",
+          "ticker": "ACN.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "AEP",
+          "ticker": "AEP.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "AIZ",
+          "ticker": "AIZ.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "ALLE",
+          "ticker": "ALLE.US",
+          "rows": 3262,
+          "first": "2013-11-18",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "AMAT",
+          "ticker": "AMAT.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "AMP",
+          "ticker": "AMP.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "AMZN",
+          "ticker": "AMZN.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "AVB",
+          "ticker": "AVB.US",
+          "rows": 4935,
+          "first": "2007-01-03",
+          "last": "2026-08-14",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "AVY",
+          "ticker": "AVY.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "AXP",
+          "ticker": "AXP.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "BDX",
+          "ticker": "BDX.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "BF-B",
+          "ticker": "BF-B.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "BMY",
+          "ticker": "BMY.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "BR",
+          "ticker": "BR.US",
+          "rows": 4940,
+          "first": "2007-03-22",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "CARR",
+          "ticker": "CARR.US",
+          "rows": 1669,
+          "first": "2020-03-19",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "CDW",
+          "ticker": "CDW.US",
+          "rows": 3362,
+          "first": "2013-06-27",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "CE",
+          "ticker": "CE.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "CHTR",
+          "ticker": "CHTR.US",
+          "rows": 4237,
+          "first": "2010-01-05",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "CNC",
+          "ticker": "CNC.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "CNP",
+          "ticker": "CNP.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "COP",
+          "ticker": "COP.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "CTAS",
+          "ticker": "CTAS.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "CZR",
+          "ticker": "CZR.US",
+          "rows": 4993,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "DG",
+          "ticker": "DG.US",
+          "rows": 4271,
+          "first": "2009-11-13",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "DPZ",
+          "ticker": "DPZ.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "DRE",
+          "ticker": "DRE.US",
+          "rows": 3966,
+          "first": "2007-01-03",
+          "last": "2022-10-03",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "DXC",
+          "ticker": "DXC.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "EWA",
+          "ticker": "EWA.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "EWC",
+          "ticker": "EWC.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "EWG",
+          "ticker": "EWG.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "EWH",
+          "ticker": "EWH.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "EWJ",
+          "ticker": "EWJ.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "EWL",
+          "ticker": "EWL.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "EWQ",
+          "ticker": "EWQ.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "EWT",
+          "ticker": "EWT.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "EWU",
+          "ticker": "EWU.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "EWY",
+          "ticker": "EWY.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "EWZ",
+          "ticker": "EWZ.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "FTV",
+          "ticker": "FTV.US",
+          "rows": 2602,
+          "first": "2016-07-05",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "GOOG",
+          "ticker": "GOOG.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "GPC",
+          "ticker": "GPC.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "GSG",
+          "ticker": "GSG.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "HIG",
+          "ticker": "HIG.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "HIGH.L",
+          "ticker": "HIGH.LSE",
+          "rows": 2303,
+          "first": "2017-09-25",
+          "last": "2026-11-09",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "HST",
+          "ticker": "HST.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "HYG",
+          "ticker": "HYG.US",
+          "rows": 4927,
+          "first": "2007-04-11",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "IAU",
+          "ticker": "IAU.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "ICLN",
+          "ticker": "ICLN.US",
+          "rows": 4622,
+          "first": "2008-06-25",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "IEAA.L",
+          "ticker": "IEAA.LSE",
+          "rows": 2305,
+          "first": "2017-09-25",
+          "last": "2026-11-09",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "IEF",
+          "ticker": "IEF.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "IEFM.L",
+          "ticker": "IEFM.LSE",
+          "rows": 2985,
+          "first": "2015-01-19",
+          "last": "2026-11-09",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "IEMG",
+          "ticker": "IEMG.US",
+          "rows": 3531,
+          "first": "2012-10-22",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "IEUS",
+          "ticker": "IEUS.US",
+          "rows": 4722,
+          "first": "2007-11-19",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "IEVL.L",
+          "ticker": "IEVL.LSE",
+          "rows": 2984,
+          "first": "2015-01-19",
+          "last": "2026-11-09",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "IGF",
+          "ticker": "IGF.US",
+          "rows": 4756,
+          "first": "2007-12-12",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "INDA",
+          "ticker": "INDA.US",
+          "rows": 3687,
+          "first": "2012-02-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "IUMO.L",
+          "ticker": "IUMO.LSE",
+          "rows": 2250,
+          "first": "2016-11-03",
+          "last": "2026-11-09",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "IUVL.L",
+          "ticker": "IUVL.LSE",
+          "rows": 2543,
+          "first": "2016-10-17",
+          "last": "2026-11-09",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "IVV",
+          "ticker": "IVV.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "IWM",
+          "ticker": "IWM.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "IXN",
+          "ticker": "IXN.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "JPEA.L",
+          "ticker": "JPEA.LSE",
+          "rows": 2417,
+          "first": "2017-04-13",
+          "last": "2026-11-09",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "JPM",
+          "ticker": "JPM.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "KR",
+          "ticker": "KR.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "LQD",
+          "ticker": "LQD.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "MCHI",
+          "ticker": "MCHI.US",
+          "rows": 3919,
+          "first": "2011-03-31",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "META",
+          "ticker": "META.US",
+          "rows": 3639,
+          "first": "2012-05-18",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "MVEU.L",
+          "ticker": "MVEU.LSE",
+          "rows": 3294,
+          "first": "2012-12-11",
+          "last": "2026-11-09",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "OGN",
+          "ticker": "OGN.US",
+          "rows": 1378,
+          "first": "2021-05-14",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "PG",
+          "ticker": "PG.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "PPL",
+          "ticker": "PPL.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "PRU",
+          "ticker": "PRU.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "PYPL",
+          "ticker": "PYPL.US",
+          "rows": 2854,
+          "first": "2015-07-06",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "RE",
+          "ticker": "EG.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "REET",
+          "ticker": "REET.US",
+          "rows": 3096,
+          "first": "2014-07-10",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "ROL",
+          "ticker": "ROL.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "ROST",
+          "ticker": "ROST.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "SEGA.L",
+          "ticker": "SEGA.LSE",
+          "rows": 3580,
+          "first": "2009-06-04",
+          "last": "2026-11-09",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "SHY",
+          "ticker": "SHY.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "SLV",
+          "ticker": "SLV.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "SPMV.L",
+          "ticker": "SPMV.LSE",
+          "rows": 3464,
+          "first": "2013-01-03",
+          "last": "2026-11-09",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "TLT",
+          "ticker": "TLT.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "UNH",
+          "ticker": "UNH.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "URI",
+          "ticker": "URI.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "V",
+          "ticker": "V.US",
+          "rows": 4690,
+          "first": "2008-03-19",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "VRSK",
+          "ticker": "VRSK.US",
+          "rows": 4298,
+          "first": "2009-10-07",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "VXX",
+          "ticker": "VXX.US",
+          "rows": 2214,
+          "first": "2018-01-18",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "WRK",
+          "ticker": "WRK.US",
+          "rows": 4406,
+          "first": "2007-01-03",
+          "last": "2024-07-05",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "XLB",
+          "ticker": "XLB.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "XLC",
+          "ticker": "XLC.US",
+          "rows": 2109,
+          "first": "2018-06-19",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "XLE",
+          "ticker": "XLE.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "XLF",
+          "ticker": "XLF.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "XLI",
+          "ticker": "XLI.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "XLK",
+          "ticker": "XLK.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "XLP",
+          "ticker": "XLP.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "XLU",
+          "ticker": "XLU.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "XLV",
+          "ticker": "XLV.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "XLY",
+          "ticker": "XLY.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "XOM",
+          "ticker": "XOM.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "VIXY",
+          "ticker": "VIXY.US",
+          "rows": 3985,
+          "first": "2011-01-04",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "PLD",
+          "ticker": "PLD.US",
+          "rows": 4994,
+          "first": "2007-01-03",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        },
+        {
+          "symbol": "SW",
+          "ticker": "SW.US",
+          "rows": 588,
+          "first": "2024-07-08",
+          "last": "2026-11-06",
+          "warnings": [],
+          "problems": []
+        }
+      ]
+    },
+    {
+      "name": "yahoo",
+      "downloaded": "2026-11-09",
+      "source": "Yahoo Finance via yfinance (cross-check only, issue #13)",
+      "license": "Yahoo terms of use: redistribution forbidden; the file is not committed",
+      "start": "2007-01-01",
+      "empty_symbols": [
+        "AVB",
+        "DRE",
+        "WRK"
+      ],
+      "files": [
+        {
+          "path": "data/raw/yahoo/prices_2026-11-09.parquet",
+          "sha256": "ddfd693cc3249b5d57b0d5c2ef41bd7f76c77bfe9cad1248ce44979cd7bb805a",
+          "bytes": 5439681,
+          "in_git": false,
+          "format": "yfinance download (auto_adjust=False) -> parquet, long format"
+        }
+      ]
     }
   ]
 }

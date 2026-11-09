@@ -45,7 +45,9 @@ def markdown(frame: pd.DataFrame) -> str:
 def section(title: str, frame: pd.DataFrame, limit: int = 30) -> str:
     if frame.empty:
         return f"## {title}\n\nSin hallazgos.\n"
-    shown = markdown(frame.head(limit).round(4))
+    head = frame.head(limit)
+    numeric = head.select_dtypes("number").columns
+    shown = markdown(head.assign(**{c: head[c].round(4) for c in numeric}))
     more = f"\n\n({len(frame) - limit} filas más en el CSV)" if len(frame) > limit else ""
     return f"## {title} ({len(frame)})\n\n{shown}{more}\n"
 

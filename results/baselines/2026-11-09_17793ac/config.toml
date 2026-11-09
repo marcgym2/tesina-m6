@@ -1,0 +1,18 @@
+# Issues #15, #16: baselines on periods 1 and 2 with the common protocol.
+# Same fixed settings as experiments/baselines_p1 (no search).
+[data]
+eodhd = "2026-11-09"
+m6_snapshot = "2026-09-28"
+
+[evaluation]
+cost_bps = 10.0
+zero_variance = "nan"  # decision D1
+
+[evaluation.policy]
+period1 = "official"
+period2 = "d2"  # decision D2
+period2_official = "official"  # decision D4: sensitivity with the M6 rule
+
+[models.historical_frequency]
+lookback = "expanding"
+alpha = 1.0

@@ -1,0 +1,13 @@
+{
+  "experiment": "model_comparison",
+  "commit": "fcfb4efecb9650cf05d24db24d57b0591266bd42",
+  "dirty": false,
+  "started_utc": "2026-11-09T23:23:30+00:00",
+  "python": "3.12.7",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "pyarrow": "25.0.1",
+    "lightgbm": "4.7.0"
+  }
+}

@@ -108,7 +108,7 @@ def api_key() -> str:
     return key
 
 
-def get_json(path: str, key: str, retries: int = 3, **params):
+def get_json(path: str, key: str, retries: int = 5, **params):
     query = urllib.parse.urlencode({**params, "api_token": key, "fmt": "json"})
     for attempt in range(retries):
         try:
@@ -119,6 +119,10 @@ def get_json(path: str, key: str, retries: int = 3, **params):
             if not retriable or attempt == retries - 1:
                 body = error.read()[:200].decode(errors="replace").replace(key, "***")
                 raise RuntimeError(f"HTTP {error.code} for {path}: {body}") from None
+            time.sleep(2**attempt * 5)
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as error:
+            if attempt == retries - 1:  # network trouble: no response body to show
+                raise RuntimeError(f"{type(error).__name__} for {path}") from None
             time.sleep(2**attempt * 5)
     raise AssertionError("unreachable")
 
@@ -165,9 +169,11 @@ def load_manifest() -> dict:
 def download(symbols: list[str], start: str, end: str, key: str):
     frames, report = [], []
     for symbol in symbols:
-        df, warnings = parse(
-            symbol, get_json(f"eod/{ticker(symbol)}", key, **{"from": start, "to": end})
-        )
+        try:
+            payload = get_json(f"eod/{ticker(symbol)}", key, **{"from": start, "to": end})
+        except RuntimeError as error:  # e.g. HTTP 404: ticker not found
+            payload = [{"warning": str(error)}]
+        df, warnings = parse(symbol, payload)
         problems = check(df)
         report.append(
             {
@@ -240,6 +246,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.no_manifest:
         return 0
     path = target.resolve().relative_to(REPO_ROOT)
+    manifest = load_manifest()  # reload: another download may have registered meanwhile
     manifest["snapshots"].append(
         {
             "name": name,
