@@ -1,3 +1,35 @@
 # Anexos {.unnumbered #sec-anexos}
 
-<!-- Anexos y apéndices. -->
+## Anexo A. Registro de decisiones metodológicas {.unnumbered}
+
+Las decisiones que no estaban determinadas por las reglas de la competencia se
+registraron, con su fecha y su motivo, antes de ejecutar los experimentos a los que
+afectan. @tbl-decisiones las resume en el orden en que se tomaron.
+
+| Decisión | Tema | Qué se decidió |
+|---|---|---|
+| D1 | IR con varianza cero | Se reportan los dos criterios: 1 para reproducir el leaderboard y valor faltante, como en el código oficial, en los análisis propios |
+| D2 | Activos deslistados en el periodo 2 | Un activo se mantiene con su último precio durante el periodo en que deja de cotizar y se excluye desde el siguiente; los quintiles usan cortes proporcionales cuando hay menos de 100 activos |
+| D3 | Fecha de corte | El periodo 2 termina con el último periodo completo de cuatro semanas anterior a la descarga de los precios |
+| D4 | Sensibilidad del universo | El periodo 2 se recalcula con la regla de la M6, que deja a los deslistados en el universo con su último precio |
+| D5 | Modelo de la cascada | La cascada de sesgos usa el gradient boosting propio en todos sus pasos |
+| D6 | Universo de la cascada | La cascada se hace sobre el universo de la M6, y el sesgo de supervivencia se inyecta con un universo elegido después de los hechos |
+| D7 | Modelo fundacional | Se usa TimesFM-3 tal cual, sin ajuste fino ni búsqueda de hiperparámetros |
+| D8 | wound-ignite en el periodo 2 | Se ejecuta la última configuración que su autor dejó publicada, congelada para todos los periodos |
+| D9 | AVB | Se trata como tercer deslistado, con la regla D2, a partir de su salida de la bolsa en agosto de 2026 |
+| D10 | AdaGaussMC | La reimplementación no reproduce los envíos del equipo; se reporta como el procedimiento del artículo y no se ajusta para parecerse a ellos |
+| D11 | Orden de la cascada | Siete pasos acumulativos, fijados antes de correrla; el universo de supervivientes tiene 99 activos |
+| D12 | Alcance | El método de sebrad y la pregunta RQ5 no se abordan |
+
+: Decisiones metodológicas. {#tbl-decisiones}
+
+## Anexo B. Disponibilidad del código y de los datos {.unnumbered}
+
+El código de la tesina, las configuraciones de cada experimento y los archivos de
+resultados de los que se generan las tablas y figuras están en un repositorio con
+control de versiones. Cada resultado conserva el identificador de la versión del código
+que lo produjo. Los datos oficiales de la competencia se incluyen en el repositorio. Los
+precios descargados de los proveedores no se incluyen, porque sus términos de uso no
+permiten redistribuirlos; el repositorio conserva el programa que los descarga y el
+hash de cada archivo, con los que puede verificarse cualquier copia.
+<!-- Pendiente (Marco): decidir si el repositorio se cita con su URL y si queda público. -->

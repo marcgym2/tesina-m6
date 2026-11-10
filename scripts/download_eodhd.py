@@ -65,6 +65,10 @@ M6_ASSETS = [
 ]  # fmt: skip
 AUXILIARY = ["VIXY", "PLD", "SW"]
 SYMBOLS = M6_ASSETS + AUXILIARY
+# Successors found after the core snapshot was frozen: Vivmark Residential (formerly Equity
+# Residential) absorbed AVB on 2026-08-17 (decision D9). Used only by the survivorship
+# step of the bias cascade (decision D6); PLD and SW are already in the core group.
+SUCCESSORS = ["VMRK"]
 SEBRAD_LIST = REPO_ROOT / "data" / "universes" / "sebrad_extended.csv"
 
 
@@ -73,6 +77,8 @@ def group_symbols(group: str) -> list[str]:
         return SYMBOLS
     if group == "sebrad":
         return pd.read_csv(SEBRAD_LIST)["symbol"].tolist()
+    if group == "successors":
+        return SUCCESSORS
     raise SystemExit(f"unknown group {group!r}")
 
 
@@ -80,6 +86,7 @@ def group_symbols(group: str) -> list[str]:
 GROUPS = {
     "core": ("prices", "eodhd", True),
     "sebrad": ("sebrad", "eodhd_sebrad", False),
+    "successors": ("successors", "eodhd_successors", True),
 }
 
 # EODHD codes that do not follow the default rule (``X.L`` -> ``X.LSE``, else ``X.US``).
