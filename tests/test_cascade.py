@@ -24,9 +24,9 @@ def prices(n_assets=12, seed=0, end="2021-12-31"):
 def test_survivors_universe_swaps_delisted_assets_for_their_successors():
     assets = sorted(m6.load_template()["ID"])
     survivors = cs.survivors_universe(assets)
-    assert len(survivors) == 100
-    assert {"PLD", "SW", "VMRK"} <= set(survivors)
-    assert not {"DRE", "WRK", "AVB"} & set(survivors)
+    assert len(survivors) == 99
+    assert {"PLD", "VMRK"} <= set(survivors)
+    assert not {"DRE", "WRK", "AVB", "SW"} & set(survivors)
 
 
 def test_naive_features_depend_on_the_future_and_clean_ones_do_not():

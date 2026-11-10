@@ -1,0 +1,19 @@
+# Decision D4: period 2 recomputed with the official M6 rule (delisted assets stay in the
+# universe, frozen at their last price) for every model. Each model keeps the settings
+# of its own pre-registered experiment; only the universe policy changes.
+[data]
+eodhd = "2026-11-09"
+m6_snapshot = "2026-09-28"
+
+[evaluation]
+phase = "period2"
+policy = "official"
+cost_bps = 10.0
+zero_variance = "nan"
+
+[test]
+alternative = "less"
+horizon = 1
+block = 4
+n_boot = 10000
+seed = 2026

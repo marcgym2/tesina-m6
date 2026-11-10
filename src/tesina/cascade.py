@@ -22,7 +22,8 @@ that commits every bias and removes them one at a time, in a fixed order:
 - ``s6`` transaction costs on turnover: the clean model, net.
 
 The survivors' universe (decision D6) is the M6 list with each delisted asset replaced
-by its successor, a choice only possible after the fact: DRE->PLD, WRK->SW, AVB->VMRK.
+by its successor when it has a price history (DRE->PLD, AVB->VMRK) and dropped when it
+has not (WRK), a choice only possible after the fact. It has 99 assets.
 
 Every step produces quintile probabilities per origin; weights are always the
 expected-rank tilt, and scoring is the common walk-forward harness. Steps s0-s3 fit a
@@ -49,13 +50,16 @@ from tesina.models.gbm import (
     price_signals,
 )
 
-SUCCESSORS = {"DRE": "PLD", "WRK": "SW", "AVB": "VMRK"}
+# WRK's successor, Smurfit WestRock (SW), only lists from July 2024 and has no earlier
+# history, so it cannot stand in for WRK: the naive universe just drops WRK (D11).
+SUCCESSORS = {"DRE": "PLD", "WRK": None, "AVB": "VMRK"}
 ROUNDS = (50, 100, 200)
 LABEL_DAYS = 28
 
 
 def survivors_universe(assets: list[str]) -> list[str]:
-    return sorted(SUCCESSORS.get(a, a) for a in assets)
+    swapped = (SUCCESSORS.get(a, a) for a in assets)
+    return sorted(a for a in swapped if a is not None)
 
 
 def configs(grid: dict | None = None) -> list[dict]:

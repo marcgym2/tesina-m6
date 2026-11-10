@@ -136,7 +136,7 @@ Cada entrada registra una decisión de Marco sobre un issue `decision`: el conte
   6. **+ costos de transacción** sobre la rotación. Es el GBM limpio de RQ2, neto.
 - **Detalles:**
   - Los sesgos "selección y reporte sobre el mismo conjunto" y "búsqueda no reportada" se inyectan juntos: en los pasos 0 a 3 se prueban 12 configuraciones (4 del grid × 3 números de rondas) y se reporta la de mejor RPS en la evaluación. La búsqueda completa se guarda.
-  - El universo de supervivientes sustituye DRE→PLD, WRK→SW y AVB→VMRK.
+  - El universo de supervivientes tiene 99 activos: sustituye DRE→PLD y AVB→VMRK, y descarta a WRK. Su sucesor, SW, solo cotiza desde julio de 2024 y no tiene historia anterior, así que no puede reemplazarlo (esto ajusta lo previsto en D6). Descartar un activo sin historia es justo lo que haría un procedimiento ingenuo.
   - Los pesos son siempre la inclinación hacia el quintil esperado, para que el IR y el Sharpe reflejen el pronóstico.
 - **Límite de interpretación:** el orden afecta cuánto se atribuye a cada sesgo. La cascada mide el efecto de cada corrección dado que las anteriores ya se hicieron, no el efecto aislado de cada sesgo.
 - **Implementación:** `src/tesina/cascade.py` y `experiments/cascade/`.

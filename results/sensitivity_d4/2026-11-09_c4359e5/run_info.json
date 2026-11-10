@@ -1,0 +1,13 @@
+{
+  "experiment": "sensitivity_d4",
+  "commit": "c4359e5b5ffbe15734445ed849701782b32f4aab",
+  "dirty": false,
+  "started_utc": "2026-11-09T23:52:31+00:00",
+  "python": "3.12.7",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "pyarrow": "25.0.1",
+    "lightgbm": "4.7.0"
+  }
+}
