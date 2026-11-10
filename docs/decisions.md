@@ -140,3 +140,14 @@ Cada entrada registra una decisión de Marco sobre un issue `decision`: el conte
   - Los pesos son siempre la inclinación hacia el quintil esperado, para que el IR y el Sharpe reflejen el pronóstico.
 - **Límite de interpretación:** el orden afecta cuánto se atribuye a cada sesgo. La cascada mide el efecto de cada corrección dado que las anteriores ya se hicieron, no el efecto aislado de cada sesgo.
 - **Implementación:** `src/tesina/cascade.py` y `experiments/cascade/`.
+
+---
+
+## D12 — Cierre de alcance: sebrad y RQ5 quedan fuera (#18, #36)
+
+- **Fecha:** 2026-11-10 · **Decidió:** Claude, dentro de la delegación de Marco para terminar la tesina ("tú defínelo, no me preguntes… ya hay que acabar"). Marco puede revertirla. · **Issues:** #18, #36
+- **Decisión:**
+  - **sebrad no se evalúa.** Requiere un universo ampliado de 1,163 activos elegido después de los hechos, un adaptador en R que no está escrito y unas 10,000 simulaciones por pronóstico; su código solo cubre los envíos 8 a 12. El universo ya quedó descargado (1,136 símbolos) por si se retoma.
+  - **RQ5 no se aborda.** Era opcional desde el diseño. Queda como trabajo futuro.
+- **Motivo:** ninguna de las dos cambia las respuestas a RQ1–RQ4, y RQ1 ya se responde con tres métodos de equipos de la M6.
+- **Cómo se reporta:** el capítulo 6 describe el método de sebrad y dice que no se evaluó; las limitaciones del capítulo 7 lo repiten.

@@ -1,0 +1,28 @@
+# Issues #24, #25 (RQ4): bias cascade on the GBM, period 2. Decisions D5, D6, D11.
+# The steps, their order and every setting are fixed before running (D11).
+[data]
+eodhd = "2026-11-09"
+m6_snapshot = "2026-09-28"
+
+[evaluation]
+phase = "period2"
+cost_bps = 10.0  # only the last step is reported net
+zero_variance = "nan"
+
+[naive]
+seed = 2026
+folds = 5  # s0: rows shuffled over the whole sample
+step_days = 5  # s0-s1: one sample every 5 trading days (overlapping four-week labels)
+threads = 4
+
+[clean]
+# s5 and s6 replay the forecasts of the clean GBM run (results/gbm); s4 runs the same
+# model class with its default, pre-registered settings on the survivors' universe.
+gbm_run = "2026-11-09_17793ac"
+
+[test]
+alternative = "less"
+horizon = 1
+block = 4
+n_boot = 10000
+seed = 2026

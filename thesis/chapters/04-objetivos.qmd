@@ -28,4 +28,5 @@ automático.
 6. Cuantificar la cascada de sesgos (RQ4): medir, sobre un mismo modelo, cuánto
    desempeño aparente añade cada sesgo de evaluación.
 7. De forma opcional, estudiar la atención y los rendimientos (RQ5): analizar si los
-   picos de visitas en Wikipedia anticipan rendimientos relativos menores.
+   picos de visitas en Wikipedia anticipan rendimientos relativos menores. Este objetivo
+   no se abordó y queda como trabajo futuro.

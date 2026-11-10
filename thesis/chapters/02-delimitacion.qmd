@@ -59,7 +59,7 @@ preguntas de investigación:
 - **RQ4. Cascada de sesgos.** ¿Cuánto del desempeño de un procedimiento ingenuo
   desaparece al corregir la fuga de información, la validación no temporal, el sesgo de
   supervivencia y la omisión de costos?
-- **RQ5 (opcional).** ¿Los activos con picos de atención, medida con las visitas a sus
+- **RQ5 (opcional, no abordada).** ¿Los activos con picos de atención, medida con las visitas a sus
   artículos de Wikipedia, tienen peores rendimientos relativos en el periodo siguiente?
 
 Cada pregunta tiene un diseño propio, que se describe en @sec-met-preguntas.

@@ -2,8 +2,7 @@
 
 <!--
 Borrador del issue #34. Todas las cifras y tablas vienen de results/ a través de
-scripts/build_thesis_results.py (shortcodes var y thesis/_generated/). Falta la cascada
-de sesgos (RQ4), el método de sebrad y la sensibilidad D4 para todos los modelos.
+scripts/build_thesis_results.py (shortcodes var y thesis/_generated/). la cascada
 -->
 
 Este capítulo presenta los resultados en el orden del diseño. Primero se revisa la
@@ -11,8 +10,8 @@ calidad de los datos (@sec-res-datos) y la réplica de la evaluación oficial
 (@sec-res-replica). Después se analiza a los equipos de la competencia en el periodo 1
 (@sec-res-equipos) y a los modelos evaluados en los dos periodos (@sec-res-modelos). Con
 esos resultados se responden las preguntas de persistencia (@sec-res-rq1) y de la
-relación entre pronóstico y decisión (@sec-res-rq3). El capítulo cierra con las
-limitaciones (@sec-res-limitaciones) y las conclusiones (@sec-res-conclusiones).
+relación entre pronóstico y decisión (@sec-res-rq3), y se presenta la cascada de sesgos
+(@sec-res-rq4). El capítulo cierra con las limitaciones (@sec-res-limitaciones) y las conclusiones (@sec-res-conclusiones).
 
 ## Calidad de los datos {#sec-res-datos}
 
@@ -120,6 +119,12 @@ periodos ({{< var timesfm.dif_p2_posterior >}}). Una explicación consistente co
 verificación del adaptador es que el modelo extrapola tendencias de precio que no se
 sostienen, y eso desplaza sus probabilidades en la dirección equivocada.
 
+Estos resultados no dependen de cómo se trate a los activos deslistados. Al recalcular
+el periodo 2 con la regla de la M6, que los deja en el universo con su último precio
+(decisión D4), {{< var d4.sig >}} de los {{< var d4.n >}} modelos superan al uniforme
+después del ajuste de Holm, y son {{< var d4.mismos >}} que en el análisis principal. La
+diferencia media de RPS de ningún modelo cambia en más de {{< var d4.cambio_max >}}.
+
 ## RQ1: persistencia de los métodos ganadores {#sec-res-rq1}
 
 {{< include /_generated/tbl-persistencia.md >}}
@@ -189,28 +194,76 @@ diarios de todo el periodo evaluado y no anualiza (@sec-mt-inversion), así que 
 el número de periodos. Los valores del periodo 2 no son comparables con los del
 periodo 1 ni con los índices de información habituales en la industria.
 
+## RQ4: cascada de sesgos {#sec-res-rq4}
+
+{{< include /_generated/tbl-cascada-resultados.md >}}
+
+![Cascada de sesgos en el periodo 2: mejora de RPS sobre el uniforme y Sharpe anualizado de cada paso. La línea punteada es el Sharpe del portafolio de pesos iguales.](_generated/fig-cascada.png){#fig-cascada}
+
+@tbl-cascada-resultados y @fig-cascada muestran lo que reportaría el mismo modelo, un
+gradient boosting, según el cuidado con que se le evalúe. El resultado depende de la
+métrica que se mire.
+
+En la métrica de inversión, los sesgos inflan mucho el desempeño. El procedimiento
+ingenuo reporta un Sharpe anualizado de {{< var cascada.sharpe_s0 >}}, que es
+{{< var cascada.veces_bench_s0 >}} veces el del portafolio de pesos iguales en el mismo
+universo ({{< var cascada.sharpe_bench_s0 >}}). Un resultado así se presentaría como
+una estrategia que duplica al mercado. Casi toda esa ventaja proviene de la fuga de
+información. Al entrenar solo con datos anteriores a cada origen, el Sharpe baja a
+{{< var cascada.sharpe_s1 >}}, y al eliminar las etiquetas que usaban precios
+posteriores al origen, a {{< var cascada.sharpe_s2 >}}. Las correcciones siguientes lo
+mueven en ambos sentidos, pero ya nunca supera de forma clara al benchmark. Con todas
+las correcciones y los costos de transacción, el modelo termina en
+{{< var cascada.sharpe_s6 >}}, por debajo del {{< var cascada.sharpe_bench >}} de los
+pesos iguales. La diferencia entre lo que reporta el procedimiento ingenuo y lo que
+queda es de {{< var cascada.caida_sharpe >}} puntos de Sharpe.
+
+En la métrica de pronóstico ocurre algo distinto: los sesgos no inflaron el RPS. El
+procedimiento ingenuo mejora al uniforme en {{< var cascada.dif_s0 >}} y el
+procedimiento limpio, en {{< var cascada.dif_s6 >}}, es decir, el modelo evaluado con
+honestidad pronostica mejor que el evaluado con trampa. La explicación está en el
+tercer paso. Sustituir las variables estandarizadas con estadísticas de toda la muestra
+por rangos entre activos en la misma fecha no solo elimina una fuga, sino que da al
+modelo una mejor representación de lo que importa para los quintiles, que es la
+posición relativa de cada activo. Por eso ese paso mezcla dos efectos, y su mejora no
+debe leerse como el costo de un sesgo.
+
+El paso intermedio confirma esta lectura. Con el split temporal y la purga, pero todavía
+con las variables ingenuas, la ventaja sobre el uniforme casi desaparece
+({{< var cascada.dif_s2 >}}, con un valor p de {{< var cascada.p_s2 >}}). Lo que el
+procedimiento ingenuo había aprendido con esas variables dependía de haber visto el
+futuro.
+
+La selección de la mejor entre {{< var cascada.configuraciones >}} configuraciones
+sobre los propios periodos de evaluación y el universo de supervivientes tuvieron
+efectos pequeños en este caso. El grid era reducido y el universo de la M6 solo perdió
+tres activos, de modo que estos resultados no permiten concluir que esos sesgos sean
+inofensivos en general.
+
+La respuesta a RQ4 es, entonces, que la ilusión estuvo en la decisión de inversión y no
+en el pronóstico. La fuga de información convirtió un portafolio que rinde menos que el
+de pesos iguales en uno que aparentaba duplicarlo, mientras que la ventaja modesta en
+RPS era real y sobrevivió a todas las correcciones.
+
 ## Limitaciones {#sec-res-limitaciones}
 
-Los resultados tienen cinco limitaciones. La primera es que falta la cascada de sesgos
-de RQ4, que es la parte del estudio que mide cuánto desempeño aparente añaden los
-errores de evaluación.
-<!-- Pendiente: #24 y #25. -->
-La segunda es que el periodo 1 tiene solo doce observaciones, por lo que casi ninguna
-diferencia alcanza significancia en él, y la evidencia descansa en el periodo 2. La
-tercera es que no se evaluó el método de sebrad, que requiere un universo ampliado de
-más de mil activos.
-<!-- Pendiente: #18. -->
-La cuarta es que dos de los tres métodos de equipos no pudieron validarse por completo
-contra sus envíos reales (@sec-res-rq1). La quinta es que en el periodo 2 el portafolio
-de pesos iguales tuvo un rendimiento acumulado positivo, y no se sabe si la relación
-entre pronóstico e inversión sería distinta en un mercado a la baja.
+Los resultados tienen cinco limitaciones. La primera es que el periodo 1 tiene solo doce
+observaciones, por lo que casi ninguna diferencia alcanza significancia en él, y la
+evidencia descansa en el periodo 2. La segunda es que dos de los tres métodos de equipos
+no pudieron validarse por completo contra sus envíos reales (@sec-res-rq1), y que el
+método de sebrad no se evaluó (@sec-met-ganadores). La tercera es que la cascada mide
+cada corrección en un orden fijo y con un solo modelo; con otro orden, la parte
+atribuida a cada sesgo sería distinta, y uno de sus pasos mezcla la eliminación de una
+fuga con un cambio de variables (@sec-res-rq4). La cuarta es que el Sharpe y el IR de la
+cascada se comparan de forma descriptiva, sin una prueba estadística de sus diferencias.
+La quinta es que en el periodo 2 el portafolio de pesos iguales tuvo un rendimiento
+acumulado positivo, y no se sabe si la relación entre pronóstico e inversión sería
+distinta en un mercado a la baja.
 
 ## Conclusiones {#sec-res-conclusiones}
 
-<!-- Conclusiones provisionales: se completan cuando esté la cascada de RQ4. -->
-
 La pregunta que da título a la tesina, cuánto del alfa es ilusión, admite una respuesta
-en dos partes con la evidencia disponible.
+en dos partes.
 
 Lo que no es ilusión es la mejora en el pronóstico de quintiles. Con una evaluación sin
 fuga de información, en un periodo que ningún método vio y después de ajustar por
@@ -226,7 +279,26 @@ iguales, y entre los equipos de la competencia no hubo relación entre pronostic
 e invertir mejor (RQ3). El modelo más sofisticado, un modelo fundacional preentrenado,
 fue el único peor que no hacer nada.
 
-Para el inversionista no profesional, la lección es concreta: un resultado
-estadísticamente sólido en una métrica de pronóstico no implica una estrategia
-rentable, y una evaluación que solo reporta la primera puede sugerir lo segundo sin
-demostrarlo.
+La cascada de sesgos muestra cómo se fabrica esa ilusión (RQ4). Con validación cruzada
+aleatoria y etiquetas sin purgar, el mismo modelo reporta un Sharpe de
+{{< var cascada.sharpe_s0 >}}, que es {{< var cascada.veces_bench_s0 >}} veces el del portafolio de pesos
+iguales.
+Evaluado sin fuga de información y con costos, queda en {{< var cascada.sharpe_s6 >}},
+por debajo de ese portafolio. Ninguno de los dos números requiere mala fe: la diferencia
+está en errores de procedimiento que son fáciles de cometer y difíciles de ver desde
+fuera.
+
+Para el inversionista no profesional, la lección es concreta. Un resultado
+estadísticamente sólido en una métrica de pronóstico no implica una estrategia rentable,
+y un rendimiento sobresaliente en una simulación histórica dice poco mientras no se sepa
+cómo se separaron los datos de entrenamiento de los de evaluación. Las preguntas que
+conviene hacer ante cualquier promesa de este tipo son las que organizan esta tesina:
+si el periodo de prueba es posterior a todo lo que el modelo vio, si los activos se
+eligieron antes o después de conocer su destino, cuántas variantes se probaron y si el
+resultado descuenta los costos.
+
+Como trabajo futuro quedan tres extensiones naturales: repetir la cascada con otros
+órdenes y otros modelos para acotar la contribución de cada sesgo, evaluar reglas de
+inversión basadas en modelos de riesgo, que los organizadores de la M6 señalan como lo
+que más ayudó a conectar pronóstico y decisión [@makridakis2025], y abordar la pregunta
+sobre atención y rendimientos que aquí quedó pendiente.

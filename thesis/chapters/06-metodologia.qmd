@@ -250,7 +250,6 @@ los activos del universo en cada origen, y todos pasan por el protocolo de
 | Referencia | Uniforme | Nada (0.2 por quintil) | Ninguna |
 | Referencia | Frecuencia histórica | Frecuencia pasada de cada quintil por activo | Ninguna (fijado a priori) |
 | Ganadores M6 | FinQBoost | Gradient boosting sobre variables técnicas | La del autor, durante 2022 |
-| Ganadores M6 | sebrad | Modelos lineales apilados y simulación desde covarianzas | La del autor, durante 2022 |
 | Ganadores M6 | wound-ignite | Covarianzas de 200 días y simulación gaussiana | La del autor: selección mensual por backtest |
 | Ganadores M6 | AdaGaussMC | Volatilidad adaptativa (AdaVol) y simulación | Ninguna (reimplementación del artículo) |
 | Propio | GBM multiclase | Quintil a partir de variables de precio | Grid fijo, solo con el pasado |
@@ -270,9 +269,9 @@ invierten con pesos iguales, y así se distinguen del benchmark solo por su pron
 
 ### Métodos ganadores de la M6 {#sec-met-ganadores}
 
-Se evalúan cuatro métodos de equipos destacados. Tres publicaron su código, que se
+Se evalúan tres métodos de equipos destacados. Dos publicaron su código, que se
 ejecuta con su propio entorno de software y sin modificarlo; un adaptador traduce entre
-el formato del método y el del protocolo de evaluación. El cuarto se reimplementó a
+el formato del método y el del protocolo de evaluación. El tercero se reimplementó a
 partir del artículo de sus autores.
 
 FinQBoost [@finqboost] está escrito en R y usa gradient boosting. Su autor publicó solo
@@ -282,11 +281,11 @@ es una prueba limpia. El método produce únicamente pronósticos, porque el aut
 mano las decisiones de inversión.
 
 El método de sebrad [@sebrad] combina modelos lineales apilados sobre datos semanales
-con una simulación a partir de covarianzas. El código publicado corresponde a la versión
-usada desde el octavo envío, de modo que en el periodo 1 solo se reproducen los meses 8
-a 12. Se entrena con un universo ampliado de acciones elegido después de los hechos, lo
-que introduce sesgo de supervivencia, y se documenta como tal. El repositorio no declara
-licencia, así que su código no se redistribuye: se obtiene en un commit fijo.
+con una simulación a partir de covarianzas. Está descrito aquí porque formaba parte del
+plan, pero no se evaluó (decisión D12): requiere un universo ampliado de más de mil
+activos, elegido después de los hechos, y su código publicado solo cubre los últimos
+cinco envíos de la competencia. El repositorio no declara licencia, así que su código
+tampoco puede redistribuirse.
 
 wound-ignite [@woundignite] estima la covarianza de los últimos 200 rendimientos
 diarios, simula escenarios gaussianos con media cero y toma como probabilidades las
@@ -447,37 +446,43 @@ periodo 2 el análisis se repite con los modelos evaluados.
 La cascada parte de un *pipeline* ingenuo y corrige un sesgo a la vez, midiendo en cada
 paso el RPS, el IR y el índice de Sharpe con la misma evaluación de RQ2. Durante toda la
 cascada el modelo es el gradient boosting propio, y solo cambia el procedimiento
-(decisión D5). El universo es el de la M6 (decisión D6). El último paso es el mismo
-modelo limpio que se evalúa en RQ2, así que la caída total de la cascada es la
-diferencia entre el desempeño ingenuo y el honesto.
+(decisión D5). Se evalúa en el periodo 2, sobre el universo de la M6 (decisión D6), y
+los pesos de inversión son siempre la inclinación hacia el quintil esperado, para que el
+IR y el Sharpe reflejen el pronóstico. El último paso es el mismo modelo limpio que se
+evalúa en RQ2, así que la caída total de la cascada es la diferencia entre el desempeño
+ingenuo y el honesto.
 
-@tbl-cascada lista los sesgos que se inyectan. El sesgo de supervivencia
-[@brown1992; @elton1996] y el sobreajuste por búsqueda [@bailey2014; @bailey2016] se
-justifican con la literatura revisada en @sec-mt-sesgos, igual que los demás.
+@tbl-cascada lista los pasos en el orden en que se aplican, que se fijó antes de correr
+la cascada (decisión D11). Los sesgos que se inyectan son los revisados en
+@sec-mt-sesgos.
 
-| Sesgo inyectado | Corrección |
-|---|---|
-| Validación cruzada aleatoria en lugar de split temporal | *Walk-forward* (regla 1) |
-| Imputación y escalado ajustados con todo el conjunto | Ajuste solo con datos anteriores al origen (regla 2) |
-| Etiquetas traslapadas sin purga ni embargo | Purga y embargo (regla 4) |
-| Selección y reporte sobre el mismo conjunto | Validación separada del periodo de evaluación |
-| Búsqueda de configuraciones no reportada | Búsqueda completa y ajuste por multiplicidad |
-| Universo elegido después de los hechos: solo los activos que siguen cotizando, con los deslistados sustituidos por sus sucesores | Universo point-in-time con la política D2 (regla 5) |
-| Sin costos de transacción | Costos sobre la rotación |
+| Paso | Qué hace el procedimiento | Sesgo que se corrige |
+|---|---|---|
+| 0. Ingenuo | Validación cruzada con filas barajadas sobre toda la muestra; muestras semanales con etiquetas de cuatro semanas traslapadas; variables estandarizadas con estadísticas de toda la muestra; se reporta la mejor de doce configuraciones sobre los propios periodos de evaluación; universo de supervivientes; sin costos | — |
+| 1. Split temporal | En cada origen se entrena solo con muestras de fecha anterior | El modelo aprendía de periodos posteriores al que pronostica (regla 1) |
+| 2. Purga de etiquetas | Solo se usan ventanas que terminan en el origen o antes | Las etiquetas de las últimas muestras usaban precios posteriores al origen (regla 4) |
+| 3. Preprocesamiento solo con el pasado | Las variables pasan a ser rangos entre activos en la misma fecha | La estandarización usaba la media y la desviación de toda la muestra (regla 2) |
+| 4. Selección honesta | Los hiperparámetros se eligen con ventanas pasadas y no se elige nada viendo la evaluación | Selección y reporte sobre el mismo conjunto; búsqueda no reportada |
+| 5. Universo point-in-time | Se usa el universo de cada fecha con la política D2 | Sesgo de supervivencia (regla 5) |
+| 6. Costos de transacción | Se descuentan los costos sobre la rotación | Omisión de costos |
 
-: Sesgos de la cascada y su corrección. {#tbl-cascada}
+: Pasos de la cascada de sesgos, en el orden en que se aplican. {#tbl-cascada}
 
-El orden de las correcciones afecta cuánto se atribuye a cada sesgo. Se fija antes de
-correr la cascada y se reporta junto con la figura.
-<!-- Pendiente: fijar el orden en #25 antes de correr. -->
+El universo de supervivientes es el que armaría hoy alguien que solo considera los
+activos que siguen cotizando. Sustituye a DRE y a AVB por las empresas que las
+absorbieron, y descarta a WRK, porque la empresa que resultó de su fusión no tiene
+historia de precios anterior a 2024. Tiene 99 activos durante todo el periodo.
 
-### RQ5 (opcional): atención y rendimientos
+La cascada tiene un límite de interpretación: el orden de las correcciones afecta cuánto
+se atribuye a cada sesgo. Cada paso mide el efecto de una corrección dado que las
+anteriores ya se hicieron, y no el efecto aislado de ese sesgo.
 
-Si se aborda, se estudia si los picos de visitas a los artículos de Wikipedia de cada
-activo anticipan peores rendimientos relativos posteriores, con el mismo calendario y el
-mismo universo. TimesFM-3 no se usa en este análisis, porque esas series formaron parte
-de su preentrenamiento.
-<!-- Pendiente: diseño completo en #36 si se aborda. -->
+### RQ5: atención y rendimientos
+
+La pregunta opcional RQ5 no se abordó en esta tesina (decisión D12). Queda planteada
+como trabajo futuro, con una advertencia para quien la retome: TimesFM-3 no debe usarse
+para pronosticar las visitas a Wikipedia, porque esas series formaron parte de su
+preentrenamiento.
 
 ## Reproducibilidad {#sec-met-reproducibilidad}
 
@@ -488,6 +493,5 @@ directorio con la fecha y el commit del código que los generó, junto con la
 configuración usada, y los resultados previos nunca se sobrescriben. Las tablas y
 figuras de @sec-resultados se generan a partir de esos archivos, de modo que ninguna
 cifra de resultados se escribe a mano. Las decisiones metodológicas se registran con su
-fecha y su motivo en un registro de decisiones; las referidas en este capítulo como D1 a
-D9 se resumen en los anexos.
-<!-- Pendiente: llevar el resumen de docs/decisions.md a anexos. -->
+fecha y su motivo en un registro de decisiones; las referidas en este capítulo, de D1 a
+D12, se resumen en @tbl-decisiones de los anexos.
