@@ -81,6 +81,10 @@ const MODELS = [
 ];
 const irTable = mdTable(path.join(THESIS, "_generated", "tbl-ir.md"));
 const cascade = csv(path.join(pinnedRun("cascade"), "cascade.csv"));
+const persistence = csv(path.join(pinnedRun("model_comparison"), "persistence.csv"));
+
+/** Share of the uniform's RPS that a model removes, in percent (positive = better). */
+const lessError = (diff, uniform) => +((-diff / uniform) * 100).toFixed(1);
 
 // ------------------------------------------------------------------------ theme
 
@@ -511,16 +515,16 @@ startSection("Resultados");
     "Periodo 2, fuera de muestra. La mejora es pequeña pero muy regular: esa regularidad, y no el tamaño, es lo que produce valores p tan bajos. El resultado no depende de cómo se trate a los activos deslistados (sensibilidad D4)."
   );
   s.addChart(pres.charts.BAR, [{
-    name: "Diferencia de RPS contra el uniforme, periodo 2",
+    name: "Menos error que el uniforme (%), periodo 2",
     labels: MODELS.map(([, name]) => name),
-    values: MODELS.map(([k]) => n(v(`${k}.dif_p2`))),
+    values: MODELS.map(([k]) => n(v(`${k}.rel_p2`))),
   }], chartBase({
     x: MX, y: TOP, w: 7.8, h: 3.5, barDir: "bar", catAxisOrientation: "maxMin", catAxisLabelPos: "low",
-    chartColors: MODELS.map(([k]) => (n(v(`${k}.dif_p2`)) < 0 ? HEX.accent1 : HEX.accent2)),
-    showValue: true, dataLabelPosition: "outEnd", dataLabelFormatCode: "0.0000", valAxisLabelFormatCode: "0.000",
+    chartColors: MODELS.map(([k]) => (n(v(`${k}.rel_p2`)) > 0 ? HEX.accent1 : HEX.accent2)),
+    showValue: true, dataLabelPosition: "outEnd", dataLabelFormatCode: "0.0\\%", valAxisLabelFormatCode: "0\\%",
     barGapWidthPct: 50, objectName: "Diferencia de RPS por modelo",
   }));
-  text(s, `Diferencia de RPS contra el uniforme en ${v("uniforme.n_p2")} periodos. Barra hacia la izquierda = menos error que el uniforme.`, {
+  text(s, `Cuánto error (RPS) le quita cada modelo al uniforme, en ${v("uniforme.n_p2")} periodos. Negativo = pronostica peor que el uniforme.`, {
     x: MX, y: TOP + 3.55, w: 7.8, h: 0.5, fontSize: 12, color: C.accent4,
   });
   const x = MX + 8.2, w = CW - 8.2;
@@ -560,16 +564,16 @@ startSection("Resultados");
   const methods = [["finqboost", "FinQBoost"], ["wound_ignite", "wound-ignite"], ["adagaussmc", "AdaGaussMC"]];
   const labels = methods.map(([, name]) => name);
   s.addChart(pres.charts.BAR, [
-    { name: "Periodo 1 (competencia)", labels, values: methods.map(([k]) => n(v(`${k}.dif_p1`))) },
-    { name: "Periodo 2 (después)", labels, values: methods.map(([k]) => n(v(`${k}.dif_p2`))) },
+    { name: "Periodo 1 (competencia)", labels, values: methods.map(([k]) => lessError(+persistence.find((r) => r.method === k).rps_diff_period1, n(v("uniforme.rps_p1")))) },
+    { name: "Periodo 2 (después)", labels, values: methods.map(([k]) => n(v(`${k}.rel_p2`))) },
   ], chartBase({
-    x: MX, y: TOP, w: 7.6, h: 3.5, barDir: "col", barGrouping: "clustered", catAxisLabelPos: "high",
+    x: MX, y: TOP, w: 7.6, h: 3.5, barDir: "col", barGrouping: "clustered", valAxisMinVal: 0,
     chartColors: [HEX.accent5, HEX.accent1], showValue: true, dataLabelPosition: "outEnd",
-    dataLabelFormatCode: "0.0000", valAxisLabelFormatCode: "0.0000",
+    dataLabelFormatCode: "0.0\\%", valAxisLabelFormatCode: "0.0\\%",
     showLegend: true, legendPos: "b", legendColor: CHART_TEXT.color, legendFontFace: CHART_TEXT.fontFace, legendFontSize: CHART_TEXT.size,
     objectName: "Persistencia por método",
   }));
-  text(s, "Diferencia media de RPS contra el uniforme (negativa = mejor).", { x: MX, y: TOP + 3.55, w: 7.6, h: 0.4, fontSize: 12, color: C.accent4 });
+  text(s, "Cuánto error (RPS) le quita cada método al uniforme. Barra más alta = mejor pronóstico.", { x: MX, y: TOP + 3.55, w: 7.6, h: 0.4, fontSize: 12, color: C.accent4 });
   const x = MX + 8.0, w = CW - 8.0;
   text(s, "¿El código reproduce lo que envió el equipo?", { x, y: TOP, w, h: 0.7, fontSize: 18, bold: true, color: C.text2, fontFace: "Cambria" });
   const fid = [
@@ -661,7 +665,8 @@ startSection("Resultados");
   };
   col(MX, "Inversión", "Sharpe: mal evaluado → bien evaluado", v("cascada.sharpe_s0"), v("cascada.sharpe_s6"), C.accent2,
     `Los sesgos lo inflaron: se pierden ${v("cascada.caida_sharpe")} puntos y queda bajo el ${v("cascada.sharpe_bench")} de pesos iguales.`);
-  col(MX + w + 0.4, "Pronóstico", "Ventaja en RPS sobre el uniforme: mal evaluado → bien evaluado", v("cascada.dif_s0"), v("cascada.dif_s6"), C.accent1,
+  col(MX + w + 0.4, "Pronóstico", "Menos error que el uniforme: mal evaluado → bien evaluado",
+    `${lessError(+cascade[0].rps_diff, +cascade[0].rps_uniform).toFixed(1)} %`, `${lessError(+cascade[cascade.length - 1].rps_diff, +cascade[cascade.length - 1].rps_uniform).toFixed(1)} %`, C.accent1,
     "Los sesgos no lo inflaron: el modelo evaluado con honestidad pronostica mejor.");
   takeaway(s, "la fuga de información infló la ganancia aparente del portafolio, no la calidad del pronóstico.");
 }
