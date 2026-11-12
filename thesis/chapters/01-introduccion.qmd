@@ -54,7 +54,7 @@ identifica varias fuentes de ese desempeño ilusorio. La primera es la fuga de
 información, que ocurre cuando se usan datos que no estaban disponibles al momento de
 decidir [@kaufman2012]. La segunda es la validación que ignora el orden temporal, como
 la validación cruzada aleatoria aplicada a datos financieros
-[CITA PENDIENTE: López de Prado (2018), validación y purga en series financieras]. La
+[@lopezdeprado2018]. La
 tercera es el sesgo de supervivencia, que aparece cuando el universo de activos se elige
 después de los hechos [@brown1992; @elton1996]. La cuarta es el sobreajuste por
 búsqueda: probar muchas configuraciones y reportar solo la mejor

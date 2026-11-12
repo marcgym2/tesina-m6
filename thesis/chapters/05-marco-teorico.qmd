@@ -128,7 +128,7 @@ total, aproximado por la desviación estándar de sus rendimientos
 [@sharpe1966; @sharpe1994]. El índice de información (IR) mide el rendimiento en exceso
 respecto a un benchmark por unidad de *tracking error*, es decir, de la desviación
 estándar de esa diferencia
-[CITA PENDIENTE: Grinold y Kahn, Active portfolio management].
+[@grinold2000].
 
 El IR de la M6 no corresponde exactamente a la definición clásica (@sec-met-metricas,
 @eq-ir). Es la suma de los rendimientos logarítmicos diarios del portafolio en el
@@ -207,7 +207,7 @@ muestreo de gradientes [@ke2017]. CatBoost introduce el *boosting* ordenado, que
 un sesgo que aparece cuando las estadísticas de entrenamiento se calculan con los mismos
 datos que se usan para ajustar el modelo, un problema emparentado con la fuga de
 información
-[CITA PENDIENTE: Prokhorenkova et al. (2018), CatBoost, NeurIPS].
+[@prokhorenkova2019].
 
 En comparaciones sobre datos tabulares, los ensambles de árboles se han mantenido
 competitivos frente a las redes profundas, con menos esfuerzo de ajuste
@@ -239,7 +239,7 @@ son la base de varios métodos de la M6 y de uno de los modelos propios.
 Los modelos fundacionales de series de tiempo son redes de gran tamaño, preentrenadas
 con colecciones amplias de series de distintos dominios, que pronostican series nuevas
 sin reentrenarse (*zero-shot*)
-[CITA PENDIENTE: Das et al. (2024), A decoder-only foundation model for time-series forecasting, ICML; Ansari et al. (2024), Chronos].
+[@das2024; @ansari2024].
 Su atractivo es evidente: un pronóstico competitivo sin ajuste. También introducen un
 riesgo de evaluación propio. Como su corpus de preentrenamiento solo se conoce en parte,
 no siempre puede descartarse que hayan visto datos del periodo que se evalúa. La tesina
@@ -268,7 +268,7 @@ rendimientos de cuatro semanas, porque las observaciones cercanas comparten info
 En ese caso hacen falta dos medidas: la purga, que elimina del entrenamiento las
 observaciones cuyas etiquetas se traslapan con las de prueba, y el embargo, que deja un
 margen entre el entrenamiento y la prueba
-[CITA PENDIENTE: López de Prado (2018), Advances in financial machine learning, validación con purga y embargo].
+[@lopezdeprado2018].
 La alternativa más sencilla, que adopta esta tesina, es la evaluación *walk-forward*: el
 modelo se reentrena en cada origen solo con datos anteriores (@sec-met-protocolo).
 

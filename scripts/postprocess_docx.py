@@ -179,7 +179,7 @@ def normalize_captions(body, tbl_title: str) -> int:
         )
         if style not in ("ImageCaption", "TableCaption", "Caption"):
             continue
-        if style != "Caption" and _text(p).startswith(f"{tbl_title} "):
+        if style != "Caption" and _text(p).replace("\u00a0", " ").startswith(f"{tbl_title} "):
             style = "TableCaption"
         for ppr in pprs:
             p.remove(ppr)

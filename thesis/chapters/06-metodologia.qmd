@@ -190,7 +190,7 @@ Todos los modelos, propios y de terceros, se evalúan con el mismo procedimiento
 ### Reglas contra la fuga de información
 
 La fuga de información [@kaufman2012] y el sobreajuste de backtests
-[CITA PENDIENTE: López de Prado (2018); Bailey et al. sobre sobreajuste de backtests]
+[@lopezdeprado2018; @bailey2014; @bailey2016]
 son las fuentes más comunes de desempeño ilusorio en finanzas cuantitativas. Para
 evitarlas, el protocolo hace cumplir seis reglas:
 
@@ -201,7 +201,7 @@ evitarlas, el protocolo hace cumplir seis reglas:
 3. **Los quintiles objetivo se calculan de forma transversal** dentro de cada periodo,
    nunca agrupando periodos.
 4. **Si las etiquetas se traslapan en el tiempo, se aplican purga y embargo**
-   [CITA PENDIENTE: López de Prado (2018), purga y embargo].
+   [@lopezdeprado2018].
 5. **El universo en cada fecha usa solo información disponible en esa fecha.** Toda
    excepción se documenta como sesgo.
 6. **Cada modelo tiene pruebas automáticas que verifican las reglas 1 a 5.** Una de ellas
@@ -346,12 +346,12 @@ invierte con pesos iguales, porque con media cero el quintil esperado de todos l
 activos es el mismo.
 
 El tercer modelo es TimesFM-3, un modelo fundacional de series de tiempo preentrenado
-por Google [CITA PENDIENTE: Das et al. (2024), TimesFM; ficha del modelo TimesFM-3], que
+por Google [@das2024; @timesfm3], que
 se usa tal cual, sin ajuste fino ni búsqueda (decisión D7). Recibe los últimos 1024
 logaritmos del precio de cada activo y devuelve los deciles de su valor veinte días
 hábiles adelante, de donde salen los deciles del rendimiento del periodo. Como pronostica
 cada activo por separado, los activos se unen con una cópula gaussiana
-[CITA PENDIENTE: referencia sobre cópulas gaussianas], cuya correlación es la del modelo
+[@nelsen2006], cuya correlación es la del modelo
 anterior con una vida media fija. Las probabilidades de quintil salen de la simulación,
 igual que en el modelo anterior.
 
