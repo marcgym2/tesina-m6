@@ -234,6 +234,15 @@ function badge(s, x, y, label, fill = C.accent1, d = 0.6) {
   });
 }
 
+/** Dark band at the bottom with the slide's message in one plain sentence. */
+function takeaway(s, t, label = "En corto:") {
+  card(s, MX, 6.0, CW, 0.7, C.text2);
+  text(s, [
+    { text: `${label}  `, options: { bold: true, color: C.accent3 } },
+    { text: t, options: { color: C.background1 } },
+  ], { x: MX + 0.3, y: 6.0, w: CW - 0.6, h: 0.7, fontSize: 16, valign: "middle" });
+}
+
 const CHART_TEXT = { fontFace: "+mn-lt", color: HEX.accent4, size: 12 };
 function chartBase(extra) {
   return {
@@ -294,14 +303,57 @@ startSection("Planteamiento");
     ["100", "activos: 50 acciones del S&P 500 y 50 ETF internacionales"],
     [v("uniforme.n_p1"), "periodos de cuatro semanas, de marzo de 2022 a febrero de 2023"],
     [v("replica.equipos"), "equipos en el ranking global de la competencia"],
-    ["2", "métricas: RPS para el pronóstico de quintiles, IR para la inversión"],
+    ["2", "calificaciones: una para el pronóstico (RPS) y otra para la inversión (IR)"],
   ];
   items.forEach(([value, label], i) => stat(s, MX + i * (w + 0.4), TOP + 0.1, w, value, label));
   textCard(s, MX, 4.75, CW, 1.75, "Por qué sirve como laboratorio",
     "La evaluación fue en vivo, no una simulación histórica. Los envíos reales de todos los equipos, el código oficial de evaluación y el código de varios métodos ganadores son públicos.");
 }
 
-// 4 ── Sources of illusion
+// 4 ── How the M6 scores (defines quintiles, uniform, RPS, IR)
+{
+  const s = contentSlide(
+    "Cómo se califica en la M6",
+    "Antes de los resultados, las reglas del juego. Cada periodo los 100 activos se ordenan por rendimiento y se parten en cinco grupos de 20: los quintiles. El pronóstico es una probabilidad por quintil para cada activo. El uniforme pone 20 % en cada quintil: es no saber nada, y es el rival a vencer. El RPS mide el error: menor es mejor. Aparte se califica la inversión con el IR, y ahí el rival es invertir lo mismo en todos los activos."
+  );
+  const w = (CW - 0.4) / 2, h = 3.85, pad = 0.3;
+  const panel = (x, head, body) => {
+    card(s, x, TOP, w, h);
+    text(s, head, { x: x + pad, y: TOP + 0.25, w: w - 2 * pad, h: 0.45, fontSize: 22, bold: true, color: C.text2, fontFace: "Cambria" });
+    text(s, body, { x: x + pad, y: TOP + 0.8, w: w - 2 * pad, h: 1.0, fontSize: 15 });
+  };
+  // Left: the forecast
+  panel(MX, "1. El pronóstico",
+    "Cada periodo los 100 activos se ordenan por rendimiento y se parten en 5 quintiles de 20. Se pronostica la probabilidad de que cada activo caiga en cada quintil.");
+  const bars = (x0, heights, color, label) => {
+    const bw = 0.36, gap = 0.08, base = TOP + 2.9;
+    heights.forEach((p, i) => {
+      const bh = (p / 40) * 0.9;
+      s.addShape(pres.shapes.RECTANGLE, { x: x0 + i * (bw + gap), y: base - bh, w: bw, h: bh, fill: { color }, line: { color, width: 0 }, objectName: oname("Barra") });
+    });
+    text(s, label, { x: x0, y: base + 0.06, w: 2.6, h: 0.3, fontSize: 12, color: C.accent4 });
+  };
+  bars(MX + pad, [20, 20, 20, 20, 20], C.accent4, "Uniforme: 20 % a cada quintil");
+  bars(MX + pad + 2.95, [34, 14, 8, 14, 30], C.accent1, "Un modelo (ejemplo ilustrativo)");
+  text(s, [{ text: "RPS: ", options: { bold: true } }, { text: "el error del pronóstico. Menor es mejor." }], {
+    x: MX + pad, y: TOP + 3.35, w: w - 2 * pad, h: 0.35, fontSize: 15,
+  });
+  // Right: the investment
+  const x = MX + w + 0.4;
+  panel(x, "2. La inversión",
+    "Además del pronóstico, cada participante arma un portafolio con esos mismos activos, y se le califica por separado.");
+  const row = (y, lead, body) => {
+    card(s, x + pad, y, w - 2 * pad, 0.75, C.background1);
+    text(s, [{ text: `${lead}  `, options: { bold: true, color: C.text2 } }, { text: body }], {
+      x: x + pad + 0.2, y, w: w - 2 * pad - 0.4, h: 0.75, fontSize: 15, valign: "middle",
+    });
+  };
+  row(TOP + 1.85, "IR:", "rendimiento ajustado por riesgo. Mayor es mejor.");
+  row(TOP + 2.75, "Rival:", "invertir lo mismo en los 100 activos (pesos iguales).");
+  takeaway(s, "pronosticar 20 % en todo es no saber nada. Un modelo que no le gana a eso no aporta.", "El uniforme:");
+}
+
+// 4b ── Sources of illusion
 {
   const s = contentSlide(
     "Cinco fuentes de desempeño ilusorio",
@@ -334,10 +386,10 @@ startSection("Planteamiento");
     "RQ5, sobre atención en Wikipedia y rendimientos, era opcional y queda como trabajo futuro."
   );
   const rq = [
-    ["RQ1", "Persistencia", "¿Los métodos ganadores de la M6 siguen superando al uniforme fuera del periodo de competencia?"],
-    ["RQ2", "Evaluación limpia", "Con validación sin fuga de información, ¿algún modelo supera al uniforme en RPS de forma significativa?"],
-    ["RQ3", "Pronóstico frente a decisión", "¿Un mejor RPS se traduce en un mejor IR?"],
-    ["RQ4", "Cascada de sesgos", "¿Cuánto del desempeño de un procedimiento ingenuo desaparece al corregir cada sesgo?"],
+    ["RQ1", "Persistencia", "¿Los métodos ganadores de la M6 siguen ganando con datos nuevos?"],
+    ["RQ2", "Evaluación limpia", "Evaluado sin trampas, ¿algún modelo pronostica mejor que el uniforme?"],
+    ["RQ3", "Pronóstico frente a decisión", "¿Pronosticar mejor sirve para invertir mejor?"],
+    ["RQ4", "Cascada de sesgos", "¿Cuánto se infla un resultado cuando se evalúa mal?"],
   ];
   const w = (CW - 0.4) / 2, h = 2.1;
   rq.forEach(([tag, head, body], i) => {
@@ -367,14 +419,14 @@ startSection("Metodología");
   tl(MX, w1, `Periodo 1 · ${n1} periodos`, "Mar 2022 – feb 2023. La M6 original.");
   tl(MX + w1 + 0.15, w2, `Periodo 2 · ${n2} periodos`, "Mar 2023 – nov 2026. Datos que nadie vio durante la competencia.");
 
-  text(s, "Protocolo contra la fuga de información", { x: MX, y: 3.95, w: CW, h: 0.4, fontSize: 20, bold: true, color: C.text2, fontFace: "Cambria" });
+  text(s, "Regla de fondo: el modelo nunca ve el futuro", { x: MX, y: 3.95, w: CW, h: 0.4, fontSize: 20, bold: true, color: C.text2, fontFace: "Cambria" });
   const rules = [
-    "Todo split es temporal (walk-forward)",
-    "Todo estadístico se ajusta solo con el pasado",
-    "Quintiles calculados dentro de cada periodo",
-    "Purga y embargo si las etiquetas se traslapan",
-    "Universo con la información de cada fecha",
-    "Costos de transacción, con y sin ellos",
+    "Entrenar y probar en orden temporal",
+    "Ajustar todo solo con datos del pasado",
+    "Calcular los quintiles dentro de cada periodo",
+    "Separar entrenamiento y prueba si se traslapan",
+    "Usar los activos que existían en cada fecha",
+    "Reportar con y sin costos de operar",
   ];
   const w = (CW - 2 * 0.3) / 3;
   rules.forEach((r, i) => {
@@ -406,7 +458,7 @@ startSection("Metodología");
     [[head("Grupo"), head("Modelo"), head("Qué aprende")], ...rows.map((r, i) => [cell(r[0], i), cell(r[1], i, true), cell(r[2], i)])],
     { x: MX, y: TOP, w: CW, colW: [2.2, 3.6, CW - 5.8], rowH: 0.48, border: { type: "none" }, margin: [0.05, 0.15, 0.05, 0.15], valign: "middle", objectName: "Tabla de modelos" }
   );
-  text(s, "Inferencia: comparación pareada contra el uniforme (Diebold y Mariano) con ajuste de Holm por comparaciones múltiples.", {
+  text(s, "Cada modelo se compara con el uniforme periodo por periodo, y se exige evidencia más fuerte por haber probado varios modelos a la vez.", {
     x: MX, y: 6.05, w: CW, h: 0.6, fontSize: 15, italic: true, color: C.accent4,
   });
 }
@@ -435,21 +487,21 @@ startSection("Resultados");
     "Periodo 1: pocos equipos se distinguen del uniforme",
     "Con doce periodos, la gran mayoría de los equipos que quedaron arriba del benchmark no se distingue estadísticamente de él. Además, entre esos equipos, pronosticar mejor no se asoció con invertir mejor: la correlación de Spearman entre RPS e IR es prácticamente cero."
   );
-  const labels = ["Equipos en el ranking", "RPS medio mejor que el uniforme", "Significativos sin ajuste", "Significativos tras Holm"];
+  const labels = ["Equipos en el ranking", "Mejores que el uniforme en promedio", "Con diferencia significativa", "Tras corregir comparaciones múltiples"];
   const values = [n(v("equipos.n")), n(v("equipos.mejor_media")), n(v("equipos.sig_sin_ajuste")), n(v("equipos.sig_holm"))];
   s.addChart(pres.charts.BAR, [{ name: "Equipos", labels, values }], chartBase({
-    x: MX, y: TOP, w: 7.6, h: 4.6, barDir: "bar", catAxisOrientation: "maxMin", chartColors: [HEX.accent1],
+    x: MX, y: TOP, w: 7.6, h: 3.8, barDir: "bar", catAxisOrientation: "maxMin", chartColors: [HEX.accent1],
     showValue: true, dataLabelPosition: "outEnd", valAxisHidden: true, valGridLine: { style: "none" }, barGapWidthPct: 60,
     objectName: "Equipos significativos",
   }));
   const x = MX + 8.0, w = CW - 8.0;
-  card(s, x, TOP, w, 4.6);
-  text(s, "RPS e IR entre equipos", { x: x + 0.3, y: TOP + 0.3, w: w - 0.6, h: 0.45, fontSize: 20, bold: true, color: C.text2, fontFace: "Cambria" });
-  text(s, v("equipos.spearman"), { x: x + 0.3, y: TOP + 0.85, w: w - 0.6, h: 1.0, fontSize: 60, bold: true, color: C.accent2, fontFace: "Cambria", valign: "bottom" });
-  text(s, `Correlación de Spearman entre el RPS y el IR globales. IC 95 %: ${v("equipos.spearman_ic")}; p = ${v("equipos.spearman_p")}.`, {
-    x: x + 0.3, y: TOP + 2.0, w: w - 0.6, h: 1.1, fontSize: 15, color: C.accent4,
+  card(s, x, TOP, w, 3.8);
+  text(s, "¿Pronosticar bien e invertir bien van juntos?", { x: x + 0.3, y: TOP + 0.3, w: w - 0.6, h: 0.8, fontSize: 18, bold: true, color: C.text2, fontFace: "Cambria" });
+  text(s, v("equipos.spearman"), { x: x + 0.3, y: TOP + 1.05, w: w - 0.6, h: 1.0, fontSize: 60, bold: true, color: C.accent2, fontFace: "Cambria", valign: "bottom" });
+  text(s, `Correlación de Spearman entre RPS e IR (0 = sin relación). IC 95 %: ${v("equipos.spearman_ic")}.`, {
+    x: x + 0.3, y: TOP + 2.2, w: w - 0.6, h: 1.1, fontSize: 15, color: C.accent4,
   });
-  text(s, "Pronosticar mejor no se asoció con invertir mejor.", { x: x + 0.3, y: TOP + 3.25, w: w - 0.6, h: 1.0, fontSize: 18, bold: true });
+  takeaway(s, `de ${v("equipos.n")} equipos, solo ${v("equipos.sig_holm")} le ganan al uniforme con claridad, y pronosticar mejor no se asoció con invertir mejor.`);
 }
 
 // 10 ── Models in period 2 (RQ2)
@@ -463,17 +515,18 @@ startSection("Resultados");
     labels: MODELS.map(([, name]) => name),
     values: MODELS.map(([k]) => n(v(`${k}.dif_p2`))),
   }], chartBase({
-    x: MX, y: TOP, w: 7.8, h: 4.3, barDir: "bar", catAxisOrientation: "maxMin", catAxisLabelPos: "low",
+    x: MX, y: TOP, w: 7.8, h: 3.5, barDir: "bar", catAxisOrientation: "maxMin", catAxisLabelPos: "low",
     chartColors: MODELS.map(([k]) => (n(v(`${k}.dif_p2`)) < 0 ? HEX.accent1 : HEX.accent2)),
     showValue: true, dataLabelPosition: "outEnd", dataLabelFormatCode: "0.0000", valAxisLabelFormatCode: "0.000",
     barGapWidthPct: 50, objectName: "Diferencia de RPS por modelo",
   }));
-  text(s, `Diferencia media de RPS contra el uniforme en ${v("uniforme.n_p2")} periodos (negativa = mejor). RPS del uniforme: ${v("uniforme.rps_p2")}.`, {
-    x: MX, y: TOP + 4.35, w: 7.8, h: 0.5, fontSize: 12, color: C.accent4,
+  text(s, `Diferencia de RPS contra el uniforme en ${v("uniforme.n_p2")} periodos. Barra hacia la izquierda = menos error que el uniforme.`, {
+    x: MX, y: TOP + 3.55, w: 7.8, h: 0.5, fontSize: 12, color: C.accent4,
   });
   const x = MX + 8.2, w = CW - 8.2;
-  stat(s, x, TOP - 0.1, w, v("covsim.rel_p2"), "del RPS del uniforme: la mejora del mejor modelo, la simulación desde covarianzas", C.accent1, 54);
-  stat(s, x, TOP + 2.25, w, v("covsim.mejor_p2"), "de los periodos en los que ese modelo supera al uniforme. Pequeña, pero muy regular", C.accent1, 54);
+  stat(s, x, TOP - 0.1, w, v("covsim.rel_p2"), "menos error que el uniforme: el mejor modelo", C.accent1, 54);
+  stat(s, x, TOP + 1.85, w, v("covsim.mejor_p2"), "de los periodos en los que ese modelo le gana al uniforme", C.accent1, 54);
+  takeaway(s, "casi todos los modelos pronostican un poco mejor que el uniforme. La mejora es pequeña, pero se repite periodo tras periodo.");
 }
 
 // 11 ── Interpretation
@@ -482,19 +535,20 @@ startSection("Resultados");
     "La ventaja viene de la volatilidad, no de la dirección",
     "Los seis modelos que superan al uniforme explotan que los activos difieren en volatilidad. Eso anticipa qué activos terminarán en los quintiles extremos, no cuáles subirán, y por eso no contradice la eficiencia de mercado."
   );
-  const w = (CW - 2 * 0.4) / 3, h = 4.3;
+  const w = (CW - 2 * 0.4) / 3, h = 3.8;
   const cards = [
-    ["Todos explotan la volatilidad", `La simulación desde covarianzas supone que ningún activo rinde más que otro, y aun así es el mejor modelo. Hasta la frecuencia histórica supera al uniforme (${v("baselines.dif_p2")}).`, C.accent1],
-    ["La complejidad no ayudó", "El gradient boosting, con nueve variables y búsqueda de hiperparámetros, queda por debajo de un modelo con un solo parámetro.", C.accent6],
-    ["El modelo fundacional fue el único peor", `TimesFM-3 aumenta el RPS en ${v("timesfm.dif_p2")} y solo supera al uniforme en el ${v("timesfm.mejor_p2")} de los periodos.`, C.accent2],
+    ["Todos explotan la volatilidad", "El mejor modelo supone que ningún activo rinde más que otro. Solo sabe cuáles se mueven más, y con eso basta.", C.accent1],
+    ["La complejidad no ayudó", "El gradient boosting, con nueve variables, queda por debajo de un modelo con un solo parámetro.", C.accent6],
+    ["El modelo fundacional fue el único peor", `TimesFM-3 pronostica peor que el uniforme: solo le gana en el ${v("timesfm.mejor_p2")} de los periodos.`, C.accent2],
   ];
   cards.forEach(([head, body, color], i) => {
     const x = MX + i * (w + 0.4);
     card(s, x, TOP, w, h);
     badge(s, x + 0.3, TOP + 0.3, i + 1, color);
     text(s, head, { x: x + 0.3, y: TOP + 1.15, w: w - 0.6, h: 0.95, fontSize: 20, bold: true, color: C.text2, fontFace: "Cambria" });
-    text(s, body, { x: x + 0.3, y: TOP + 2.2, w: w - 0.6, h: 1.9, fontSize: 16 });
+    text(s, body, { x: x + 0.3, y: TOP + 2.2, w: w - 0.6, h: 1.4, fontSize: 16 });
   });
+  takeaway(s, "los modelos anticipan qué activos tendrán movimientos extremos, no cuáles van a subir. Eso no contradice la eficiencia del mercado.");
 }
 
 // 12 ── RQ1 persistence
@@ -509,27 +563,28 @@ startSection("Resultados");
     { name: "Periodo 1 (competencia)", labels, values: methods.map(([k]) => n(v(`${k}.dif_p1`))) },
     { name: "Periodo 2 (después)", labels, values: methods.map(([k]) => n(v(`${k}.dif_p2`))) },
   ], chartBase({
-    x: MX, y: TOP, w: 7.6, h: 4.3, barDir: "col", barGrouping: "clustered", catAxisLabelPos: "high",
+    x: MX, y: TOP, w: 7.6, h: 3.5, barDir: "col", barGrouping: "clustered", catAxisLabelPos: "high",
     chartColors: [HEX.accent5, HEX.accent1], showValue: true, dataLabelPosition: "outEnd",
     dataLabelFormatCode: "0.0000", valAxisLabelFormatCode: "0.0000",
     showLegend: true, legendPos: "b", legendColor: CHART_TEXT.color, legendFontFace: CHART_TEXT.fontFace, legendFontSize: CHART_TEXT.size,
     objectName: "Persistencia por método",
   }));
-  text(s, "Diferencia media de RPS contra el uniforme (negativa = mejor).", { x: MX, y: TOP + 4.35, w: 7.6, h: 0.4, fontSize: 12, color: C.accent4 });
+  text(s, "Diferencia media de RPS contra el uniforme (negativa = mejor).", { x: MX, y: TOP + 3.55, w: 7.6, h: 0.4, fontSize: 12, color: C.accent4 });
   const x = MX + 8.0, w = CW - 8.0;
-  text(s, "¿Qué tan fiel es cada método a lo que envió su equipo?", { x, y: TOP, w, h: 0.8, fontSize: 18, bold: true, color: C.text2, fontFace: "Cambria" });
+  text(s, "¿El código reproduce lo que envió el equipo?", { x, y: TOP, w, h: 0.7, fontSize: 18, bold: true, color: C.text2, fontFace: "Cambria" });
   const fid = [
-    ["FinQBoost", `Validado: correlación de ${v("finqboost.fid_corr")} con sus envíos.`, C.accent1],
-    ["wound-ignite", `Validado en parte: ${v("wound_ignite.fid_corr_mes10")} en el décimo envío.`, C.accent3],
-    ["AdaGaussMC", `No validado: correlación de ${v("adagaussmc.fid_corr")}.`, C.accent2],
+    ["FinQBoost", `Sí (correlación de ${v("finqboost.fid_corr")})`, C.accent1],
+    ["wound-ignite", `En parte (${v("wound_ignite.fid_corr_mes10")} en un envío)`, C.accent3],
+    ["AdaGaussMC", `No (correlación de ${v("adagaussmc.fid_corr")})`, C.accent2],
   ];
   fid.forEach(([name, body, color], i) => {
-    const y = TOP + 0.95 + i * 1.2;
-    card(s, x, y, w, 1.05);
-    s.addShape(pres.shapes.OVAL, { x: x + 0.25, y: y + 0.4, w: 0.25, h: 0.25, fill: { color }, line: { color, width: 0 }, objectName: oname("Dot") });
-    text(s, name, { x: x + 0.7, y: y + 0.12, w: w - 0.9, h: 0.35, fontSize: 16, bold: true });
-    text(s, body, { x: x + 0.7, y: y + 0.48, w: w - 0.9, h: 0.5, fontSize: 14, color: C.accent4 });
+    const y = TOP + 0.8 + i * 1.0;
+    card(s, x, y, w, 0.85);
+    s.addShape(pres.shapes.OVAL, { x: x + 0.25, y: y + 0.3, w: 0.25, h: 0.25, fill: { color }, line: { color, width: 0 }, objectName: oname("Dot") });
+    text(s, name, { x: x + 0.7, y: y + 0.1, w: w - 0.9, h: 0.33, fontSize: 16, bold: true });
+    text(s, body, { x: x + 0.7, y: y + 0.45, w: w - 0.9, h: 0.3, fontSize: 14, color: C.accent4 });
   });
+  takeaway(s, "la ventaja de los ganadores no desapareció después de la competencia, porque las diferencias de volatilidad entre activos son estables.");
 }
 
 // 13 ── RQ3 forecast vs decision
@@ -546,17 +601,18 @@ startSection("Resultados");
     labels: irTable.rows.map((r) => short(r[0])),
     values: irTable.rows.map((r) => n(r[iNet])),
   }], chartBase({
-    x: MX, y: TOP, w: 7.6, h: 4.3, barDir: "col", catAxisLabelPos: "low",
+    x: MX, y: TOP, w: 7.6, h: 3.5, barDir: "col", catAxisLabelPos: "low",
     chartColors: irTable.rows.map((r, i) => (i === 0 ? HEX.accent4 : HEX.accent1)),
     showValue: true, dataLabelPosition: "outEnd", dataLabelFormatCode: "0.00", barGapWidthPct: 60,
     objectName: "IR neto por portafolio",
   }));
-  text(s, "IR agregado del periodo 2, neto de costos de 10 pb sobre la rotación. El IR de la M6 no anualiza.", {
-    x: MX, y: TOP + 4.35, w: 7.6, h: 0.4, fontSize: 12, color: C.accent4,
+  text(s, "IR del periodo 2, ya descontados los costos de operar. Barra más alta = mejor inversión.", {
+    x: MX, y: TOP + 3.55, w: 7.6, h: 0.4, fontSize: 12, color: C.accent4,
   });
   const x = MX + 8.0, w = CW - 8.0;
-  stat(s, x, TOP - 0.1, w, `${better} de ${active}`, "portafolios que se apartan del benchmark superan su IR neto", C.accent2, 54);
-  stat(s, x, TOP + 2.25, w, v("inversion.spearman_modelos"), `correlación de Spearman entre RPS e IR neto en ${v("inversion.spearman_modelos_n")} portafolios. IC 95 %: ${v("inversion.spearman_modelos_ic")}`, C.accent2, 54);
+  stat(s, x, TOP - 0.1, w, `${better} de ${active}`, "portafolios distintos al de pesos iguales lo superan", C.accent2, 54);
+  stat(s, x, TOP + 1.85, w, v("inversion.spearman_modelos"), `correlación entre pronosticar bien e invertir bien, en ${v("inversion.spearman_modelos_n")} portafolios`, C.accent2, 54);
+  takeaway(s, "saber qué activos se mueven más no dice hacia dónde se moverán, y eso es lo que necesita un portafolio.");
 }
 
 // 14 ── RQ4 cascade
@@ -573,15 +629,16 @@ startSection("Resultados");
       { type: pres.charts.LINE, data: [{ name: "Pesos iguales", labels, values: cascade.map((r) => +(+r.sharpe_benchmark).toFixed(2)) }], options: { chartColors: [HEX.accent2], lineSize: 2, lineDataSymbol: "none", lineDash: ["dash"] } },
     ],
     chartBase({
-      x: MX, y: TOP, w: 8.3, h: 4.3, showValue: false, valAxisMinVal: 0, valAxisLabelFormatCode: "0.0",
+      x: MX, y: TOP, w: 8.3, h: 3.5, showValue: false, valAxisMinVal: 0, valAxisLabelFormatCode: "0.0",
       showLegend: true, legendPos: "b", legendColor: CHART_TEXT.color, legendFontFace: CHART_TEXT.fontFace, legendFontSize: CHART_TEXT.size,
       catAxisLabelFontSize: 11, objectName: "Sharpe por paso de la cascada",
     })
   );
-  text(s, "Sharpe anualizado en el periodo 2. Cada paso agrega una corrección a las anteriores.", { x: MX, y: TOP + 4.35, w: 8.3, h: 0.4, fontSize: 12, color: C.accent4 });
+  text(s, "Sharpe (rendimiento por unidad de riesgo) del mismo modelo. Cada barra corrige un error más de evaluación.", { x: MX, y: TOP + 3.55, w: 8.3, h: 0.4, fontSize: 12, color: C.accent4 });
   const x = MX + 8.7, w = CW - 8.7;
-  stat(s, x, TOP - 0.1, w, v("cascada.sharpe_s0"), `Sharpe del procedimiento ingenuo: ${v("cascada.veces_bench_s0")} veces el de pesos iguales`, C.accent2, 54);
-  stat(s, x, TOP + 2.25, w, v("cascada.sharpe_s6"), `Sharpe con todas las correcciones y costos, por debajo del ${v("cascada.sharpe_bench")} de pesos iguales`, C.accent1, 54);
+  stat(s, x, TOP - 0.1, w, v("cascada.sharpe_s0"), `Sharpe mal evaluado: ${v("cascada.veces_bench_s0")} veces el de pesos iguales`, C.accent2, 54);
+  stat(s, x, TOP + 1.85, w, v("cascada.sharpe_s6"), `Sharpe bien evaluado: debajo del ${v("cascada.sharpe_bench")} de pesos iguales`, C.accent1, 54);
+  takeaway(s, "el mismo modelo parece duplicar al portafolio de pesos iguales o quedar debajo de él, según el cuidado con que se le evalúe.");
 }
 
 // 15 ── RQ4 reading
@@ -602,13 +659,11 @@ startSection("Resultados");
     ], { x: x + 0.35, y: TOP + 1.2, w: w - 0.7, h: 1.0, fontSize: 38, bold: true, fontFace: "Cambria", valign: "middle" });
     text(s, foot, { x: x + 0.35, y: TOP + 2.3, w: w - 0.7, h: 0.8, fontSize: 16 });
   };
-  col(MX, "Inversión", "Sharpe anualizado: ingenuo → limpio", v("cascada.sharpe_s0"), v("cascada.sharpe_s6"), C.accent2,
+  col(MX, "Inversión", "Sharpe: mal evaluado → bien evaluado", v("cascada.sharpe_s0"), v("cascada.sharpe_s6"), C.accent2,
     `Los sesgos lo inflaron: se pierden ${v("cascada.caida_sharpe")} puntos y queda bajo el ${v("cascada.sharpe_bench")} de pesos iguales.`);
-  col(MX + w + 0.4, "Pronóstico", "Diferencia de RPS contra el uniforme: ingenuo → limpio", v("cascada.dif_s0"), v("cascada.dif_s6"), C.accent1,
+  col(MX + w + 0.4, "Pronóstico", "Ventaja en RPS sobre el uniforme: mal evaluado → bien evaluado", v("cascada.dif_s0"), v("cascada.dif_s6"), C.accent1,
     "Los sesgos no lo inflaron: el modelo evaluado con honestidad pronostica mejor.");
-  text(s, `Con split temporal y purga, pero con las variables ingenuas, la ventaja casi desaparece (${v("cascada.dif_s2")}, p = ${v("cascada.p_s2")}): lo aprendido dependía de haber visto el futuro.`, {
-    x: MX, y: TOP + h + 0.3, w: CW, h: 0.9, fontSize: 16, italic: true, color: C.accent4,
-  });
+  takeaway(s, "la fuga de información infló la ganancia aparente del portafolio, no la calidad del pronóstico.");
 }
 
 // 16 ── Limitations
@@ -642,7 +697,7 @@ startSection("Conclusiones");
     "Lo que no es ilusión es la mejora en el pronóstico de quintiles: real, pequeña y muy regular. Lo ilusorio es leer esa mejora como capacidad de ganarle al mercado. Ninguno de los dos números de la cascada requiere mala fe: la diferencia está en errores de procedimiento fáciles de cometer y difíciles de ver desde fuera.",
     true
   );
-  const w = (CW - 0.4) / 2, h = 3.9;
+  const w = (CW - 0.4) / 2, h = 3.4;
   const col = (x, head, color, bullets) => {
     card(s, x, TOP, w, h, C.background1);
     s.addShape(pres.shapes.OVAL, { x: x + 0.35, y: TOP + 0.42, w: 0.3, h: 0.3, fill: { color }, line: { color, width: 0 }, objectName: oname("Dot") });
@@ -661,36 +716,59 @@ startSection("Conclusiones");
     "Ningún portafolio derivado de los pronósticos superó al de pesos iguales.",
     `El mismo modelo reporta un Sharpe de ${v("cascada.sharpe_s0")} con fuga de información y de ${v("cascada.sharpe_s6")} sin ella y con costos.`,
   ]);
+  text(s, [
+    { text: "Trabajo futuro:  ", options: { bold: true, color: C.accent3 } },
+    { text: "repetir la cascada con otros órdenes y modelos, probar reglas de inversión basadas en modelos de riesgo, y estudiar atención y rendimientos (RQ5)." },
+  ], { x: MX, y: TOP + 3.7, w: CW, h: 0.8, fontSize: 16, color: C.background1 });
 }
 
-// 18 ── Takeaways and future work
+// 18 ── What to ask (closing message for the non-professional investor)
 {
   const s = contentSlide(
-    "Cuatro preguntas ante el “trading con IA”",
-    "Para el inversionista no profesional: un resultado sólido en una métrica de pronóstico no implica una estrategia rentable. Trabajo futuro: repetir la cascada con otros órdenes y modelos, evaluar reglas de inversión basadas en modelos de riesgo y abordar la pregunta sobre atención y rendimientos."
+    "Qué preguntar ante un backtest espectacular",
+    "Cierre para el inversionista no profesional. Cuando alguien muestra una simulación histórica con rendimientos sobresalientes, estas cuatro preguntas corresponden a los errores de evaluación que medí en la cascada. Si no hay respuesta clara a alguna, el resultado dice poco."
   );
-  const qs = [
-    "¿El periodo de prueba es posterior a todo lo que el modelo vio?",
-    "¿Los activos se eligieron antes o después de conocer su destino?",
-    "¿Cuántas variantes se probaron?",
-    "¿El resultado descuenta los costos?",
-  ];
-  const w = (CW - 0.4) / 2, h = 1.15;
-  qs.forEach((q, i) => {
-    const x = MX + (i % 2) * (w + 0.4), y = TOP + Math.floor(i / 2) * (h + 0.3);
-    card(s, x, y, w, h);
-    badge(s, x + 0.3, y + 0.275, i + 1, C.accent1);
-    text(s, q, { x: x + 1.15, y, w: w - 1.4, h, fontSize: 18, valign: "middle" });
+  text(s, "Para quien recibe una promesa de “trading con IA”: una pregunta por cada error de evaluación que mide la tesina.", {
+    x: MX, y: TOP - 0.05, w: CW, h: 0.5, fontSize: 16, color: C.accent4,
   });
-  const y = TOP + 2 * (h + 0.3) + 0.1;
-  text(s, "Trabajo futuro", { x: MX, y, w: CW, h: 0.4, fontSize: 20, bold: true, color: C.text2, fontFace: "Cambria" });
-  const fw = [
-    "Repetir la cascada con otros órdenes y otros modelos.",
-    "Evaluar reglas de inversión basadas en modelos de riesgo.",
-    "Estudiar la relación entre atención y rendimientos (RQ5).",
+  const qs = [
+    ["¿El periodo de prueba es posterior a todo lo que el modelo vio?", "Si no: el modelo vio el futuro"],
+    ["¿Los activos se eligieron antes de conocer su destino?", "Si no: solo quedan los que sobrevivieron"],
+    ["¿Cuántas variantes se probaron?", "Si fueron muchas: se reporta la más afortunada"],
+    ["¿El resultado descuenta los costos de operar?", "Si no: la ganancia está inflada"],
   ];
-  text(s, fw.map((b, i) => ({ text: b, options: { bullet: true, breakLine: i < fw.length - 1, paraSpaceAfter: 4 } })), {
-    x: MX, y: y + 0.5, w: CW, h: 1.1, fontSize: 16,
+  const h = 0.85;
+  qs.forEach(([q, why], i) => {
+    const y = TOP + 0.65 + i * (h + 0.13);
+    card(s, MX, y, CW, h);
+    badge(s, MX + 0.2, y + 0.175, i + 1, C.accent1, 0.5);
+    text(s, q, { x: MX + 0.95, y, w: 6.7, h, fontSize: 17, bold: true, color: C.text2, valign: "middle" });
+    text(s, why, { x: MX + 7.9, y, w: CW - 8.1, h, fontSize: 15, color: C.accent2, valign: "middle" });
+  });
+}
+
+// 19 ── Glossary (backup for questions)
+startSection("Respaldo");
+{
+  const s = contentSlide(
+    "Glosario",
+    "Diapositiva de respaldo para la sesión de preguntas."
+  );
+  const rows = [
+    ["Quintil", "Cada uno de los 5 grupos de 20 activos, ordenados por rendimiento en el periodo."],
+    ["Uniforme", "Pronóstico de 20 % para cada quintil: el de quien no sabe nada. Es el rival a vencer."],
+    ["RPS", "Error del pronóstico de quintiles. Menor es mejor."],
+    ["IR", "Calificación de la inversión en la M6: rendimiento ajustado por riesgo. Mayor es mejor."],
+    ["Sharpe", "Rendimiento por unidad de riesgo, anualizado."],
+    ["Fuga de información", "Usar, al entrenar o decidir, datos que aún no existían en esa fecha."],
+    ["Purga y embargo", "Quitar del entrenamiento lo que se traslapa con la prueba y dejar un margen entre ambos."],
+    ["Ajuste de Holm", "Corrección que exige más evidencia cuando se prueban varios modelos a la vez."],
+    ["Sesgo de supervivencia", "Evaluar solo con los activos que siguen existiendo hoy."],
+  ];
+  const cell = (t, i, bold) => ({ text: t, options: { color: bold ? C.text2 : C.text1, bold: !!bold, fontSize: 15, fill: { color: i % 2 ? HEX.lt1 : HEX.lt2 } } });
+  s.addTable(rows.map((r, i) => [cell(r[0], i, true), cell(r[1], i)]), {
+    x: MX, y: TOP - 0.2, w: CW, colW: [3.0, CW - 3.0], rowH: 0.5, border: { type: "none" },
+    margin: [0.05, 0.15, 0.05, 0.15], valign: "middle", objectName: "Glosario",
   });
 }
 
