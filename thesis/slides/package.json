@@ -1,0 +1,7 @@
+{
+  "name": "tesina-slides",
+  "private": true,
+  "description": "Builds the defense deck from thesis/_variables.yml and thesis/_generated",
+  "scripts": { "build": "node build_slides.js" },
+  "dependencies": { "pptxgenjs": "^3.12.0" }
+}

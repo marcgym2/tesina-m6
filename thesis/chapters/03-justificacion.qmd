@@ -14,7 +14,7 @@ pronóstico, el buen desempeño pasado persiste en parte, pero son frecuentes lo
 que un modelo que pronosticaba bien pasa a hacerlo mal, y al revés [@aiolfi2006]. En
 aprendizaje automático, los mejores modelos de clasificación de imágenes pierden
 exactitud cuando se les evalúa con un conjunto de prueba nuevo
-[CITA PENDIENTE: Recht, Roelofs, Schmidt y Shankar (2019), Do ImageNet classifiers generalize to ImageNet?, ICML].
+[@recht2019].
 
 En la literatura revisada no se encontró una reevaluación de los métodos ganadores de la
 M6 con datos posteriores a la competencia. Los análisis posteriores que existen discuten
